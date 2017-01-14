@@ -3,6 +3,7 @@ package Memory;
 import java.util.HashMap;
 
 public class VariableHolder {
+    public static final String GLOBAL = "GLOBAL";
     private HashMap<String, HashMap<String, Variable>> variableStorage;
 
     public VariableHolder() {
@@ -26,7 +27,6 @@ public class VariableHolder {
     }
 
     public Variable getVariableGivenScopeAndName(String scope, String variableName) {
-        System.out.println(scope + " " + variableName);
         return this.variableStorage.get(scope).get(variableName);
     }
 

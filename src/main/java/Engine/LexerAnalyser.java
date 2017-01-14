@@ -4,6 +4,7 @@ import Memory.VariableHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,33 +45,125 @@ public class LexerAnalyser {
         be.executeInstruction();
     }
 
-    public void lexicalAnalyser(String[] statements) {
-        HashMap<Integer, ArrayList<String>> result = new HashMap<Integer, ArrayList<String>>();
+    public HashMap<Integer, HashMap<String, String>> lexicalAnalyser(String[] statements) {
+        HashMap<Integer, HashMap<String, String>> result = new HashMap<Integer, HashMap<String, String>>();
         int instructionCounter = 0;
 
         for (String statement : statements) {
-            String detectedInstruction = this.instructionDetector.detectInstruction(statement);
-            System.out.print("INSTRUCTION: " + detectedInstruction + " -> ");
-//            if (detectedInstruction.equals(this.instructionSet.PRINT))
-
-            ArrayList<String> tokenisedStatement = new ArrayList<>();
+            HashMap<String, String> tokenisedStatement = new HashMap<>();
             String[] tokens = statement.split(" "); //TODO: statement should not be split by space. e.g x=2+3+4
-            for (String token : tokens) {
-                String identifiedToken = this.instructionDetector.identifyToken(token.toUpperCase());
-                tokenisedStatement.add(identifiedToken);
+            ArrayList<String> identifiedTokens = this.instructionDetector.identifyToken(tokens);
 
-                System.out.print(identifiedToken + " ");
+            for (String token : identifiedTokens) {
+                switch (token) {
+                    case "INPUT":
+                        tokenisedStatement.put(token, "GET_INPUT");
+                        if (tokenisedStatement.containsKey("PRINT")) {
+                            tokenisedStatement.put("PRINT", "PRINT_VARIABLE => ");
+                            tokenisedStatement.put(token, "PRINT_INPUT");
+                        }
+                        break;
+                    case "PRINT":
+                        tokenisedStatement.put(token, "");
+
+                        String str = getArrayListElementWithText(identifiedTokens, "STRING");
+                        if (str != null)
+                            tokenisedStatement.put(token, str);
+
+                        break;
+                }
+                System.out.print(token + " ");
             }
             System.out.println();
             result.put(instructionCounter, tokenisedStatement);
             instructionCounter++;
         }
+
+        return result;
     }
 
-    public static void main(String[] args) {
-        String[] statements = {"can you print hello world;", "x = 2 + 3 + 1;", "loop 3: print $x; loop-end;"};
-        LexerAnalyser la = new LexerAnalyser();
-        la.lexicalAnalyser(statements);
+    private String getArrayListElementWithText(ArrayList<String> ls, String str) {
+        String result = null;
+        for (String token : ls)
+            if (token.contains(str))
+                return token;
+
+        return result;
+    }
+
+    public void generateCode(String[] statements) {
+        HashMap<Integer, HashMap<String, String>> tokenisedInstriction = this.lexicalAnalyser(statements);
+        HashMap<Integer, ArrayList<String>> javaCode = this.codeGeneration(tokenisedInstriction);
+
+        System.out.println("--- Java code is being generated ---");
+
+        for (Integer instructionCounter : javaCode.keySet()) {
+            ArrayList<String> instructionLs = javaCode.get(instructionCounter);
+            for (String i : instructionLs) {
+                System.out.println(i);
+            }
+        }
+    }
+
+    private HashMap<Integer, ArrayList<String>> codeGeneration(HashMap<Integer, HashMap<String, String>> tokenisedInstruction) {
+        HashMap<Integer, ArrayList<String>> javaCode = new HashMap<>();
+        for (Integer instructionCounter : tokenisedInstruction.keySet()) {
+            HashMap<String, String> tokens = tokenisedInstruction.get(instructionCounter);
+            ArrayList<String> javaInstructions = new ArrayList<>();
+            for (String instruction : tokens.keySet()) {
+                switch (instruction) {
+                    case InstructionSet.INPUT:
+                        String additionalInfo = tokens.get(instruction);
+                        if (additionalInfo.equals("GET_INPUT")) {
+                            javaInstructions.add("Scanner s = new Scanner(System.in);");
+                            javaInstructions.add("String tempVariableValue = s.nextLine();");
+                        }
+                        break;
+                    case InstructionSet.PRINT:
+                        String addInfo = tokens.get("PRINT");
+                        if (addInfo.contains("PRINT_VARIABLE")) {
+                            javaInstructions.add("System.out.println(tempVariableValue);");
+                        } else if (addInfo.contains("STRING =>")) {
+                            javaInstructions.add("System.out.println("+addInfo.split("=>")[1].trim()+");");
+                        }
+                        break;
+                }
+            }
+
+            javaCode.put(instructionCounter, javaInstructions);
+        }
+
+        return javaCode;
+    }
+
+    public void codeExecution(HashMap<Integer, HashMap<String, String>> tokenisedInstruction) {
+        for (Integer instructionCounter : tokenisedInstruction.keySet()) {
+            HashMap<String, String> tokens = tokenisedInstruction.get(instructionCounter);
+            for (String instruction : tokens.keySet()) {
+                switch (instruction) {
+                    case InstructionSet.INPUT:
+                        String additionalInfo = tokens.get(instruction);
+                        if (additionalInfo.equals("GET_INPUT")) {
+                            Scanner s = new Scanner(System.in);
+                            System.out.println("Enter a str: ");
+                            String tempVariableValue = s.nextLine();
+                            this.variableHolder.add(VariableHolder.GLOBAL, "varx", tempVariableValue);
+                        }
+                        break;
+                    case InstructionSet.PRINT:
+                        String addInfo = tokens.get("PRINT");
+                        if (addInfo.contains("PRINT_VARIABLE")) {
+                            tokens.put(InstructionSet.PRINT, tokens.get(InstructionSet.PRINT)+"varx");
+                            String variableName = tokens.get("PRINT").split("=>")[1].trim();
+                            String variableValue = this.variableHolder.getVariableGivenScopeAndName(VariableHolder.GLOBAL, variableName).getValue();
+                            System.out.println(variableValue);
+                        } else if (addInfo.contains("STRING =>")) {
+                            System.out.println(addInfo.split("=>")[1].trim().replace("\"", ""));
+                        }
+                        break;
+                }
+            }
+        }
     }
 
     private void arithmeticStatement(String statement) {

@@ -16,12 +16,17 @@ public class InstructionSet {
     static final String EXP = "EXP";
     static final String IF = "IF";
     static final String ARITHMETIC = "ARITHMETIC";
+    static final String INPUT = "INPUT";
 
     private final String PLUS = "+";
+    private final String ADDTXT = "ADD";
     private final String MINUS = "-";
+    private final String MINUSTXT = "MINUS";
     private final String EQUAL = "=";
     private final String MULTI = "*";
+    private final String TIMESTXT = "TIMES";
     private final String DIVI = "/";
+    private final String DIVIDETXT = "DIVIDE";
     private final String MOD = "%";
 
     private final String LT = "<";
@@ -120,12 +125,17 @@ public class InstructionSet {
         this.instructionMap.put(this.LOOP, this.LOOP);
         this.instructionMap.put(this.LOOP_END, this.LOOP_END);
         this.instructionMap.put(":", this.LOOP_CONTENT);
+        this.instructionMap.put(this.INPUT, this.INPUT);
 
         this.instructionMap.put(this.PLUS, "PLUS");
+        this.instructionMap.put(this.ADDTXT, "PLUS");
         this.instructionMap.put(this.MINUS, "MINUS");
+        this.instructionMap.put(this.MINUSTXT, "MINUS");
         this.instructionMap.put(this.EQUAL, "EQUAL");
         this.instructionMap.put(this.MULTI, "MULTI");
+        this.instructionMap.put(this.TIMESTXT, "MULTI");
         this.instructionMap.put(this.DIVI, "DIVI");
+        this.instructionMap.put(this.DIVIDETXT, "DIVI");
         this.instructionMap.put(this.MOD, "MOD");
 
         this.instructionMap.put(this.LT, "LT");
