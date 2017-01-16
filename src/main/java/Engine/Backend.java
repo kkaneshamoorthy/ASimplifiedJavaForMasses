@@ -64,9 +64,9 @@ public class Backend {
             System.out.println("EXP");
         else
         if (this.isNum(expr)) {
-            int numOfLoop = Integer.parseInt(expr);
-            for (int var = 0; var<numOfLoop; var++)
-                new LexerAnalyser().analyse(loop);
+//            int numOfLoop = Integer.parseInt(expr);
+//            for (int var = 0; var<numOfLoop; var++)
+//                new LexerAnalyser().analyse(loop);
         } else {
             String variableName = expr;
         }

@@ -44,8 +44,8 @@ public class Controller implements Initializable {
     @FXML
     private void run(ActionEvent event) {
         LexerAnalyser la = new LexerAnalyser();
-        HashMap<Integer, HashMap<String, String>> instructions = la.lexicalAnalyser(this.editor.getText().split("\\n"));
-        la.codeExecution(instructions);
+        //HashMap<Integer, HashMap<String, String>> instructions = la.lexicalAnalyser(this.editor.getText().split("\\n"));
+        //la.codeExecution(instructions);
     }
 
     @FXML

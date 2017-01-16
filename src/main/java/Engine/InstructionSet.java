@@ -126,17 +126,18 @@ public class InstructionSet {
         this.instructionMap.put(this.LOOP_END, this.LOOP_END);
         this.instructionMap.put(":", this.LOOP_CONTENT);
         this.instructionMap.put(this.INPUT, this.INPUT);
+        this.instructionMap.put("$", "$");
 
-        this.instructionMap.put(this.PLUS, "PLUS");
-        this.instructionMap.put(this.ADDTXT, "PLUS");
-        this.instructionMap.put(this.MINUS, "MINUS");
-        this.instructionMap.put(this.MINUSTXT, "MINUS");
-        this.instructionMap.put(this.EQUAL, "EQUAL");
-        this.instructionMap.put(this.MULTI, "MULTI");
-        this.instructionMap.put(this.TIMESTXT, "MULTI");
-        this.instructionMap.put(this.DIVI, "DIVI");
-        this.instructionMap.put(this.DIVIDETXT, "DIVI");
-        this.instructionMap.put(this.MOD, "MOD");
+        this.instructionMap.put(this.PLUS, this.PLUS);
+        this.instructionMap.put(this.ADDTXT, this.PLUS);
+        this.instructionMap.put(this.MINUS, this.MINUS);
+        this.instructionMap.put(this.MINUSTXT, this.MINUS);
+        this.instructionMap.put(this.EQUAL, "ASSIGNMENT");
+        this.instructionMap.put(this.MULTI, this.MULTI);
+        this.instructionMap.put(this.TIMESTXT, this.MULTI);
+        this.instructionMap.put(this.DIVI, this.DIVI);
+        this.instructionMap.put(this.DIVIDETXT, this.DIVI);
+        this.instructionMap.put(this.MOD, this.MOD);
 
         this.instructionMap.put(this.LT, "LT");
         this.instructionMap.put(this.GT, "GT");
@@ -160,6 +161,10 @@ public class InstructionSet {
         this.instructionMap.put(this.SEVEN, this.SEVEN);
         this.instructionMap.put(this.EIGHT, this.EIGHT);
         this.instructionMap.put(this.NINE, this.NINE);
+    }
+
+    public ArrayList<String> getArithmeticInstructions() {
+        return this.arithmeticKeyword;
     }
 }
 

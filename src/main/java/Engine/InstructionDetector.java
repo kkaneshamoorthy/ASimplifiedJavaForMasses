@@ -52,34 +52,9 @@ public class InstructionDetector {
                     }
                 }
             }
-//            if (instructionsWithKeyword.containsKey(key)) {
-//                int functionScore = -1;
-//
-//                if (functionDetection.containsKey(key)) {
-//                    functionScore = functionDetection.get(key)+1;
-//                    functionDetection.put(key, functionScore);
-//                } else {
-//                    functionDetection.put(key, 1);
-//                    functionScore = 1;
-//                }
-//
-//                if (highestSoFar < functionScore) {
-//                    highestSoFar = functionScore;
-//                    mostLikelyFunction = instructionsWithKeyword.get(key);
-//                }
-//            }
         }
 
         return mostLikelyFunction;
-    }
-
-    public String identifyToken(String token) {
-        String identifiedToken = this.UNKNOWN;
-        HashMap<String, String> instructionMap = this.instructionSet.getInstructionMap();
-        if (instructionMap.containsKey(token))
-            return instructionMap.get(token);
-
-        return identifiedToken;
     }
 
     public ArrayList<String> identifyToken(String[] tokens) {
@@ -101,9 +76,66 @@ public class InstructionDetector {
                 i = j;
                 identifiedToken.add("STRING => " + temp);
             }
-            identifiedToken.add(this.identifyToken(token.toUpperCase()));
+            identifiedToken = this.identifyToken(token.toUpperCase(), identifiedToken);
         }
 
         return identifiedToken;
+    }
+
+    public ArrayList<String> identifyToken(String token, ArrayList<String> identifiedTokens) {
+        HashMap<String, String> instructionMap = this.instructionSet.getInstructionMap();
+        if (instructionMap.containsKey(token))
+            identifiedTokens.add(instructionMap.get(token));
+        else if (this.isNumber(token))
+            identifiedTokens.add(token);
+        else
+            for (char c : token.toCharArray()) {
+                String identifiedToken = this.identifyToken(c);
+                if (identifiedToken.equals("$")) {
+                    String varIns = "VARIABLE_NAME => " + getVariableName(token).replace("$", "");
+                    identifiedTokens.add(varIns);
+                    continue;
+                }
+
+                identifiedTokens.add(identifiedToken);
+            }
+
+        return identifiedTokens;
+    }
+
+    private String getVariableName(String statement) {
+        String variableName = "";
+        Pattern p = Pattern.compile("\\$\\s*(\\w+)");
+        Matcher m = p.matcher(statement);
+        while (m.find()) {
+            variableName = m.group(0);
+        }
+
+        return variableName;
+    }
+
+    public String identifyToken(char charToken) {
+        String strToken = charToken+"";
+        HashMap<String, String> instructionMap = this.instructionSet.getInstructionMap();
+        if (instructionMap.containsKey(strToken))
+            return instructionMap.get(strToken);
+        else if (this.isNumber(strToken))
+            return strToken;
+
+        return this.UNKNOWN;
+    }
+
+    public boolean isNumber(String identifiedToken) {
+        try {
+            Integer.parseInt(identifiedToken);
+        } catch (NumberFormatException e) { return false; }
+
+        return true;
+    }
+
+    public boolean isArithmeticOperation(String token) {
+        ArrayList<String> arithmeticInstructions = this.instructionSet.getArithmeticInstructions();
+
+        return arithmeticInstructions.contains(token);
     }
 }
