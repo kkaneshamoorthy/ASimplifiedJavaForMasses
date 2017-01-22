@@ -1,0 +1,18 @@
+class Swap {
+    num1 : Int;
+    num2 : Int;
+
+    swap() : void {
+        int temp = num1;
+        num1 = num2;
+        num1 = temp;
+    }
+
+    getNum1 : Int {
+        return num1;
+    }
+
+    getNum2 : Int {
+        return num2;
+    }
+}

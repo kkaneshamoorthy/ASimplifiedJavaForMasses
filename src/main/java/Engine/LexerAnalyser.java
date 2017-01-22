@@ -94,6 +94,9 @@ public class LexerAnalyser {
                     case "ASSIGNMENT":
 
                         break;
+                    case "IF":
+
+                        break;
                     default:
                         unknownToken(token, identifiedTokens, bi);
                 }
@@ -119,14 +122,14 @@ public class LexerAnalyser {
     private void unknownToken(String identifiedToken, ArrayList<String> identifiedTokens, BlockInstruction bi) {
         if (this.instructionDetector.isNumber(identifiedToken) || this.instructionDetector.isArithmeticOperation(identifiedToken)) {
             if (identifiedTokens.contains("LOOP")) {
-                Instruction instruction = bi.getInstructionGivenType("LOOP");
+                Instruction instruction = bi.getInstructionGivenType("LOOP", false);
                 if (instruction != null)
                     if (instruction.isFullyDefined())
                         instruction.setAdditionalInfo(instruction.getAdditionalInfo()+identifiedToken);
                     else
                         instruction.setAdditionalInfo(identifiedToken);
             } else if (identifiedTokens.contains("PRINT")) {
-                Instruction instruction = bi.getInstructionGivenType("PRINT");
+                Instruction instruction = bi.getInstructionGivenType("PRINT", false);
                 if (instruction != null)
                     if (instruction.isFullyDefined())
                         instruction.setAdditionalInfo(instruction.getAdditionalInfo()+identifiedToken);
@@ -256,7 +259,7 @@ public class LexerAnalyser {
         return result;
     }
 
-    private String getStringBetweenSpeechMarks(String statement) {
+    public String getStringBetweenSpeechMarks(String statement) {
         String result = "";
         Pattern p = Pattern.compile("\"([^\"]*)\"");
         Matcher m = p.matcher(statement);

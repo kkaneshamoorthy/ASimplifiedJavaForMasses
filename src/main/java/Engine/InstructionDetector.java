@@ -103,7 +103,7 @@ public class InstructionDetector {
         return identifiedTokens;
     }
 
-    private String getVariableName(String statement) {
+    public String getVariableName(String statement) {
         String variableName = "";
         Pattern p = Pattern.compile("\\$\\s*(\\w+)");
         Matcher m = p.matcher(statement);

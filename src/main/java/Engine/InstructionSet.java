@@ -1,8 +1,15 @@
 package Engine;
 
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InstructionSet {
     static final String PRINT = "PRINT";
@@ -23,6 +30,7 @@ public class InstructionSet {
     private final String MINUS = "-";
     private final String MINUSTXT = "MINUS";
     private final String EQUAL = "=";
+    private final String EQUALTXT = "EQUAL";
     private final String MULTI = "*";
     private final String TIMESTXT = "TIMES";
     private final String DIVI = "/";
@@ -60,6 +68,41 @@ public class InstructionSet {
     public HashMap<String, ArrayList<String>> keywordAndFunction;
     public HashMap<String, String> instructionMap;
 
+    private static final String[] KEYWORDS = new String[] {
+            PRINT, LOOP, IF, INPUT
+    };
+
+    private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
+            "==", "<", ">", "<=", ">=", "!", "!="
+    };
+
+    private static final String[] BITWISE_OPERATION_PATTERN = new String[] {
+            "&&", "and", "or", "||"
+    };
+
+    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String RELATIONAL_PATTERN = "\\b(" + String.join("|", RELATIONAL_OPERATION_PATTERN) + ")\\b";
+    private static final String BITWISE_PATTERN = "\\b(" + String.join("|", BITWISE_OPERATION_PATTERN) + ")\\b";
+
+    private static final String NUMBER_PATTERN =  "[0-9]+";
+
+    private static final Pattern PATTERN = Pattern.compile(
+            "(" + KEYWORD_PATTERN
+                    + "|" + NUMBER_PATTERN
+                    + "|" + RELATIONAL_PATTERN + ")"
+    );
+
+    public String computeRegex(String text) {
+        Matcher matcher = PATTERN.matcher(text);
+        String word = "";
+        int lastKwEnd = 0;
+        while (matcher.find()) {
+            word = matcher.group(1);
+        }
+
+        return word;
+    }
+
     public InstructionSet() {
         this.intialise();
     }
@@ -83,6 +126,7 @@ public class InstructionSet {
         expressionKeyword.add("<=");
         expressionKeyword.add(">=");
         expressionKeyword.add("==");
+        expressionKeyword.add("EQUAL");
         expressionKeyword.add("!=");
         expressionKeyword.add("!");
         expressionKeyword.add("&&");
@@ -126,6 +170,7 @@ public class InstructionSet {
         this.instructionMap.put(this.LOOP_END, this.LOOP_END);
         this.instructionMap.put(":", this.LOOP_CONTENT);
         this.instructionMap.put(this.INPUT, this.INPUT);
+        this.instructionMap.put(this.IF, this.IF);
         this.instructionMap.put("$", "$");
 
         this.instructionMap.put(this.PLUS, this.PLUS);
@@ -144,6 +189,7 @@ public class InstructionSet {
         this.instructionMap.put(this.LTET, "LTET");
         this.instructionMap.put(this.GTET, "GTET");
         this.instructionMap.put(this.EQ, "EQ");
+        this.instructionMap.put(this.EQUALTXT, "EQ");
         this.instructionMap.put(this.NEQ, "NEQ");
         this.instructionMap.put(this.NOT, "NOT");
         this.instructionMap.put(this.AND, "AND");

@@ -1,5 +1,10 @@
 .keyword {
-    -fx-fill: purple;
+    -fx-fill: darkblue;
+    -fx-font-weight: bold;
+}
+
+.number {
+    -fx-fill: darkblue;
     -fx-font-weight: bold;
 }
 .semicolon {
@@ -23,6 +28,16 @@
 
 .comment {
     -fx-fill: cadetblue;
+}
+
+.relational {
+    -fx-fill: darkblue;
+    -fx-font-weight: bold;
+}
+
+.bitwise {
+    -fx-fill: red;
+    -fx-font-weight: bold;
 }
 
 .paragraph-box:has-caret {
