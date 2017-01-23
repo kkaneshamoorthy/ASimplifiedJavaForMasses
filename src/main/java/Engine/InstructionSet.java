@@ -32,7 +32,6 @@ public class InstructionSet {
     private final String EQUAL = "=";
     private final String EQUALTXT = "EQUAL";
     private final String MULTI = "*";
-    private final String TIMESTXT = "TIMES";
     private final String DIVI = "/";
     private final String DIVIDETXT = "DIVIDE";
     private final String MOD = "%";
@@ -179,7 +178,6 @@ public class InstructionSet {
         this.instructionMap.put(this.MINUSTXT, this.MINUS);
         this.instructionMap.put(this.EQUAL, "ASSIGNMENT");
         this.instructionMap.put(this.MULTI, this.MULTI);
-        this.instructionMap.put(this.TIMESTXT, this.MULTI);
         this.instructionMap.put(this.DIVI, this.DIVI);
         this.instructionMap.put(this.DIVIDETXT, this.DIVI);
         this.instructionMap.put(this.MOD, this.MOD);

@@ -13,6 +13,7 @@ public class LoopInstruction implements Instruction {
 
     public LoopInstruction() {
         this.instructionType = "LOOP";
+        this.iteration = new Variable("i", "0", "GLOBAL");
     }
 
     public LoopInstruction setIteration(Variable iteration) {
@@ -45,6 +46,8 @@ public class LoopInstruction implements Instruction {
         return this.numOfIteration;
     }
 
+    public Variable getIteration() { return this.iteration; }
+
     @Override
     public boolean isFullyDefined() {
         return this.isFullyDefined;
@@ -53,5 +56,16 @@ public class LoopInstruction implements Instruction {
     @Override
     public String getInstructionType() {
         return this.instructionType;
+    }
+
+    @Override
+    public String generateCode() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("for (int " + this.iteration.getName() + " = 0; " + this.iteration.getName() + "<" + numOfIteration + "; " + this.iteration.getName() + "++) \n");
+        sb.append("{ \n");
+        sb.append(this.body == null ? "" : this.body.generateCode());
+        sb.append("} \n");
+
+        return sb.toString();
     }
 }

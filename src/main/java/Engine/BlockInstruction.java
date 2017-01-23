@@ -1,6 +1,7 @@
 package Engine;
 
 import java.util.HashMap;
+import Instruction.Instruction;
 
 public class BlockInstruction {
     private int instructionCounter;
@@ -38,5 +39,16 @@ public class BlockInstruction {
         }
 
         return null;
+    }
+
+    public String generateCode() {
+        StringBuilder sb = new StringBuilder();
+
+        for (Integer counter : this.instructionMap.keySet()) {
+            Instruction instruction = this.instructionMap.get(counter);
+            sb.append(instruction.generateCode());
+        }
+
+        return sb.toString();
     }
 }

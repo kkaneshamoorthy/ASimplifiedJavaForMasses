@@ -30,4 +30,13 @@ public class PrintInstruction implements Instruction {
     public String getInstructionType() {
         return this.instructionType;
     }
+
+    @Override
+    public String generateCode() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("System.out.println("+this.data.getName()+") \n");
+
+        return sb.toString();
+    }
 }

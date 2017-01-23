@@ -1,7 +1,13 @@
 package Engine;
 
 import Memory.InstructionStorage;
+import Memory.Variable;
 import Memory.VariableHolder;
+
+import Instruction.Instruction;
+import Instruction.InputInstruction;
+import Instruction.PrintInstruction;
+import Instruction.LoopInstruction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,63 +37,52 @@ public class LexerAnalyser {
             String[] tokens = statement.replace("\\t", "").trim().split(" "); //TODO: statement should not be split by space. e.g x=2+3+4
             ArrayList<String> identifiedTokens = this.instructionDetector.identifyToken(tokens);
 
-            for (String token : identifiedTokens)
-                System.out.print(token + " ; ");
-            System.out.println();
-
             BlockInstruction bi = new BlockInstruction();
             for (String token : identifiedTokens) {
                 switch (token) {
                     case "INPUT":
                         if (!statement.startsWith("\t")) {
-                            System.out.println("reached INPUT NOT TAB");
                             instructionCounter++;
                             bi = new BlockInstruction();
-                            bi.addInstructionToBlock(new Instruction("INPUT", "GET_INPUT"));
+                            bi.addInstructionToBlock(new InputInstruction());
                             this.instructionStorage.addInstructionBlock(instructionCounter, bi);
                         } else {
-                            System.out.println("reached INPUT PRINT TAB");
                             bi = this.instructionStorage.getBlockInstruction(instructionCounter);
                             if (bi.getInstructionGivenType("PRINT") == null) {
-                                bi.addInstructionToBlock(new Instruction("INPUT", "GET_INPUT"));
+                                bi.addInstructionToBlock(new InputInstruction());
                                 this.instructionStorage.addInstructionBlock(instructionCounter, bi);
                             }
                         }
                         Instruction printInstruction = bi.getInstructionGivenType("PRINT");
                         if (printInstruction != null) {
-                            System.out.println("PREV PRINT");
-                            printInstruction.setAdditionalInfo("PRINT_VARIABLE => ");
-//                            bi.getInstructionGivenType(token).setAdditionalInfo("PRINT_INPUT");
+                            PrintInstruction printInstr = (PrintInstruction) printInstruction;
                             this.instructionStorage.addInstructionBlock(instructionCounter, bi);
                         }
                         break;
                     case "PRINT":
-                        System.out.println("reached PRINT");
                         if (!statement.startsWith("\t")) {
                             instructionCounter++;
                             bi = new BlockInstruction();
-                            bi.addInstructionToBlock(new Instruction("PRINT"));
+                            bi.addInstructionToBlock(new PrintInstruction());
                             this.instructionStorage.addInstructionBlock(instructionCounter, bi);
                         } else {
-                            System.out.println("reached PRINT TAB");
                             bi = this.instructionStorage.getBlockInstruction(instructionCounter);
-                            bi.addInstructionToBlock(new Instruction("PRINT"));
+                            bi.addInstructionToBlock(new PrintInstruction());
                             this.instructionStorage.addInstructionBlock(instructionCounter, bi);
                         }
                         String str = getArrLsElement(identifiedTokens, "STRING");
                         if (str != null)
-                            bi.getInstructionGivenType(token).setAdditionalInfo(str);
+                            ((PrintInstruction) bi.getInstructionGivenType(token)).setData(new Variable("dataToPrint", str, "GLOBAL"));
                         break;
                     case "LOOP":
-                        System.out.println("reached LOOP");
                         if (!statement.startsWith("\t")) {
                             instructionCounter++;
                             bi = new BlockInstruction();
-                            bi.addInstructionToBlock(new Instruction("LOOP"));
+                            bi.addInstructionToBlock(new LoopInstruction());
                             this.instructionStorage.addInstructionBlock(instructionCounter, bi);
                         } else {
                             bi = this.instructionStorage.getBlockInstruction(instructionCounter);
-                            bi.addInstructionToBlock(new Instruction("LOOP"));
+                            bi.addInstructionToBlock(new LoopInstruction());
                             this.instructionStorage.addInstructionBlock(instructionCounter, bi);
                         }
                         break;
@@ -111,7 +106,7 @@ public class LexerAnalyser {
 
             for (Integer c : map.keySet()) {
                 Instruction ins = map.get(c);
-                System.out.print(ins.getInstructionType() + " , " + ins.getAdditionalInfo()+"; ");
+                System.out.print(ins.getInstructionType() + "; ");
             }
             System.out.println();
         }
@@ -122,19 +117,13 @@ public class LexerAnalyser {
     private void unknownToken(String identifiedToken, ArrayList<String> identifiedTokens, BlockInstruction bi) {
         if (this.instructionDetector.isNumber(identifiedToken) || this.instructionDetector.isArithmeticOperation(identifiedToken)) {
             if (identifiedTokens.contains("LOOP")) {
-                Instruction instruction = bi.getInstructionGivenType("LOOP", false);
-                if (instruction != null)
-                    if (instruction.isFullyDefined())
-                        instruction.setAdditionalInfo(instruction.getAdditionalInfo()+identifiedToken);
-                    else
-                        instruction.setAdditionalInfo(identifiedToken);
+                LoopInstruction instruction = (LoopInstruction) bi.getInstructionGivenType("LOOP", false);
+                instruction.setNumOfIteration(Integer.parseInt(identifiedToken));
             } else if (identifiedTokens.contains("PRINT")) {
-                Instruction instruction = bi.getInstructionGivenType("PRINT", false);
-                if (instruction != null)
-                    if (instruction.isFullyDefined())
-                        instruction.setAdditionalInfo(instruction.getAdditionalInfo()+identifiedToken);
-                    else
-                        instruction.setAdditionalInfo("INT => " + identifiedToken);
+                PrintInstruction instruction = (PrintInstruction) bi.getInstructionGivenType("PRINT", false);
+                Variable var = instruction.getData();
+                var.setValue(var.getValue() + identifiedToken);
+                instruction.setData(var);
             }
         } else if (identifiedToken.contains("VARIABLE_NAME")) {
             String variableName = identifiedToken.split("=>")[1].trim();
@@ -174,27 +163,13 @@ public class LexerAnalyser {
                 Instruction instruction = instructionMap.get(counter);
                 switch (instruction.getInstructionType()) {
                     case InstructionSet.INPUT:
-                        String additionalInfo = instruction.getAdditionalInfo();
-                        if (additionalInfo.equals("GET_INPUT")) {
-                            javaInstructions.add("Scanner s = new Scanner(System.in);");
-                            javaInstructions.add("String tempVariableValue = s.nextLine();");
-                        }
+                        javaInstructions.add(instruction.generateCode());
                         break;
                     case InstructionSet.PRINT:
-                        String addInfo = instruction.getAdditionalInfo();
-                        if (addInfo.contains("PRINT_VARIABLE")) {
-                            javaInstructions.add("System.out.println(tempVariableValue);");
-                        } else if (addInfo.contains("STRING =>")) {
-                            javaInstructions.add("System.out.println("+addInfo.split("=>")[1].trim()+");");
-                        } else if(addInfo.contains("INT => ")) {
-                            javaInstructions.add("System.out.println("+addInfo.split("=>")[1].trim()+");");
-                        } else {
-                            System.out.println("NOTHING TO PRINT");
-                        }
+                        javaInstructions.add(instruction.generateCode());
                         break;
                     case InstructionSet.LOOP:
-                        String addIndo = instruction.getAdditionalInfo();
-                        javaInstructions.add("for (int i=0; i<" +addIndo+"; i++) {");
+                        javaInstructions.add(instruction.generateCode());
                         break;
                 }
             }

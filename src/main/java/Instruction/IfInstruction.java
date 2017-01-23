@@ -41,4 +41,15 @@ public class IfInstruction implements Instruction{
     public String getInstructionType() {
         return this.instructionType;
     }
+
+    @Override
+    public String generateCode() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("if ("+condition+") { \n");
+        sb.append(body == null ? "" : this.body.generateCode());
+        sb.append("} \n");
+
+        return sb.toString();
+    }
 }

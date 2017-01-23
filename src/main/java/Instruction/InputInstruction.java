@@ -10,6 +10,7 @@ public class InputInstruction implements Instruction{
 
     public InputInstruction() {
         this.instructionType = "INPUT";
+        this.data = new Variable("userInput", "", "GLOBAL");
     }
 
     public InputInstruction setInputLocation(String inputLocation) {
@@ -40,5 +41,15 @@ public class InputInstruction implements Instruction{
     @Override
     public String getInstructionType() {
         return this.instructionType;
+    }
+
+    @Override
+    public String generateCode() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Scanner s = new Scanner(System.in); \n");
+        sb.append("String " + this.data.getName() + " = s.nextLine() \n");
+
+        return sb.toString();
     }
 }
