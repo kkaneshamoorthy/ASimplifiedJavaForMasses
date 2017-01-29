@@ -2,28 +2,129 @@ package controllers;
 
 import Engine.LexerAnalyser;
 import GUI.CodeEditor;
+import GUI.Dialog.*;
 import GUI.EditorStackPane;
 import Utility.FileUtility;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.scene.control.*;
+import javafx.scene.input.*;
+import javafx.util.Callback;
+import javafx.util.Pair;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import javafx.event.ActionEvent;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
     @FXML
     private EditorStackPane editorStackPane;
+    @FXML
     private CodeEditor editor;
+    @FXML
+    private TreeView treeView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("View is now loaded!");
+        System.out.println("View is loaded!");
         VirtualizedScrollPane v = (VirtualizedScrollPane) editorStackPane.getChildren().get(0);
         editor = (CodeEditor) v.getContent();
+        loadTreeItems();
+    }
+
+    public void loadTreeItems() {
+
+        treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+            @Override
+            public TreeCell<String> call(TreeView<String> stringTreeView) {
+                TreeCell<String> treeCell = new TreeCell<String>() {
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null)
+                            setText(item);
+                    }
+                };
+
+                treeCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (event.getClickCount() == 2 && treeCell.getTreeItem() != null) {
+                            String selectedItem = treeCell.getTreeItem().getValue();
+                            System.out.println(selectedItem);
+                            switch (selectedItem) {
+                                case "Loop":
+                                    LoopDialog loopDialog= new LoopDialog();
+                                    Optional<Pair<String, String>>  result = loopDialog.showAndWait();
+                                    if (result.isPresent())
+                                        editor.appendText("Loop " + result.get().getKey() + " times \n");
+                                    break;
+                                case "If":
+                                    IfDialog ifDialog = new IfDialog();
+                                    Optional<String> condition = ifDialog.showAndWait();
+                                    if (condition.isPresent())
+                                        editor.appendText("if (" + condition.get() + ") \n");
+                                    break;
+                                case "Print":
+                                    PrintDialog printDialog = new PrintDialog();
+                                    Optional<String> dataToPrint = printDialog.showAndWait();
+                                    if (dataToPrint.isPresent())
+                                        editor.appendText("print " + dataToPrint.get() + " \n");
+                                    break;
+                                case "Input":
+                                    InputDialog inputDialog = new InputDialog();
+                                    Optional<String> locationOfInput = inputDialog.showAndWait();
+                                    if (locationOfInput.isPresent())
+                                        editor.appendText("take user input from " + locationOfInput.get() + " \n");
+                                    break;
+                                case "Create Variable":
+                                    VariableDialog variableDialog = new VariableDialog();
+                                    Optional<Pair<String, String>> variableData = variableDialog.showAndWait();
+                                    if (variableData.isPresent())
+                                        editor.appendText("$" + variableData.get().getKey() + " = " + variableData.get().getValue() + " \n");
+                                    break;
+                            }
+                        }
+                    }
+                });
+
+                treeCell.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                      Bounds s = mouseEvent.getPickResult().getIntersectedNode().getBoundsInLocal();
+                      Bounds t = editorStackPane.getBoundsInLocal();
+                      mouseEvent.setDragDetect(true);
+                    }
+                });
+
+                return treeCell;
+            }
+        });
+
+        TreeItem<String> root = new TreeItem<String>("Instructions");
+        TreeItem<String> variableItem = new TreeItem<>("Variable");
+        variableItem.setExpanded(true);
+        TreeItem<String> instructionItem = new TreeItem<>("Instructions");
+        instructionItem.setExpanded(true);
+
+        instructionItem.getChildren().add(new TreeItem<>("Loop"));
+        instructionItem.getChildren().add(new TreeItem<>("If"));
+        instructionItem.getChildren().add(new TreeItem<>("Print"));
+        instructionItem.getChildren().add(new TreeItem<>("Input"));
+
+        variableItem.getChildren().add(new TreeItem<>("Create Variable"));
+        variableItem.getChildren().add(new TreeItem<>("Edit Variable"));
+
+        root.getChildren().add(instructionItem);
+        root.getChildren().add(variableItem);
+
+        treeView.setRoot(root);
+        treeView.setShowRoot(false);
+        treeView.setContextMenu(new ContextMenu(new MenuItem("Create Variable")));
     }
 
     @FXML
@@ -43,14 +144,25 @@ public class Controller implements Initializable {
 
     @FXML
     private void run(ActionEvent event) {
-        LexerAnalyser la = new LexerAnalyser();
-        //HashMap<Integer, HashMap<String, String>> instructions = la.lexicalAnalyser(this.editor.getText().split("\\n"));
-        //la.codeExecution(instructions);
+//        LexerAnalyser la = new LexerAnalyser();
+//        HashMap<Integer, HashMap<String, String>> instructions = la.lexicalAnalyser(this.editor.getText().split("\\n"));
+//        la.codeExecution(instructions);
     }
 
     @FXML
     private void generateJavaCode(ActionEvent event) {
         LexerAnalyser la = new LexerAnalyser();
         la.generateCode(this.editor.getText().split("\\n"));
+    }
+
+    @FXML
+    private void dragOver(MouseEvent event) {
+        System.out.println("ACCEPTED");
+    }
+
+    @FXML
+    private void dragDropped(MouseEvent event) {
+        System.out.println("onDragDropped");
+        event.consume();
     }
 }

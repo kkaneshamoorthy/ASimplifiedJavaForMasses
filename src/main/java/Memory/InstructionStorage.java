@@ -1,25 +1,26 @@
 package Memory;
 
 import Engine.BlockInstruction;
+import Instruction.Instruction;
 
 import java.util.HashMap;
 
 public class InstructionStorage {
-    HashMap<Integer, BlockInstruction> instructionBlockMap;
+    HashMap<Integer, Instruction> instructionMap;
 
     public InstructionStorage() {
-        this.instructionBlockMap = new HashMap<>();
+        this.instructionMap = new HashMap<>();
     }
 
-    public void addInstructionBlock(int instructionCounter, BlockInstruction blockInstruction) {
-        this.instructionBlockMap.put(instructionCounter, blockInstruction);
+    public void addInstruction(int instructionCounter, Instruction instruction) {
+        this.instructionMap.put(instructionCounter, instruction);
     }
 
-    public BlockInstruction getBlockInstruction(int instructionCounter) {
-        return this.instructionBlockMap.get(instructionCounter);
+    public Instruction getInstruction(int instructionCounter) {
+        return this.instructionMap.get(instructionCounter);
     }
 
-    public HashMap<Integer, BlockInstruction> getInstructions(){
-        return this.instructionBlockMap;
+    public HashMap<Integer, Instruction> getInstructions(){
+        return this.instructionMap;
     }
 }

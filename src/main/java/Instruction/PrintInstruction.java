@@ -9,6 +9,7 @@ public class PrintInstruction implements Instruction {
 
     public PrintInstruction() {
         this.instructionType = "PRINT";
+        this.data = new Variable("UNKNOWN", "", "GLOBAL");
     }
 
     public PrintInstruction setData(Variable data) {
@@ -34,8 +35,8 @@ public class PrintInstruction implements Instruction {
     @Override
     public String generateCode() {
         StringBuilder sb = new StringBuilder();
-
-        sb.append("System.out.println("+this.data.getName()+") \n");
+        System.out.println(this.data.getName() + " " + this.data.getValue());
+        sb.append("System.out.println("+this.data.getValue()+");");
 
         return sb.toString();
     }

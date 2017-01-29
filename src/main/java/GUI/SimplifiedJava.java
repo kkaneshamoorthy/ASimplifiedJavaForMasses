@@ -19,7 +19,7 @@ public class SimplifiedJava extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/ux.fxml"));
-        primaryStage.setTitle("A simplified Java for the masses");
+        primaryStage.setTitle("A simplified Programming Language for the masses");
         Scene scene = new Scene(root, 1024, 768);
         scene.getStylesheets().add(this.getClass().getResource("/css/java_keywords.css").toExternalForm());
         primaryStage.setScene(scene);

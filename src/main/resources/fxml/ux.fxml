@@ -55,8 +55,14 @@
         </VBox>
     </top>
     <center>
-        <EditorStackPane fx:id="editorStackPane"></EditorStackPane>
+        <EditorStackPane fx:id="editorStackPane" accessibleText="Editor"></EditorStackPane>
     </center>
+    <!--<center>-->
+        <!--<HBox fx:id="targetBox" onDragOver="#dragOver" onDragDropped="#dragDropped"></HBox>-->
+    <!--</center>-->
+    <left>
+        <TreeView fx:id="treeView" editable="false" prefHeight="371.0" prefWidth="130.0" BorderPane.alignment="CENTER" />
+    </left>
     <bottom>
         <!--<TextArea fx:id="console"></TextArea>-->
         <ConsoleStackPane fx:id="console"></ConsoleStackPane>

@@ -26,7 +26,6 @@ public class InstructionDetector {
         HashMap<String, Integer> functionDetection = new HashMap<String, Integer>();
         int highestSoFar = 0;
         String mostLikelyFunction = "";
-        //System.out.println(statement);
         for (int i=0; i<words.length; i++) {
             String key = words[i];
             HashMap<String, ArrayList<String>> instructionsWithKeyword = this.instructionSet.getInstructionSet();
@@ -47,7 +46,6 @@ public class InstructionDetector {
                         if (highestSoFar < functionScore) {
                             highestSoFar = functionScore;
                             mostLikelyFunction = function;
-                            //System.out.println("func " + mostLikelyFunction + " " + highestSoFar);
                         }
                     }
                 }
@@ -76,7 +74,7 @@ public class InstructionDetector {
                 i = j;
                 identifiedToken.add("STRING => " + temp);
             }
-            identifiedToken = this.identifyToken(token.toUpperCase(), identifiedToken);
+            identifiedToken = this.identifyToken(token, identifiedToken);
         }
 
         return identifiedToken;
@@ -84,16 +82,16 @@ public class InstructionDetector {
 
     public ArrayList<String> identifyToken(String token, ArrayList<String> identifiedTokens) {
         HashMap<String, String> instructionMap = this.instructionSet.getInstructionMap();
-        if (instructionMap.containsKey(token))
-            identifiedTokens.add(instructionMap.get(token));
+        if (instructionMap.containsKey(token.toUpperCase()))
+            identifiedTokens.add(instructionMap.get(token.toUpperCase()));
         else if (this.isNumber(token))
-            identifiedTokens.add(token);
+            identifiedTokens.add("INT => " + token);
         else
             for (char c : token.toCharArray()) {
                 String identifiedToken = this.identifyToken(c);
                 if (identifiedToken.equals("$")) {
-                    String varIns = "VARIABLE_NAME => " + getVariableName(token).replace("$", "");
-                    identifiedTokens.add(varIns);
+                    String varIns = getVariableName(token).replace("$", "");
+                    identifiedTokens.add("VARIABLE_NAME => " + varIns);
                     continue;
                 }
 

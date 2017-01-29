@@ -8,6 +8,8 @@ import Instruction.Instruction;
 import Instruction.InputInstruction;
 import Instruction.PrintInstruction;
 import Instruction.LoopInstruction;
+import Instruction.IfInstruction;
+import Instruction.AssignmentInstruction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,150 +33,174 @@ public class LexerAnalyser {
         this.instructionStorage = new InstructionStorage();
     }
 
-    public HashMap<Integer, BlockInstruction> lexicalAnalyser(String[] statements) {
+    public HashMap<Integer, Instruction> lexicalAnalyser(String[] statements) {
         int instructionCounter = -1;
+        Instruction generalInstruction = null;
         for (String statement : statements) {
-            String[] tokens = statement.replace("\\t", "").trim().split(" "); //TODO: statement should not be split by space. e.g x=2+3+4
+            String[] tokens = statement.replace("\\t", "").trim().split(" ");
             ArrayList<String> identifiedTokens = this.instructionDetector.identifyToken(tokens);
 
-            BlockInstruction bi = new BlockInstruction();
+            for (String t : identifiedTokens)
+                System.out.print(t + " ");
+            System.out.println();
+
             for (String token : identifiedTokens) {
                 switch (token) {
                     case "INPUT":
                         if (!statement.startsWith("\t")) {
                             instructionCounter++;
-                            bi = new BlockInstruction();
-                            bi.addInstructionToBlock(new InputInstruction());
-                            this.instructionStorage.addInstructionBlock(instructionCounter, bi);
-                        } else {
-                            bi = this.instructionStorage.getBlockInstruction(instructionCounter);
-                            if (bi.getInstructionGivenType("PRINT") == null) {
-                                bi.addInstructionToBlock(new InputInstruction());
-                                this.instructionStorage.addInstructionBlock(instructionCounter, bi);
-                            }
-                        }
-                        Instruction printInstruction = bi.getInstructionGivenType("PRINT");
-                        if (printInstruction != null) {
-                            PrintInstruction printInstr = (PrintInstruction) printInstruction;
-                            this.instructionStorage.addInstructionBlock(instructionCounter, bi);
+                            InputInstruction inputInstruction = new InputInstruction();
+                            Variable var = new Variable("userData", "", "GLOBAL");
+                            boolean added = this.variableHolder.add(var);
+                            inputInstruction.setData(var);
+                            this.instructionStorage.addInstruction(instructionCounter, inputInstruction);
                         }
                         break;
                     case "PRINT":
+                        PrintInstruction printInstruction = null;
                         if (!statement.startsWith("\t")) {
                             instructionCounter++;
-                            bi = new BlockInstruction();
-                            bi.addInstructionToBlock(new PrintInstruction());
-                            this.instructionStorage.addInstructionBlock(instructionCounter, bi);
+                            printInstruction = new PrintInstruction();
+                            this.instructionStorage.addInstruction(instructionCounter, printInstruction);
                         } else {
-                            bi = this.instructionStorage.getBlockInstruction(instructionCounter);
-                            bi.addInstructionToBlock(new PrintInstruction());
-                            this.instructionStorage.addInstructionBlock(instructionCounter, bi);
+                            printInstruction = new PrintInstruction();
+                            BlockInstruction bi = new BlockInstruction();
+                            bi.addInstructionToBlock(printInstruction);
+                            this.setBodyOfInstruction(generalInstruction, bi);
                         }
                         String str = getArrLsElement(identifiedTokens, "STRING");
-                        if (str != null)
-                            ((PrintInstruction) bi.getInstructionGivenType(token)).setData(new Variable("dataToPrint", str, "GLOBAL"));
+                        String intStr = getArrLsElement(identifiedTokens, "INT");
+                        if (str != null && str.startsWith("STRING")) {
+                            Variable var = new Variable("str", str.replace("STRING =>", "").trim(), "GLOBAL");
+                            boolean added = this.variableHolder.add(var);
+                            printInstruction.setData(var);
+                        } else if (intStr != null && intStr.startsWith("INT")) {
+                            Variable var = new Variable("intVar", intStr.replace("INT =>", "").trim(), "GLOBAL");
+                            boolean added = this.variableHolder.add(var);
+                            printInstruction.setData(var);
+                        }
                         break;
                     case "LOOP":
                         if (!statement.startsWith("\t")) {
                             instructionCounter++;
-                            bi = new BlockInstruction();
-                            bi.addInstructionToBlock(new LoopInstruction());
-                            this.instructionStorage.addInstructionBlock(instructionCounter, bi);
+                            generalInstruction = new LoopInstruction();
+                            this.instructionStorage.addInstruction(instructionCounter, generalInstruction);
                         } else {
-                            bi = this.instructionStorage.getBlockInstruction(instructionCounter);
-                            bi.addInstructionToBlock(new LoopInstruction());
-                            this.instructionStorage.addInstructionBlock(instructionCounter, bi);
+                            LoopInstruction loopInstruction = new LoopInstruction();
+                            BlockInstruction bi = new BlockInstruction();
+                            bi.addInstructionToBlock(loopInstruction);
+                            this.setBodyOfInstruction(generalInstruction, bi);
                         }
                         break;
                     case "ASSIGNMENT":
-
+                        instructionCounter++;
+                        AssignmentInstruction assignmentInstruction = createAssignment(identifiedTokens);
+                        this.instructionStorage.addInstruction(instructionCounter, assignmentInstruction);
                         break;
                     case "IF":
-
+                        if (!statement.startsWith("\t")) {
+                            instructionCounter++;
+                            generalInstruction = new IfInstruction();
+                            this.instructionStorage.addInstruction(instructionCounter, generalInstruction);
+                        } else {
+                            IfInstruction ifInstruction = new IfInstruction();
+                            generalInstruction = ifInstruction;
+                            BlockInstruction bi = new BlockInstruction();
+                            bi.addInstructionToBlock(ifInstruction);
+                            this.setBodyOfInstruction(generalInstruction, bi);
+                        }
                         break;
                     default:
-                        unknownToken(token, identifiedTokens, bi);
+                        unknownToken(token, identifiedTokens, generalInstruction);
                 }
             }
-        }
-
-        HashMap<Integer, BlockInstruction> m = this.instructionStorage.getInstructions();
-
-        for (Integer counter : m.keySet()) {
-            BlockInstruction bi = m.get(counter);
-            HashMap<Integer, Instruction> map = bi.getInstructionBlock();
-
-            for (Integer c : map.keySet()) {
-                Instruction ins = map.get(c);
-                System.out.print(ins.getInstructionType() + "; ");
-            }
-            System.out.println();
         }
 
         return this.instructionStorage.getInstructions();
     }
 
-    private void unknownToken(String identifiedToken, ArrayList<String> identifiedTokens, BlockInstruction bi) {
+    private AssignmentInstruction createAssignment(ArrayList<String> identifiedTokens) {
+        StringBuilder expression = new StringBuilder();
+        for (int i=2; i<identifiedTokens.size(); i++)
+            expression.append(identifiedTokens.get(i));
+        Variable assignedTo = new Variable(identifiedTokens.get(0).replace("VARIABLE_NAME =>", "").trim(), "", "GLOBAL");
+
+        return new AssignmentInstruction(assignedTo, expression.toString());
+    }
+
+    private void unknownToken(String identifiedToken, ArrayList<String> identifiedTokens, Instruction generalInstruction) {
         if (this.instructionDetector.isNumber(identifiedToken) || this.instructionDetector.isArithmeticOperation(identifiedToken)) {
             if (identifiedTokens.contains("LOOP")) {
-                LoopInstruction instruction = (LoopInstruction) bi.getInstructionGivenType("LOOP", false);
+                LoopInstruction instruction = (LoopInstruction) generalInstruction;
                 instruction.setNumOfIteration(Integer.parseInt(identifiedToken));
             } else if (identifiedTokens.contains("PRINT")) {
-                PrintInstruction instruction = (PrintInstruction) bi.getInstructionGivenType("PRINT", false);
-                Variable var = instruction.getData();
-                var.setValue(var.getValue() + identifiedToken);
-                instruction.setData(var);
+                if (whichInstruction(generalInstruction).equals("LOOP")) {
+                    LoopInstruction instruction = (LoopInstruction) generalInstruction;
+                    Variable var = instruction.getIteration();
+                    var.setValue(var.getValue() + identifiedToken);
+                    instruction.setIteration(var);
+                }
             }
-        } else if (identifiedToken.contains("VARIABLE_NAME")) {
+        } else if (identifiedToken.startsWith("VARIABLE_NAME")) {
             String variableName = identifiedToken.split("=>")[1].trim();
+            Variable var = new Variable(variableName, "", "GLOBAL");
+            this.variableHolder.add(var);
         }
+    }
+
+    //Sets @bi as body of @generalInstruction - bi is the body of @generalInstruction
+    private void setBodyOfInstruction(Instruction generalInstruction, BlockInstruction bi) {
+        if (generalInstruction == null) return;
+
+        if (generalInstruction instanceof LoopInstruction) {
+            LoopInstruction loopInstruction = (LoopInstruction) generalInstruction;
+            loopInstruction.setBody(bi);
+        } else if (generalInstruction instanceof IfInstruction) {
+            IfInstruction ifInstruction = (IfInstruction) generalInstruction;
+            ifInstruction.setBody(bi);
+        }
+    }
+
+    private String whichInstruction(Instruction generalInstruction) {
+        if (generalInstruction instanceof LoopInstruction)
+            return InstructionSet.LOOP;
+        else if (generalInstruction instanceof PrintInstruction)
+            return InstructionSet.PRINT;
+        else if (generalInstruction instanceof IfInstruction)
+            return InstructionSet.IF;
+        else if (generalInstruction instanceof InputInstruction)
+            return InstructionSet.INPUT;
+        else
+            return "UNKOWN";
     }
 
     private String getArrLsElement(ArrayList<String> ls, String str) {
         String result = null;
         for (String token : ls)
-            if (token.contains(str))
+            if (token.startsWith(str))
                 return token;
 
         return result;
     }
 
     public void generateCode(String[] statements) {
-        HashMap<Integer, BlockInstruction> tokenisedInstriction = this.lexicalAnalyser(statements);
-        HashMap<Integer, ArrayList<String>> javaCode = this.codeGeneration(tokenisedInstriction);
+        HashMap<Integer, Instruction> tokenisedInstriction = this.lexicalAnalyser(statements);
+        HashMap<Integer, String> javaCode = this.codeGeneration(tokenisedInstriction);
 
         System.out.println("--- Java code is being generated ---");
 
         for (Integer instructionCounter : javaCode.keySet()) {
-            ArrayList<String> instructionLs = javaCode.get(instructionCounter);
-            for (String i : instructionLs) {
-                System.out.println(i);
-            }
+            String instruction = javaCode.get(instructionCounter);
+            System.out.println(instruction);
         }
     }
 
-    private HashMap<Integer, ArrayList<String>> codeGeneration(HashMap<Integer, BlockInstruction> tokenisedInstruction) {
-        HashMap<Integer, ArrayList<String>> javaCode = new HashMap<>();
-        for (Integer instructionCounter : tokenisedInstruction.keySet()) {
-            BlockInstruction blockInstruction = tokenisedInstruction.get(instructionCounter);
-            ArrayList<String> javaInstructions = new ArrayList<>();
-            HashMap<Integer, Instruction> instructionMap = blockInstruction.getInstructionBlock();
-            for (Integer counter : instructionMap.keySet()) { // 0 is the start of the block
-                Instruction instruction = instructionMap.get(counter);
-                switch (instruction.getInstructionType()) {
-                    case InstructionSet.INPUT:
-                        javaInstructions.add(instruction.generateCode());
-                        break;
-                    case InstructionSet.PRINT:
-                        javaInstructions.add(instruction.generateCode());
-                        break;
-                    case InstructionSet.LOOP:
-                        javaInstructions.add(instruction.generateCode());
-                        break;
-                }
-            }
+    private HashMap<Integer, String> codeGeneration(HashMap<Integer, Instruction> tokenisedInstruction) {
+        HashMap<Integer, String> javaCode = new HashMap<>();
 
-            javaCode.put(instructionCounter, javaInstructions);
+        for (Integer instructionCounter : tokenisedInstruction.keySet()) {
+            Instruction instruction = tokenisedInstruction.get(instructionCounter);
+            javaCode.put(instructionCounter, instruction.generateCode());
         }
 
         return javaCode;
@@ -191,7 +217,9 @@ public class LexerAnalyser {
                             Scanner s = new Scanner(System.in);
                             System.out.println("Enter a str: ");
                             String tempVariableValue = s.nextLine();
-                            this.variableHolder.add(VariableHolder.GLOBAL, "varx", tempVariableValue);
+                            Variable var = new Variable(VariableHolder.GLOBAL, "varx", tempVariableValue);
+                            this.variableHolder.add(var);
+                            this.variableHolder.add(var);
                         }
                         break;
                     case InstructionSet.PRINT:

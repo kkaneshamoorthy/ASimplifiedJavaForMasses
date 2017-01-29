@@ -60,6 +60,9 @@ public class LoopInstruction implements Instruction {
 
     @Override
     public String generateCode() {
+
+        System.out.println(this.body);
+
         StringBuilder sb = new StringBuilder();
         sb.append("for (int " + this.iteration.getName() + " = 0; " + this.iteration.getName() + "<" + numOfIteration + "; " + this.iteration.getName() + "++) \n");
         sb.append("{ \n");
