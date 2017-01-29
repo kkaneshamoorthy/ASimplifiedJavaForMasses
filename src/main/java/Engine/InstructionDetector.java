@@ -7,9 +7,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Kowrishankar on 08/01/2017.
- */
 public class InstructionDetector {
 
     public final String UNKNOWN = "UNKNOWN";
@@ -123,7 +120,25 @@ public class InstructionDetector {
         return this.UNKNOWN;
     }
 
+    public ArrayList<String> identifyTokens(String tokens) {
+        ArrayList<String> identifiedTokens = this.computeRegex(tokens);
+
+        for (int i=0; i<identifiedTokens.size(); i++) {
+            String identifiedToken = identifiedTokens.get(i);
+
+            if (isNumber(identifiedToken))
+                identifiedTokens.set(i, "INT => " + identifiedToken);
+            else if(identifiedToken.startsWith("\""))
+                identifiedTokens.set(i, "STRING => " + identifiedToken);
+            else if (this.instructionSet.getInstructionMap().containsKey(identifiedToken.toUpperCase()))
+                identifiedTokens.set(i, this.instructionSet.getInstructionMap().get(identifiedToken.toUpperCase()));
+        }
+
+        return identifiedTokens;
+    }
+
     public boolean isNumber(String identifiedToken) {
+        if (identifiedToken.startsWith("INT =>")) return true;
         try {
             Integer.parseInt(identifiedToken);
         } catch (NumberFormatException e) { return false; }
@@ -135,5 +150,17 @@ public class InstructionDetector {
         ArrayList<String> arithmeticInstructions = this.instructionSet.getArithmeticInstructions();
 
         return arithmeticInstructions.contains(token);
+    }
+
+    public ArrayList<String> computeRegex(String text) {
+        ArrayList<String> identifiedTokensLs = new ArrayList<>();
+
+        Matcher matcher = this.instructionSet.getPattern().matcher(text);
+        int lastKwEnd = 0;
+        while (matcher.find()) {
+            identifiedTokensLs.add(matcher.group(1));
+        }
+
+        return identifiedTokensLs;
     }
 }

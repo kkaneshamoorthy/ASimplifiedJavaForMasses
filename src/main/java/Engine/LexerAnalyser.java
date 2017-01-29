@@ -37,14 +37,15 @@ public class LexerAnalyser {
         int instructionCounter = -1;
         Instruction generalInstruction = null;
         for (String statement : statements) {
-            String[] tokens = statement.replace("\\t", "").trim().split(" ");
-            ArrayList<String> identifiedTokens = this.instructionDetector.identifyToken(tokens);
+            ArrayList<String> identifiedTokens = this.instructionDetector.identifyTokens(statement);
 
+            System.out.print("LEXER: "); //TESTING PURPOSES
             for (String t : identifiedTokens)
                 System.out.print(t + " ");
             System.out.println();
 
             for (String token : identifiedTokens) {
+                token = token.toUpperCase();
                 switch (token) {
                     case "INPUT":
                         if (!statement.startsWith("\t")) {
@@ -132,7 +133,7 @@ public class LexerAnalyser {
         if (this.instructionDetector.isNumber(identifiedToken) || this.instructionDetector.isArithmeticOperation(identifiedToken)) {
             if (identifiedTokens.contains("LOOP")) {
                 LoopInstruction instruction = (LoopInstruction) generalInstruction;
-                instruction.setNumOfIteration(Integer.parseInt(identifiedToken));
+                instruction.setNumOfIteration(Integer.parseInt(identifiedToken.replace("INT =>", "").trim()));
             } else if (identifiedTokens.contains("PRINT")) {
                 if (whichInstruction(generalInstruction).equals("LOOP")) {
                     LoopInstruction instruction = (LoopInstruction) generalInstruction;
@@ -236,30 +237,6 @@ public class LexerAnalyser {
                 }
             }
         }
-    }
-
-    private String getLoopInstruction(String[] instructions) {
-        String statementToBeReturned = "";
-        while (this.instructionCounter<instructions.length){
-            String statement = instructions[this.instructionCounter];
-            statementToBeReturned += statement;
-            if (statement.contains(this.instructionSet.LOOP_END))
-                return statementToBeReturned;
-            this.instructionCounter++;
-        }
-
-        return statementToBeReturned;
-    }
-
-    private String getLoopBody(String statement) {
-        String result = "";
-        Pattern p = Pattern.compile(":(.+?)loop-end");
-        Matcher m = p.matcher(statement);
-        while (m.find()) {
-            result = m.group(1);
-        }
-
-        return result;
     }
 
     public String getStringBetweenSpeechMarks(String statement) {

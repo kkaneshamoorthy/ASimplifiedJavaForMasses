@@ -1,12 +1,6 @@
 package Engine;
 
-import org.fxmisc.richtext.model.StyleSpans;
-import org.fxmisc.richtext.model.StyleSpansBuilder;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,6 +41,8 @@ public class InstructionSet {
     private final String OR = "||";
     private final String ANDTXT = "AND";
     private final String ORTXT = "OR";
+    private final String TRUE = "TRUE";
+    private final String FALSE = "FALSE";
 
     private final String ZERO = "0";
     private final String ONE = "1";
@@ -72,7 +68,7 @@ public class InstructionSet {
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
-            "==", "<", ">", "<=", ">=", "!", "!="
+            "==", "<", ">", "<=", ">=", "!", "!=", "TRUE", "FALSE"
     };
 
     private static final String[] BITWISE_OPERATION_PATTERN = new String[] {
@@ -82,14 +78,21 @@ public class InstructionSet {
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String RELATIONAL_PATTERN = "\\b(" + String.join("|", RELATIONAL_OPERATION_PATTERN) + ")\\b";
     private static final String BITWISE_PATTERN = "\\b(" + String.join("|", BITWISE_OPERATION_PATTERN) + ")\\b";
-
     private static final String NUMBER_PATTERN =  "[0-9]+";
+    private static final String VARIABLE_PATTERN = "[$a-zA-Z]+";
+    private static final String STRING_PATTERN= "\"[a-zA-Z]+\"";
+    private static final String EQUAL_PATTERN = "=";
 
     private static final Pattern PATTERN = Pattern.compile(
             "(" + KEYWORD_PATTERN
                     + "|" + NUMBER_PATTERN
-                    + "|" + RELATIONAL_PATTERN + ")"
+                    + "|" + VARIABLE_PATTERN
+                    + "|" + STRING_PATTERN
+                    + "|" + EQUAL_PATTERN
+                    + "|" + RELATIONAL_PATTERN + ")", Pattern.CASE_INSENSITIVE
     );
+
+    public InstructionSet() { this.intialise(); }
 
     public String computeRegex(String text) {
         Matcher matcher = PATTERN.matcher(text);
@@ -102,13 +105,13 @@ public class InstructionSet {
         return word;
     }
 
-    public InstructionSet() {
-        this.intialise();
-    }
+    public Pattern getPattern() { return PATTERN; }
 
     public HashMap<String, ArrayList<String>> getInstructionSet() { return this.keywordAndFunction; }
 
     public HashMap<String, String> getInstructionMap() { return this.instructionMap; }
+
+    public ArrayList<String> getArithmeticInstructions() { return this.arithmeticKeyword; }
 
     private void intialise() {
         arithmeticKeyword = new ArrayList<String>();
@@ -194,6 +197,8 @@ public class InstructionSet {
         this.instructionMap.put(this.OR, "OR");
         this.instructionMap.put(this.ANDTXT, "ANDTXT");
         this.instructionMap.put(this.ORTXT, "ORTXT");
+        this.instructionMap.put(this.TRUE, "TRUE");
+        this.instructionMap.put(this.FALSE, "FALSE");
 
         this.instructionMap.put(this.ZERO, this.ZERO);
         this.instructionMap.put(this.ONE, this.ONE);
@@ -205,10 +210,6 @@ public class InstructionSet {
         this.instructionMap.put(this.SEVEN, this.SEVEN);
         this.instructionMap.put(this.EIGHT, this.EIGHT);
         this.instructionMap.put(this.NINE, this.NINE);
-    }
-
-    public ArrayList<String> getArithmeticInstructions() {
-        return this.arithmeticKeyword;
     }
 }
 

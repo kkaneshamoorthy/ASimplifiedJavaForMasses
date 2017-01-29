@@ -61,13 +61,13 @@ public class Controller implements Initializable {
                                     LoopDialog loopDialog= new LoopDialog();
                                     Optional<Pair<String, String>>  result = loopDialog.showAndWait();
                                     if (result.isPresent())
-                                        editor.appendText("Loop " + result.get().getKey() + " times \n");
+                                        editor.appendText("Loop " + result.get().getKey() + " times \n\t");
                                     break;
                                 case "If":
                                     IfDialog ifDialog = new IfDialog();
                                     Optional<String> condition = ifDialog.showAndWait();
                                     if (condition.isPresent())
-                                        editor.appendText("if (" + condition.get() + ") \n");
+                                        editor.appendText("if " + condition.get() + " \n\t");
                                     break;
                                 case "Print":
                                     PrintDialog printDialog = new PrintDialog();
@@ -86,6 +86,12 @@ public class Controller implements Initializable {
                                     Optional<Pair<String, String>> variableData = variableDialog.showAndWait();
                                     if (variableData.isPresent())
                                         editor.appendText("$" + variableData.get().getKey() + " = " + variableData.get().getValue() + " \n");
+                                    break;
+                                case "Function":
+                                    FunctionDialog functionDialog = new FunctionDialog();
+                                    Optional<String> functionName = functionDialog.showAndWait();
+                                    if (functionName.isPresent())
+                                        editor.appendText("function " + functionName.get() + ": \n\t");
                                     break;
                             }
                         }
@@ -115,6 +121,7 @@ public class Controller implements Initializable {
         instructionItem.getChildren().add(new TreeItem<>("If"));
         instructionItem.getChildren().add(new TreeItem<>("Print"));
         instructionItem.getChildren().add(new TreeItem<>("Input"));
+        instructionItem.getChildren().add(new TreeItem<>("Function"));
 
         variableItem.getChildren().add(new TreeItem<>("Create Variable"));
         variableItem.getChildren().add(new TreeItem<>("Edit Variable"));
