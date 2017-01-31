@@ -1,4 +1,4 @@
-# A Simplified Java For Masses
+H1 A Simplified Java For Masses
 A simplified java for the masses, natural programming language
 
 Learning to program can be tough for people. It requires a considerable amount of effort and time to
@@ -17,7 +17,7 @@ scientist, innovator, programmer or pursue a science and engineering related fie
 # Simplified Java
 
 # Writing loops:
-loop //<number of iterations>
+loop number of iterations
 
 # Condition
 if <expression>
