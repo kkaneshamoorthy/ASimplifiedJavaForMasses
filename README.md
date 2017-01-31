@@ -43,8 +43,7 @@ public class Program {
   }
 }
 ```
-You can see that its daunting and will be confusing for people who starting to learn programming and for children. Therefore the simplified Java lets you program in natural language and introduces programming concepts in an abstract and easy to understand manner.
-
+You can see that its daunting and will be confusing for people who starting to learn programming and for children. Therefore the simplified Java lets you program in natural language and introduces you to the programming concepts in an abstract and easy to understand manner.
 
 ### Writing loops:
 loop &lt; number of iterations &gt;
@@ -63,3 +62,9 @@ input &lt; optional: location of input {console, file} &gt;
 
 ### Variable
 $ &lt; variable name> = &lt; value &gt;
+
+## Key features
+1. convert code to Java code
+2. Drag and Drop style programming (editor also available)
+3. Tutorials
+4. Run code
