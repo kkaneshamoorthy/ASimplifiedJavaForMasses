@@ -64,7 +64,7 @@ input &lt; optional: location of input {console, file} &gt;
 $ &lt; variable name> = &lt; value &gt;
 
 ## Key features
-1. convert code to Java code
+1. Conversion to Java code
 2. Drag and Drop style programming (editor also available)
 3. Tutorials
 4. Run code
