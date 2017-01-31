@@ -14,22 +14,22 @@ used at school to teach and get children into coding. This will inspire them to 
 scientist, innovator, programmer or pursue a science and engineering related field in the future.
 
 
-## Simplified Java
+## Simplified Java code
 
 ### Writing loops:
-loop &lt number of iterations
+loop &lt; number of iterations &gt;
 
 ### Condition
-if <expression>
+if &lt; expression &gt;
 
 ### Function
-function <function name>:
+function &lt; function name gt;:
 
 ### Output
-print <values to print>
+print &lt; values to print gt;
 
 ### Input
-input <optional: location of input {console, file}>
+input &lt; optional: location of input {console, file} &gt;
 
 ### Variable
-$<variable name> = <value>
+$ &lt; variable name> = &lt; value &gt;
