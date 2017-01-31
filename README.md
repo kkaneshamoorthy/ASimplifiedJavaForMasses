@@ -7,6 +7,8 @@ aim my project is to break the barrier/perception that is preventing people from
 want to make it easy for people to get into programming by removing unnecessary syntax and create
 a programming language that is similar to a natural language. To put it in simple terms, I want to
 simplify the programming language (Java) to get people into coding.
+
+
 The main aim is to spread programming to children and inspire them. I want this simplified Java to be
 used at school to teach and get children into coding. This will inspire them to become a computer
 scientist, innovator, programmer or pursue a science and engineering related field in the future.
