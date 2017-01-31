@@ -12,3 +12,24 @@ simplify the programming language (Java) to get people into coding.
 The main aim is to spread programming to children and inspire them. I want this simplified Java to be
 used at school to teach and get children into coding. This will inspire them to become a computer
 scientist, innovator, programmer or pursue a science and engineering related field in the future.
+
+
+# Simplified Java
+
+# Writing loops:
+loop <number of iterations>
+
+# Condition
+if <expression>
+
+# Function
+function <function name>:
+
+# Output
+print <values to print>
+
+# Input
+input <optional: location of input {console, file}>
+
+# Variable
+$<variable name> = <value>
