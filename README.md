@@ -17,7 +17,7 @@ scientist, innovator, programmer or pursue a science and engineering related fie
 # Simplified Java
 
 # Writing loops:
-loop <number of iterations>
+loop //<number of iterations>
 
 # Condition
 if <expression>
