@@ -1,5 +1,5 @@
-H1 A Simplified Java For Masses
-A simplified java for the masses, natural programming language
+# A Simplified Java For Masses
+## A simplified java for the masses, natural programming language
 
 Learning to program can be tough for people. It requires a considerable amount of effort and time to
 practice and without some understanding of how a computer works, it can be daunting at first. The
@@ -14,22 +14,22 @@ used at school to teach and get children into coding. This will inspire them to 
 scientist, innovator, programmer or pursue a science and engineering related field in the future.
 
 
-# Simplified Java
+## Simplified Java
 
-# Writing loops:
-loop number of iterations
+### Writing loops:
+loop &lt number of iterations
 
-# Condition
+### Condition
 if <expression>
 
-# Function
+### Function
 function <function name>:
 
-# Output
+### Output
 print <values to print>
 
-# Input
+### Input
 input <optional: location of input {console, file}>
 
-# Variable
+### Variable
 $<variable name> = <value>
