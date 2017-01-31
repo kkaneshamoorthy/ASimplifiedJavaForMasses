@@ -1,6 +1,7 @@
 package Engine;
 
 import Memory.InstructionStorage;
+import Memory.JavaProgramTemplate;
 import Memory.Variable;
 import Memory.VariableHolder;
 
@@ -10,14 +11,14 @@ import Instruction.PrintInstruction;
 import Instruction.LoopInstruction;
 import Instruction.IfInstruction;
 import Instruction.AssignmentInstruction;
+import Instruction.FunctionInstruction;
+import Utility.FileUtility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class LexerAnalyser {
+public class LexicalAnalyser {
     private HashMap<Integer, HashMap<String, String>> instructions;
     private int instructionCounter = 0;
     private InstructionDetector instructionDetector;
@@ -25,7 +26,7 @@ public class LexerAnalyser {
     private VariableHolder variableHolder;
     private InstructionStorage instructionStorage;
 
-    public LexerAnalyser() {
+    public LexicalAnalyser() {
         this.instructionSet = new InstructionSet();
         this.instructions = new HashMap<Integer, HashMap<String, String>>();
         this.instructionDetector = new InstructionDetector(this.instructionSet);
@@ -33,9 +34,25 @@ public class LexerAnalyser {
         this.instructionStorage = new InstructionStorage();
     }
 
+    public void generateCode(String[] statements) {
+        HashMap<Integer, Instruction> tokenisedInstriction = this.lexicalAnalyser(statements);
+        HashMap<Integer, String> javaCode = this.codeGeneration(tokenisedInstriction);
+
+        System.out.println("--- Java code is being generated ---");
+
+        for (Integer instructionCounter : javaCode.keySet()) {
+            String instruction = javaCode.get(instructionCounter);
+            System.out.println(instruction);
+        }
+
+        FileUtility.saveJavaProgram(null, new JavaProgramTemplate(this.instructionStorage, this.variableHolder));
+
+        System.out.println("--- Finished generating code ---");
+    }
+
     public HashMap<Integer, Instruction> lexicalAnalyser(String[] statements) {
         int instructionCounter = -1;
-        Instruction generalInstruction = null;
+        Instruction previousInstruction = null;
         for (String statement : statements) {
             ArrayList<String> identifiedTokens = this.instructionDetector.identifyTokens(statement);
 
@@ -59,15 +76,13 @@ public class LexerAnalyser {
                         break;
                     case "PRINT":
                         PrintInstruction printInstruction = null;
-                        if (!statement.startsWith("\t")) {
+                        if (statement.startsWith("\t")) {
+                            printInstruction = new PrintInstruction();
+                            this.setBody(previousInstruction, printInstruction);
+                        } else {
                             instructionCounter++;
                             printInstruction = new PrintInstruction();
                             this.instructionStorage.addInstruction(instructionCounter, printInstruction);
-                        } else {
-                            printInstruction = new PrintInstruction();
-                            BlockInstruction bi = new BlockInstruction();
-                            bi.addInstructionToBlock(printInstruction);
-                            this.setBodyOfInstruction(generalInstruction, bi);
                         }
                         String str = getArrLsElement(identifiedTokens, "STRING");
                         String intStr = getArrLsElement(identifiedTokens, "INT");
@@ -82,15 +97,15 @@ public class LexerAnalyser {
                         }
                         break;
                     case "LOOP":
-                        if (!statement.startsWith("\t")) {
-                            instructionCounter++;
-                            generalInstruction = new LoopInstruction();
-                            this.instructionStorage.addInstruction(instructionCounter, generalInstruction);
-                        } else {
+                        if (statement.startsWith("\t")) {
                             LoopInstruction loopInstruction = new LoopInstruction();
-                            BlockInstruction bi = new BlockInstruction();
-                            bi.addInstructionToBlock(loopInstruction);
-                            this.setBodyOfInstruction(generalInstruction, bi);
+                            loopInstruction.setBody(new BlockInstruction());
+                            this.setBody(previousInstruction, loopInstruction);
+                            previousInstruction = loopInstruction;
+                        } else {
+                            instructionCounter++;
+                            previousInstruction = new LoopInstruction();
+                            this.instructionStorage.addInstruction(instructionCounter, previousInstruction);
                         }
                         break;
                     case "ASSIGNMENT":
@@ -99,20 +114,26 @@ public class LexerAnalyser {
                         this.instructionStorage.addInstruction(instructionCounter, assignmentInstruction);
                         break;
                     case "IF":
-                        if (!statement.startsWith("\t")) {
-                            instructionCounter++;
-                            generalInstruction = new IfInstruction();
-                            this.instructionStorage.addInstruction(instructionCounter, generalInstruction);
-                        } else {
+                        if (statement.startsWith("\t")) {
                             IfInstruction ifInstruction = new IfInstruction();
-                            generalInstruction = ifInstruction;
-                            BlockInstruction bi = new BlockInstruction();
-                            bi.addInstructionToBlock(ifInstruction);
-                            this.setBodyOfInstruction(generalInstruction, bi);
+                            ifInstruction.setBody(new BlockInstruction());
+                            this.setBody(previousInstruction, ifInstruction);
+                            previousInstruction = ifInstruction;
+                        } else {
+                            instructionCounter++;
+                            previousInstruction = new IfInstruction();
+                            this.instructionStorage.addInstruction(instructionCounter, previousInstruction);
+                        }
+                        break;
+                    case "FUNCTION":
+                        if (identifiedTokens.contains("main")) {
+                            FunctionInstruction functionInstruction = new FunctionInstruction("main");
+                            previousInstruction = functionInstruction;
+                            this.instructionStorage.addInstruction(instructionCounter, functionInstruction);
                         }
                         break;
                     default:
-                        unknownToken(token, identifiedTokens, generalInstruction);
+                        unknownToken(token, identifiedTokens, previousInstruction);
                 }
             }
         }
@@ -132,8 +153,12 @@ public class LexerAnalyser {
     private void unknownToken(String identifiedToken, ArrayList<String> identifiedTokens, Instruction generalInstruction) {
         if (this.instructionDetector.isNumber(identifiedToken) || this.instructionDetector.isArithmeticOperation(identifiedToken)) {
             if (identifiedTokens.contains("LOOP")) {
-                LoopInstruction instruction = (LoopInstruction) generalInstruction;
-                instruction.setNumOfIteration(Integer.parseInt(identifiedToken.replace("INT =>", "").trim()));
+                if (whichInstruction(generalInstruction).equals("FUNCTION")) {
+
+                } else if (whichInstruction(generalInstruction).equals("LOOP")) {
+                    LoopInstruction instruction = (LoopInstruction) generalInstruction;
+                    instruction.setNumOfIteration(Integer.parseInt(identifiedToken.replace("INT =>", "").trim()));
+                }
             } else if (identifiedTokens.contains("PRINT")) {
                 if (whichInstruction(generalInstruction).equals("LOOP")) {
                     LoopInstruction instruction = (LoopInstruction) generalInstruction;
@@ -149,16 +174,28 @@ public class LexerAnalyser {
         }
     }
 
-    //Sets @bi as body of @generalInstruction - bi is the body of @generalInstruction
-    private void setBodyOfInstruction(Instruction generalInstruction, BlockInstruction bi) {
-        if (generalInstruction == null) return;
+    private void setBody(Instruction previousInstruction, Instruction instruction) {
+        BlockInstruction bi = null;
 
-        if (generalInstruction instanceof LoopInstruction) {
-            LoopInstruction loopInstruction = (LoopInstruction) generalInstruction;
-            loopInstruction.setBody(bi);
-        } else if (generalInstruction instanceof IfInstruction) {
-            IfInstruction ifInstruction = (IfInstruction) generalInstruction;
-            ifInstruction.setBody(bi);
+        switch (whichInstruction(previousInstruction)) {
+            case InstructionSet.FUNCTION:
+                FunctionInstruction functionInstruction = (FunctionInstruction) previousInstruction;
+                bi = functionInstruction.getBody();
+                if (bi != null) bi.addInstructionToBlock(instruction);
+                else  functionInstruction.setBody(new BlockInstruction(instruction));
+                break;
+            case InstructionSet.LOOP:
+                LoopInstruction loopInstruction = (LoopInstruction) previousInstruction;
+                bi = loopInstruction.getBody();
+                if (bi != null) bi.addInstructionToBlock(instruction);
+                else loopInstruction.setBody(new BlockInstruction(instruction));
+                break;
+            case InstructionSet.IF:
+                IfInstruction ifInstruction = (IfInstruction) previousInstruction;
+                bi = ifInstruction.getBody();
+                if (bi != null) bi.addInstructionToBlock(instruction);
+                else ifInstruction.setBody(new BlockInstruction(instruction));
+                break;
         }
     }
 
@@ -171,6 +208,8 @@ public class LexerAnalyser {
             return InstructionSet.IF;
         else if (generalInstruction instanceof InputInstruction)
             return InstructionSet.INPUT;
+        else if (generalInstruction instanceof FunctionInstruction)
+            return InstructionSet.FUNCTION;
         else
             return "UNKOWN";
     }
@@ -184,18 +223,6 @@ public class LexerAnalyser {
         return result;
     }
 
-    public void generateCode(String[] statements) {
-        HashMap<Integer, Instruction> tokenisedInstriction = this.lexicalAnalyser(statements);
-        HashMap<Integer, String> javaCode = this.codeGeneration(tokenisedInstriction);
-
-        System.out.println("--- Java code is being generated ---");
-
-        for (Integer instructionCounter : javaCode.keySet()) {
-            String instruction = javaCode.get(instructionCounter);
-            System.out.println(instruction);
-        }
-    }
-
     private HashMap<Integer, String> codeGeneration(HashMap<Integer, Instruction> tokenisedInstruction) {
         HashMap<Integer, String> javaCode = new HashMap<>();
 
@@ -207,7 +234,7 @@ public class LexerAnalyser {
         return javaCode;
     }
 
-    public void codeExecution(HashMap<Integer, HashMap<String, String>> tokenisedInstruction) {
+    private void codeExecution(HashMap<Integer, HashMap<String, String>> tokenisedInstruction) {
         for (Integer instructionCounter : tokenisedInstruction.keySet()) {
             HashMap<String, String> tokens = tokenisedInstruction.get(instructionCounter);
             for (String instruction : tokens.keySet()) {
@@ -237,16 +264,5 @@ public class LexerAnalyser {
                 }
             }
         }
-    }
-
-    public String getStringBetweenSpeechMarks(String statement) {
-        String result = "";
-        Pattern p = Pattern.compile("\"([^\"]*)\"");
-        Matcher m = p.matcher(statement);
-        while (m.find()) {
-            result = m.group(1);
-        }
-
-        return result;
     }
 }

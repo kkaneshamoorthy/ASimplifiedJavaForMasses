@@ -12,6 +12,12 @@ public class BlockInstruction {
         this.instructionMap = new HashMap<>();
     }
 
+    public BlockInstruction(Instruction instruction) {
+        this.instructionCounter = 0;
+        this.instructionMap = new HashMap<>();
+        this.addInstructionToBlock(instruction);
+    }
+
     public void addInstructionToBlock(Instruction instruction) {
         this.instructionMap.put(this.instructionCounter, instruction);
         this.instructionCounter++;

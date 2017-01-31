@@ -64,7 +64,7 @@ public class SimplifiedJava extends Application {
 //        // Run
 //        Menu runMenu = new Menu("Run");
 //        MenuItem runMenuItem = new MenuItem("Run program");
-//        runMenuItem.setOnAction(ActionEvent -> new LexerAnalyser().analyse(textArea.getText().replaceAll("(\\r|\\n)", "").split(";")));
+//        runMenuItem.setOnAction(ActionEvent -> new LexicalAnalyser().analyse(textArea.getText().replaceAll("(\\r|\\n)", "").split(";")));
 //
 //        runMenu.getItems().add(runMenuItem);
 //

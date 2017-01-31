@@ -18,6 +18,7 @@ public class InstructionSet {
     static final String IF = "IF";
     static final String ARITHMETIC = "ARITHMETIC";
     static final String INPUT = "INPUT";
+    static final String FUNCTION = "FUNCTION";
 
     private final String PLUS = "+";
     private final String ADDTXT = "ADD";
@@ -64,7 +65,7 @@ public class InstructionSet {
     public HashMap<String, String> instructionMap;
 
     private static final String[] KEYWORDS = new String[] {
-            PRINT, LOOP, IF, INPUT
+            PRINT, LOOP, IF, INPUT, FUNCTION
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
