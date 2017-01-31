@@ -15,6 +15,36 @@ scientist, innovator, programmer or pursue a science and engineering related fie
 
 
 ## Simplified Java code
+The compiler recongnises natural language and it doesnt have to follow a regid structure. For example a loop can be written in many ways. For example:
+
+```javascript
+write a program to loop 3 times and print "hello world"
+```
+
+OR
+```javascript
+loop 3
+  print "hello world"
+```
+OR
+
+```javascript
+loop 3 times
+  print "hello world" to the console
+```
+The above program in Java:
+
+```java
+public class Program {
+  public static void main(String[] args) {
+    for (int i=0; i<3; i++) {
+      System.out.println("hello world");
+    }
+  }
+}
+```
+You can see that its daunting and will be confusing for people who starting to learn programming and for children. Therefore the simplified Java lets you program in natural language and introduces programming concepts in an abstract and easy to understand manner.
+
 
 ### Writing loops:
 loop &lt; number of iterations &gt;
@@ -23,10 +53,10 @@ loop &lt; number of iterations &gt;
 if &lt; expression &gt;
 
 ### Function
-function &lt; function name gt;:
+function &lt; function name &gt;:
 
 ### Output
-print &lt; values to print gt;
+print &lt; values to print &gt;
 
 ### Input
 input &lt; optional: location of input {console, file} &gt;
