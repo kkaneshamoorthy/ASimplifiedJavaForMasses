@@ -34,8 +34,10 @@ public class LexicalAnalyser {
         this.instructionStorage = new InstructionStorage();
     }
 
-    public void generateCode(String[] statements) {
-        HashMap<Integer, Instruction> tokenisedInstriction = this.lexicalAnalyser(statements);
+    public InstructionStorage getInstructionStorage() { return this.instructionStorage; }
+    public VariableHolder getVariableHolder() { return this.variableHolder; }
+
+    public void generateCode(HashMap<Integer, Instruction> tokenisedInstriction ) {
         HashMap<Integer, String> javaCode = this.codeGeneration(tokenisedInstriction);
 
         System.out.println("--- Java code is being generated ---");
@@ -223,7 +225,7 @@ public class LexicalAnalyser {
         return result;
     }
 
-    private HashMap<Integer, String> codeGeneration(HashMap<Integer, Instruction> tokenisedInstruction) {
+    public HashMap<Integer, String> codeGeneration(HashMap<Integer, Instruction> tokenisedInstruction) {
         HashMap<Integer, String> javaCode = new HashMap<>();
 
         for (Integer instructionCounter : tokenisedInstruction.keySet()) {

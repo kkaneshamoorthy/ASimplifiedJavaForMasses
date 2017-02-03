@@ -1,13 +1,18 @@
 package Utility;
 
+import Engine.CodeExecution;
 import GUI.CodeEditor;
 import Memory.JavaProgramTemplate;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.tools.ant.taskdefs.Execute;
+
 import java.io.*;
 
 public class FileUtility {
+
+    private static String fileName;
 
     public static void saveFile(Stage primaryStage, String content) {
         FileChooser fileChooser = new FileChooser();
@@ -26,8 +31,15 @@ public class FileUtility {
         }
     }
 
-    public static void saveJavaProgram(Stage primaryStage, JavaProgramTemplate javaProgramTemplate) {
-        saveFile(primaryStage, javaProgramTemplate.toString());
+    public static void saveTemporaryFile(Stage primaryStage, String content) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(fileName+".java"));
+            bw.write(content);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            //TODO: Print exception to the console
+        }
     }
 
     public static void openFile(Stage primaryStage, CodeEditor editor) {
@@ -55,8 +67,13 @@ public class FileUtility {
         }
     }
 
-    public static void append(TextArea ta, String s) {
-        ta.insertText(ta.getLength(), s);
-        ta.insertText(ta.getLength(), "\n");
+    public static void saveJavaProgram(Stage primaryStage, JavaProgramTemplate javaProgramTemplate) {
+        fileName = javaProgramTemplate.getClassName();
+        saveFile(primaryStage, javaProgramTemplate.toString());
+    }
+
+    public static void saveJavaProgramTemporaryForExecution(Stage primaryStage, JavaProgramTemplate javaProgramTemplate) {
+        fileName = javaProgramTemplate.getClassName();
+        saveTemporaryFile(primaryStage, javaProgramTemplate.toString());
     }
 }

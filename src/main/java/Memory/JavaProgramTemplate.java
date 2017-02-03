@@ -12,7 +12,7 @@ public class JavaProgramTemplate {
     public JavaProgramTemplate(InstructionStorage instructionStorage, VariableHolder variableHolder) {
         this.variableHolder = variableHolder;
         this.instructionStorage = instructionStorage;
-        this.className = "Program";
+        this.className = "program";
     }
 
     public String getClassName() { return this.className; }

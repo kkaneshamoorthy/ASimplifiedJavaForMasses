@@ -1,9 +1,11 @@
 package controllers;
 
+import Engine.CodeExecution;
 import Engine.LexicalAnalyser;
 import GUI.CodeEditor;
 import GUI.Dialog.*;
 import GUI.EditorStackPane;
+import Instruction.Instruction;
 import Utility.FileUtility;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -17,6 +19,7 @@ import javafx.util.Pair;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -28,6 +31,8 @@ public class Controller implements Initializable {
     private CodeEditor editor;
     @FXML
     private TreeView treeView;
+    @FXML
+    private TextArea console;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -150,16 +155,20 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void run(ActionEvent event) {
-//        LexicalAnalyser la = new LexicalAnalyser();
-//        HashMap<Integer, HashMap<String, String>> instructions = la.lexicalAnalyser(this.editor.getText().split("\\n"));
-//        la.codeExecution(instructions);
+    private void run(ActionEvent event) throws Exception {
+        LexicalAnalyser la = new LexicalAnalyser();
+        HashMap<Integer, Instruction> instructions = la.lexicalAnalyser(this.editor.getText().split("\\n"));
+        HashMap<Integer, String> javaCode = la.codeGeneration(instructions);
+
+        CodeExecution codeExecution = new CodeExecution(console);
+        codeExecution.executeCode(la.getInstructionStorage(), la.getVariableHolder());
     }
 
     @FXML
     private void generateJavaCode(ActionEvent event) {
         LexicalAnalyser la = new LexicalAnalyser();
-        la.generateCode(this.editor.getText().split("\\n"));
+        HashMap<Integer, Instruction> hashMap = la.lexicalAnalyser(this.editor.getText().split("\\n"));
+        la.generateCode(hashMap);
     }
 
     @FXML
