@@ -4,6 +4,7 @@ import Memory.Variable;
 
 public class InputInstruction implements Instruction{
     private String instructionType;
+    private String id;
     private boolean isFullyDefined = false;
     private String inputLocation;
     private Variable data;
@@ -11,6 +12,7 @@ public class InputInstruction implements Instruction{
     public InputInstruction() {
         this.instructionType = "INPUT";
         this.data = new Variable("userInput", "", "GLOBAL");
+        this.id = generateId();
     }
 
     public InputInstruction setInputLocation(String inputLocation) {
@@ -34,6 +36,11 @@ public class InputInstruction implements Instruction{
     }
 
     @Override
+    public String getInstructionID() {
+        return this.id;
+    }
+
+    @Override
     public boolean isFullyDefined() {
         return this.isFullyDefined;
     }
@@ -51,5 +58,9 @@ public class InputInstruction implements Instruction{
         sb.append("String " + this.data.getName() + " = s.nextLine() \n");
 
         return sb.toString();
+    }
+
+    private String generateId() {
+        return (this.instructionType+this.getInputLocation()+this.getData().getName()+this.getData().getValue()).hashCode()+"";
     }
 }

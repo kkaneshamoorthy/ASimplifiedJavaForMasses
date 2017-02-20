@@ -1,32 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java" line="107" />
+    <bookmark url="file://$PROJECT_DIR$/src/test/java/Engine/TestLexicalAnalyser.java" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="be01a58c-6b11-4a1e-9198-8f606789a433" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/Engine/Backend.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Engine/Backend.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Engine/LexerAnalyser.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/Engine/LexerAnalyser.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/LexicalAnalyser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Engine/BlockInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Engine/BlockInstruction.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Engine/InstructionDetector.class" afterPath="$PROJECT_DIR$/target/classes/Engine/InstructionDetector.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Engine/InstructionSet.class" afterPath="$PROJECT_DIR$/target/classes/Engine/InstructionSet.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/GUI/SimplifiedJava.class" afterPath="$PROJECT_DIR$/target/classes/GUI/SimplifiedJava.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Engine/LexicalAnalyser.class" afterPath="$PROJECT_DIR$/target/classes/Engine/LexicalAnalyser.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/GUI/CodeEditor.class" afterPath="$PROJECT_DIR$/target/classes/GUI/CodeEditor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/AssignmentInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/AssignmentInstruction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/FunctionInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/FunctionInstruction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/IfInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/IfInstruction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/InputInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/InputInstruction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/Instruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/Instruction.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/LoopInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/LoopInstruction.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/PrintInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/PrintInstruction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Memory/InstructionStorage.class" afterPath="$PROJECT_DIR$/target/classes/Memory/InstructionStorage.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Memory/JavaProgramTemplate.class" afterPath="$PROJECT_DIR$/target/classes/Memory/JavaProgramTemplate.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Memory/Variable.class" afterPath="$PROJECT_DIR$/target/classes/Memory/Variable.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Memory/VariableHolder.class" afterPath="$PROJECT_DIR$/target/classes/Memory/VariableHolder.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Utility/FileUtility.class" afterPath="$PROJECT_DIR$/target/classes/Utility/FileUtility.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controllers/Controller$1$1.class" afterPath="$PROJECT_DIR$/target/classes/controllers/Controller$1$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controllers/Controller$1$2.class" afterPath="$PROJECT_DIR$/target/classes/controllers/Controller$1$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controllers/Controller$1$3.class" afterPath="$PROJECT_DIR$/target/classes/controllers/Controller$1$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controllers/Controller$1.class" afterPath="$PROJECT_DIR$/target/classes/controllers/Controller$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/controllers/Controller.class" afterPath="$PROJECT_DIR$/target/classes/controllers/Controller.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/Engine/TestEngine.class" afterPath="$PROJECT_DIR$/target/test-classes/Engine/TestEngine.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/Engine/TestInstructionDetector.class" afterPath="$PROJECT_DIR$/target/test-classes/Engine/TestInstructionDetector.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/Instruction/TestLoopInstruction.class" afterPath="$PROJECT_DIR$/target/test-classes/Instruction/TestLoopInstruction.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Engine/BlockInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/BlockInstruction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/simplified-java-for-masses.iml" afterPath="$PROJECT_DIR$/simplified-java-for-masses.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Engine/CodeExecution.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/CodeExecution.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/GUI/SimplifiedJava.java" afterPath="$PROJECT_DIR$/src/main/java/GUI/SimplifiedJava.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Utility/FileUtility.java" afterPath="$PROJECT_DIR$/src/main/java/Utility/FileUtility.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Engine/LexicalAnalyser.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/LexicalAnalyser.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/GUI/CodeEditor.java" afterPath="$PROJECT_DIR$/src/main/java/GUI/CodeEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/IfInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/IfInstruction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/InputInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/InputInstruction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/Instruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/Instruction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/PrintInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/PrintInstruction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Memory/Variable.java" afterPath="$PROJECT_DIR$/src/main/java/Memory/Variable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Memory/VariableHolder.java" afterPath="$PROJECT_DIR$/src/main/java/Memory/VariableHolder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/controllers/Controller.java" afterPath="$PROJECT_DIR$/src/main/java/controllers/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/Engine/TestEngine.java" afterPath="$PROJECT_DIR$/src/test/java/Engine/TestEngine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/fxml/ux.fxml" afterPath="$PROJECT_DIR$/src/main/resources/fxml/ux.fxml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fxml/ux.fxml" afterPath="$PROJECT_DIR$/target/classes/fxml/ux.fxml" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -57,12 +74,103 @@
       <file leaf-file-name="LexicalAnalyser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Engine/LexicalAnalyser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-885">
-              <caret line="64" column="11" lean-forward="false" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="11" />
+            <state relative-caret-position="450">
+              <caret line="178" column="19" lean-forward="false" selection-start-line="178" selection-start-column="19" selection-end-line="178" selection-end-column="19" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="method#codeExecution#0;class#LexicalAnalyser#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoopInstruction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1125">
+              <caret line="92" column="55" lean-forward="false" selection-start-line="92" selection-start-column="55" selection-end-line="92" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Variable.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Memory/Variable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="27" column="70" lean-forward="false" selection-start-line="27" selection-start-column="70" selection-end-line="27" selection-end-column="70" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VariableHolder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Memory/VariableHolder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="690">
+              <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/controllers/Controller.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2520">
+              <caret line="197" column="62" lean-forward="false" selection-start-line="197" selection-start-column="62" selection-end-line="197" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AssignmentInstruction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InstructionSet.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="990">
+              <caret line="71" column="104" lean-forward="false" selection-start-line="71" selection-start-column="104" selection-end-line="71" selection-end-column="104" />
+              <folding>
+                <element signature="method#init#0;class#InstructionSet#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CodeEditor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/GUI/CodeEditor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="15" column="100" lean-forward="false" selection-start-line="15" selection-start-column="100" selection-end-line="15" selection-end-column="100" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InstructionDetector.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2055">
+              <caret line="144" column="52" lean-forward="false" selection-start-line="144" selection-start-column="52" selection-end-line="144" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PrintInstruction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/PrintInstruction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="43" column="47" lean-forward="false" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -83,8 +191,11 @@
       <find>targetBox</find>
       <find>Navigator</find>
       <find>pair</find>
-      <find>new Variable</find>
       <find>instructionCounter</find>
+      <find>Variable</find>
+      <find>new Variable</find>
+      <find>global</find>
+      <find>createVa</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -98,42 +209,49 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/Instruction/Instruction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/GUI/CodeEditor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Instruction/InputInstruction.java" />
         <option value="$PROJECT_DIR$/src/test/java/Instruction/TestLoopInstruction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Instruction/PrintInstruction.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/rrt.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/Main1.java" />
         <option value="$PROJECT_DIR$/src/main/java/controllers/rgdrg.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/fxml/ux.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/Dialog/InputDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/Dialog/LoopDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/Dialog/IfDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/Dialog/PrintDialog.java" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/Dialog/VariableDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Memory/Variable.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Memory/VariableHolder.java" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/SimplifiedJava.java" />
         <option value="$PROJECT_DIR$/src/main/java/bttest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/Dialog/FunctionDialog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Instruction/IfInstruction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/controllers/Controller.java" />
         <option value="$PROJECT_DIR$/src/test/java/Engine/TestInstructionDetector.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java" />
         <option value="$PROJECT_DIR$/src/main/java/Memory/FunctionStorage.java" />
         <option value="$PROJECT_DIR$/src/main/java/Memory/InstructionStorage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Utility/FileUtility.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Memory/JavaProgramTemplate.java" />
         <option value="$PROJECT_DIR$/src/main/java/Engine/BlockInstruction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java" />
         <option value="$PROJECT_DIR$/src/main/java/Engine/SyntaticAnalyser.java" />
         <option value="$PROJECT_DIR$/src/main/java/Engine/LexerAnalyser.java" />
         <option value="$PROJECT_DIR$/src/test/java/Engine/TestEngine.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Engine/Main.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/target/classes/runnable/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/runnable/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Memory/JavaProgramTemplate.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Utility/FileUtility.java" />
+        <option value="$PROJECT_DIR$/src/test/java/Engine/Helper.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/fxml/ux.fxml" />
+        <option value="$PROJECT_DIR$/src/test/java/Engine/TestLexicalAnalyser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Engine/CodeExecution.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Instruction/Instruction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Instruction/InputInstruction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Instruction/IfInstruction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Instruction/PrintInstruction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/controllers/Controller.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Memory/VariableHolder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Memory/Variable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/GUI/CodeEditor.java" />
         <option value="$PROJECT_DIR$/src/main/java/Engine/LexicalAnalyser.java" />
       </list>
     </option>
@@ -165,9 +283,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -245,6 +362,36 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="simplified-java-for-masses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ASimplifiedJavaForMasses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fxml" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -265,6 +412,88 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Utility" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="simplified-java-for-masses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ASimplifiedJavaForMasses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Memory" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="simplified-java-for-masses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ASimplifiedJavaForMasses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Instruction" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="simplified-java-for-masses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ASimplifiedJavaForMasses" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GUI" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -322,6 +551,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -332,6 +562,15 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="resources" />
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/Engine" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.SimplifiedJava">
     <configuration default="false" name="SimplifiedJava" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -354,47 +593,7 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="controllers.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="controllers.Main" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="simplified-java-for-masses" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="Main1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="controllers.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="controllers.Main1" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="simplified-java-for-masses" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="TestInstructionDetector" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="TestLexicalAnalyser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="Engine.*" />
@@ -405,7 +604,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="Engine" />
-      <option name="MAIN_CLASS_NAME" value="Engine.TestInstructionDetector" />
+      <option name="MAIN_CLASS_NAME" value="Engine.TestLexicalAnalyser" />
       <option name="METHOD_NAME" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -420,25 +619,64 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="false" name="All in simplified-java-for-masses" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="simplified-java-for-masses" />
+    <configuration default="false" name="InstructionSet" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="Engine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="Engine.InstructionSet" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
+      <module name="simplified-java-for-masses" />
       <envs />
-      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="InstructionDetector" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="Engine.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="Engine.InstructionDetector" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="simplified-java-for-masses" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="VariableHolder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="Memory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="Memory.VariableHolder" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="simplified-java-for-masses" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -1031,18 +1269,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.SimplifiedJava" />
-      <item index="1" class="java.lang.String" itemvalue="Application.Main" />
-      <item index="2" class="java.lang.String" itemvalue="Application.Main1" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.TestInstructionDetector" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.All in simplified-java-for-masses" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.TestLexicalAnalyser" />
+      <item index="2" class="java.lang.String" itemvalue="Application.InstructionSet" />
+      <item index="3" class="java.lang.String" itemvalue="Application.InstructionDetector" />
+      <item index="4" class="java.lang.String" itemvalue="Application.VariableHolder" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Application.SimplifiedJava" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.All in simplified-java-for-masses" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.TestInstructionDetector" />
-        <item index="3" class="java.lang.String" itemvalue="Application.Main1" />
-        <item index="4" class="java.lang.String" itemvalue="Application.Main" />
+        <item index="1" class="java.lang.String" itemvalue="Application.InstructionDetector" />
+        <item index="2" class="java.lang.String" itemvalue="Application.VariableHolder" />
+        <item index="3" class="java.lang.String" itemvalue="Application.InstructionSet" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.TestLexicalAnalyser" />
       </list>
     </recent_temporary>
   </component>
@@ -1065,44 +1303,62 @@
       <workItem from="1485426585269" duration="1589000" />
       <workItem from="1485703757738" duration="18626000" />
       <workItem from="1485796224527" duration="12812000" />
-      <workItem from="1485902934815" duration="1155000" />
+      <workItem from="1485902934815" duration="2351000" />
+      <workItem from="1485992927636" duration="603000" />
+      <workItem from="1486030563576" duration="1344000" />
+      <workItem from="1486066085711" duration="46000" />
+      <workItem from="1486066778464" duration="4800000" />
+      <workItem from="1486114695666" duration="15048000" />
+      <workItem from="1486207068605" duration="5533000" />
+      <workItem from="1486257470446" duration="527000" />
+      <workItem from="1486377710405" duration="1387000" />
+      <workItem from="1486492445450" duration="11068000" />
+      <workItem from="1486584993973" duration="5000" />
+      <workItem from="1486675752178" duration="27000" />
+      <workItem from="1486719853313" duration="13000" />
+      <workItem from="1486991860758" duration="601000" />
+      <workItem from="1487433136198" duration="23933000" />
+      <workItem from="1487501467207" duration="760000" />
+      <workItem from="1487510733771" duration="1210000" />
+      <workItem from="1487530036122" duration="730000" />
+      <workItem from="1487582901705" duration="804000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_simplified-java-for-masses - 2017.01.31 at 23h 06m 21s.xml">
-      <configuration name="All in simplified-java-for-masses" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 38m 20s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_simplified-java-for-masses - 2017.01.31 at 23h 07m 01s.xml">
-      <configuration name="All in simplified-java-for-masses" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 38m 28s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestInstructionDetector - 2017.01.29 at 18h 06m 26s.xml">
-      <configuration name="TestInstructionDetector" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 38m 44s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestLoopInstruction_test_loopInstruction_with_valid - 2017.01.23 at 01h 13m 06s.xml">
-      <configuration name="TestLoopInstruction.test_loopInstruction_with_valid" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 39m 08s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestLoopInstruction_test_loopInstruction_with_valid - 2017.01.23 at 01h 13m 47s.xml">
-      <configuration name="TestLoopInstruction.test_loopInstruction_with_valid" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 39m 19s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestLoopInstruction_test_loopInstruction_with_valid - 2017.01.23 at 01h 19m 55s.xml">
-      <configuration name="TestLoopInstruction.test_loopInstruction_with_valid" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 39m 47s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestLoopInstruction_test_loopInstruction_with_valid - 2017.01.23 at 01h 21m 50s.xml">
-      <configuration name="TestLoopInstruction.test_loopInstruction_with_valid" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 40m 13s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestLoopInstruction_test_loopInstruction_with_valid - 2017.01.23 at 01h 22m 28s.xml">
-      <configuration name="TestLoopInstruction.test_loopInstruction_with_valid" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 40m 32s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestLoopInstruction_test_loopInstruction_with_valid - 2017.01.23 at 17h 33m 19s.xml">
-      <configuration name="TestLoopInstruction.test_loopInstruction_with_valid" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 40m 48s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="TestLoopInstruction_test_loopInstruction_with_valid - 2017.01.23 at 17h 55m 28s.xml">
-      <configuration name="TestLoopInstruction.test_loopInstruction_with_valid" configurationId="JUnit" />
+    <history-entry file="TestLexicalAnalyser - 2017.02.07 at 20h 41m 31s.xml">
+      <configuration name="TestLexicalAnalyser" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107357000" />
+    <option name="totallyTimeSpent" value="176992000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1118,35 +1374,37 @@
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5418455" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2811159" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290461" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18943436" sideWeight="0.49496222" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2414163" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32832617" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22998933" sideWeight="0.49496222" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18516542" sideWeight="0.5050378" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5418455" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1157,7 +1415,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="17" />
+      <option name="time" value="24" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1166,121 +1424,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///opt/jdk1.8.0_121/javafx-src.zip!/javafx/scene/layout/StackPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="131" column="13" lean-forward="false" selection-start-line="131" selection-start-column="13" selection-end-line="131" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/ConsoleStackPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/Instruction/TestLoopInstruction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="50" column="0" lean-forward="false" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///opt/jdk1.8.0_121/javafx-src.zip!/javafx/scene/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="2109" column="49" lean-forward="false" selection-start-line="2109" selection-start-column="49" selection-end-line="2109" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///opt/jdk1.8.0_121/javafx-src.zip!/javafx/scene/layout/BackgroundFill.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="87" column="11" lean-forward="false" selection-start-line="87" selection-start-column="11" selection-end-line="87" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/DragResizeMod.java" />
-    <entry file="jar:///opt/jdk1.8.0_121/src.zip!/java/util/Collections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="4665" column="29" lean-forward="false" selection-start-line="4665" selection-start-column="29" selection-end-line="4665" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/EditorStackPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///opt/jdk1.8.0_121/javafx-src.zip!/javafx/scene/control/Dialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-123">
-          <caret line="623" column="22" lean-forward="false" selection-start-line="623" selection-start-column="22" selection-end-line="623" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/fxmisc/richtext/richtextfx/0.7-M2/richtextfx-0.7-M2.jar!/org/fxmisc/richtext/model/StyledTextAreaModel.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="365" column="32" lean-forward="false" selection-start-line="365" selection-start-column="32" selection-end-line="365" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/fxmisc/richtext/richtextfx/0.7-M2/richtextfx-0.7-M2.jar!/org/fxmisc/richtext/model/TwoDimensional.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="32" column="16" lean-forward="false" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/fxmisc/richtext/richtextfx/0.7-M2/richtextfx-0.7-M2.jar!/org/fxmisc/richtext/StyledTextArea.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="97" column="13" lean-forward="false" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/fxmisc/richtext/richtextfx/0.7-M2/richtextfx-0.7-M2.jar!/org/fxmisc/richtext/StyleClassedTextArea.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="15" column="51" lean-forward="false" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/fxmisc/richtext/richtextfx/0.7-M2/richtextfx-0.7-M2.jar!/org/fxmisc/richtext/CodeArea.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="11" column="37" lean-forward="false" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/Dialog/LoopDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="38" lean-forward="true" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/Dialog/InputDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="41" lean-forward="true" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/Main1.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/Main.java" />
-    <entry file="jar:///opt/jdk1.8.0_121/javafx-src.zip!/javafx/scene/control/MenuItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="102" column="13" lean-forward="false" selection-start-line="102" selection-start-column="13" selection-end-line="102" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///opt/jdk1.8.0_121/javafx-src.zip!/javafx/scene/control/ContextMenu.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="389">
@@ -1295,77 +1438,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/ux.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="57" column="25" lean-forward="false" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/SimplifiedJava.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="21" column="64" lean-forward="false" selection-start-line="21" selection-start-column="64" selection-end-line="21" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/bttest.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/bttest.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/Memory/Variable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="68" lean-forward="false" selection-start-line="16" selection-start-column="68" selection-end-line="16" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/PrintInstruction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="32" lean-forward="false" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="606">
-          <caret line="44" column="38" lean-forward="false" selection-start-line="44" selection-start-column="38" selection-end-line="44" selection-end-column="38" />
-          <folding>
-            <element signature="e#490#491#0" expanded="false" />
-            <element signature="e#528#529#0" expanded="false" />
-            <element signature="e#565#566#0" expanded="false" />
-            <element signature="e#603#604#0" expanded="false" />
-            <element signature="e#656#657#0" expanded="false" />
-            <element signature="e#698#699#0" expanded="false" />
-            <element signature="e#754#755#0" expanded="false" />
-            <element signature="e#797#798#0" expanded="false" />
-            <element signature="e#847#848#0" expanded="false" />
-            <element signature="e#935#936#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/GUI/Dialog/IfDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="32" column="7" lean-forward="true" selection-start-line="32" selection-start-column="7" selection-end-line="32" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Memory/VariableHolder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1373,15 +1451,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
           <caret line="36" column="42" lean-forward="false" selection-start-line="36" selection-start-column="42" selection-end-line="36" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/Engine/TestInstructionDetector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="61" column="69" lean-forward="false" selection-start-line="61" selection-start-column="69" selection-end-line="61" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1389,11 +1458,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" column="89" lean-forward="false" selection-start-line="18" selection-start-column="89" selection-end-line="18" selection-end-column="89" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#208#209#0" expanded="false" />
-            <element signature="e#258#259#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1404,89 +1468,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/IfInstruction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Utility/FileUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="17" column="8" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Memory/JavaProgramTemplate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="35" lean-forward="false" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="611">
-          <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/Backend.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="69" column="85" lean-forward="false" selection-start-line="69" selection-start-column="85" selection-end-line="69" selection-end-column="85" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="28" lean-forward="false" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/Backend.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/Engine/BlockInstruction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="17" column="46" lean-forward="false" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="873">
-          <caret line="136" column="32" lean-forward="true" selection-start-line="136" selection-start-column="32" selection-end-line="136" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="67" column="44" lean-forward="false" selection-start-line="67" selection-start-column="44" selection-end-line="67" selection-end-column="44" />
-          <folding>
-            <element signature="method#computeRegex#0;class#InstructionSet#0" expanded="false" />
-            <element signature="method#intialise#0;class#InstructionSet#0" expanded="false" />
-            <element signature="method#init#0;class#InstructionSet#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1494,7 +1480,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1502,15 +1487,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="28" column="39" lean-forward="false" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/CodeEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="12" column="38" lean-forward="false" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1518,7 +1494,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1526,27 +1501,249 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="4" lean-forward="true" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/h" />
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/target/classes/runnable/Main.class" />
+    <entry file="file://$PROJECT_DIR$/target/classes/runnable/Main1.java" />
+    <entry file="file://$PROJECT_DIR$/target/classes/runnable/Main1.class" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/runnable/Main.class" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/Program.java" />
+    <entry file="file://$USER_HOME$/Desktop/program.class" />
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/ant/ant/1.8.2/ant-1.8.2.jar!/org/apache/tools/ant/taskdefs/Execute.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="251" column="15" lean-forward="false" selection-start-line="251" selection-start-column="15" selection-end-line="251" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Memory/JavaProgramTemplate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="11" column="11" lean-forward="false" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/Engine/Helper.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/resources/fxml/ux.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="48" column="5" lean-forward="false" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Utility/FileUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="709">
+          <caret line="77" column="5" lean-forward="false" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/target/classes/Engine/LexicalAnalyser.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/Engine/TestEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="4" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+        <state relative-caret-position="135">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/Engine/TestInstructionDetector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="61" column="69" lean-forward="false" selection-start-line="61" selection-start-column="69" selection-end-line="61" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.12/junit-4.12.jar!/junit/framework/Assert.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/Engine/TestLexicalAnalyser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
-            <element signature="e#160#161#0" expanded="true" />
-            <element signature="e#215#216#0" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/CodeExecution.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="44" column="30" lean-forward="false" selection-start-line="44" selection-start-column="30" selection-end-line="44" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/Instruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="33" lean-forward="false" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/InputInstruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/IfInstruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="63" column="77" lean-forward="true" selection-start-line="63" selection-start-column="77" selection-end-line="63" selection-end-column="77" />
+          <folding>
+            <element signature="e#1341#1342#0" expanded="false" />
+            <element signature="e#1425#1426#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="32" lean-forward="true" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
+          <folding>
+            <element signature="e#735#736#0" expanded="false" />
+            <element signature="e#770#771#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/PrintInstruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="43" column="47" lean-forward="false" selection-start-line="43" selection-start-column="47" selection-end-line="43" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/EditorStackPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/ConsoleStackPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/Console.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/SimplifiedJava.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-576">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/controllers/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2520">
+          <caret line="197" column="62" lean-forward="false" selection-start-line="197" selection-start-column="62" selection-end-line="197" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Memory/VariableHolder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Memory/Variable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="27" column="70" lean-forward="false" selection-start-line="27" selection-start-column="70" selection-end-line="27" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1125">
+          <caret line="92" column="55" lean-forward="false" selection-start-line="92" selection-start-column="55" selection-end-line="92" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2055">
+          <caret line="144" column="52" lean-forward="false" selection-start-line="144" selection-start-column="52" selection-end-line="144" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="71" column="104" lean-forward="false" selection-start-line="71" selection-start-column="104" selection-end-line="71" selection-end-column="104" />
+          <folding>
+            <element signature="method#init#0;class#InstructionSet#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/CodeEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="15" column="100" lean-forward="false" selection-start-line="15" selection-start-column="100" selection-end-line="15" selection-end-column="100" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Engine/LexicalAnalyser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-885">
-          <caret line="64" column="11" lean-forward="false" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="11" />
+        <state relative-caret-position="450">
+          <caret line="178" column="19" lean-forward="false" selection-start-line="178" selection-start-column="19" selection-end-line="178" selection-end-column="19" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="method#codeExecution#0;class#LexicalAnalyser#0" expanded="false" />
           </folding>
         </state>

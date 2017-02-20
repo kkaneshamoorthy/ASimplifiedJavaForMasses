@@ -61,10 +61,10 @@
         <!--<HBox fx:id="targetBox" onDragOver="#dragOver" onDragDropped="#dragDropped"></HBox>-->
     <!--</center>-->
     <left>
-        <TreeView fx:id="treeView" editable="false" prefHeight="371.0" prefWidth="130.0" BorderPane.alignment="CENTER" />
+        <TreeView fx:id="treeView" editable="false" prefHeight="371.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
     </left>
     <bottom>
-        <TextArea fx:id="console"></TextArea>
+        <TextArea fx:id="console" prefHeight="250"></TextArea>
         <!--<ConsoleStackPane fx:id="console"></ConsoleStackPane>-->
     </bottom>
 </BorderPane>

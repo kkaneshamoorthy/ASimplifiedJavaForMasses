@@ -15,7 +15,6 @@ public class CodeExecution {
 
     public CodeExecution(TextArea console) {
         this.console = console;
-        this.append("----Output of execution----");
     }
 
     public void executeCode(InstructionStorage instructionStorage, VariableHolder variableHolder) throws Exception {
@@ -29,19 +28,35 @@ public class CodeExecution {
 
     private void printLines(String name, InputStream ins) throws Exception {
         String line = null;
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(ins));
+        BufferedReader in = new BufferedReader(new InputStreamReader(ins));
         while ((line = in.readLine()) != null) {
             System.out.println(name + "" + line);
             this.append(name+""+line);
         }
     }
 
+    private void printError(String name, InputStream error) throws Exception {
+        String line = null;
+        BufferedReader in = new BufferedReader(new InputStreamReader(error));
+
+        if (in.readLine() != null)  console.setStyle("-fx-text-fill: red;");
+
+        while ((line = in.readLine()) != null) {
+            System.out.println(name+""+line);
+            this.append(name+""+line);
+        }
+    }
+
+    private String generateUserFriendlyErrorMessage(String error) {
+        if (error.contains("main"));
+            return "Function called main is missing. Please make sure to write a main function.";
+    }
+
     private void runProcess(String command) throws Exception {
         Runtime.getRuntime().exec(command);
         Process pro = Runtime.getRuntime().exec(command);
         printLines("", pro.getInputStream());
-        printLines("", pro.getErrorStream());
+        printError("", pro.getErrorStream());
         pro.waitFor();
 //        System.out.println(command + " exitValue() " + pro.exitValue());
     }

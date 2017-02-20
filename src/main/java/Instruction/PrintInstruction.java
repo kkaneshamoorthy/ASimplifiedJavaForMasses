@@ -4,12 +4,14 @@ import Memory.Variable;
 
 public class PrintInstruction implements Instruction {
     private String instructionType;
+    private String id;
     private boolean isFullyDefined = false;
     private Variable data;
 
     public PrintInstruction() {
         this.instructionType = "PRINT";
         this.data = new Variable("UNKNOWN", "", "GLOBAL");
+        this.id = generateId();
     }
 
     public PrintInstruction setData(Variable data) {
@@ -20,6 +22,11 @@ public class PrintInstruction implements Instruction {
 
     public Variable getData() {
         return this.data;
+    }
+
+    @Override
+    public String getInstructionID() {
+        return this.id;
     }
 
     @Override
@@ -39,5 +46,9 @@ public class PrintInstruction implements Instruction {
         sb.append("System.out.println("+this.data.getValue()+");");
 
         return sb.toString();
+    }
+
+    private String generateId() {
+        return (this.instructionType+data.getName()+data.getValue()).hashCode()+"";
     }
 }

@@ -3,17 +3,25 @@ package Instruction;
 import Engine.BlockInstruction;
 import Memory.Variable;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 public class LoopInstruction implements Instruction {
 
     private String instructionType;
+    private String id;
+    public String variableID;
     private boolean isFullyDefined = false;
     private int numOfIteration;
     private Variable iteration;
     private BlockInstruction body;
+    private SecureRandom random = new SecureRandom();
 
     public LoopInstruction() {
         this.instructionType = "LOOP";
-        this.iteration = new Variable("i", "0", "GLOBAL");
+        this.variableID = generateVariableId();
+        this.iteration = new Variable(variableID, "0", "GLOBAL");
+        this.id = generateId();
     }
 
     public LoopInstruction setIteration(Variable iteration) {
@@ -49,6 +57,11 @@ public class LoopInstruction implements Instruction {
     public Variable getIteration() { return this.iteration; }
 
     @Override
+    public String getInstructionID() {
+        return this.id;
+    }
+
+    @Override
     public boolean isFullyDefined() {
         return this.isFullyDefined;
     }
@@ -70,5 +83,13 @@ public class LoopInstruction implements Instruction {
         sb.append("} \n");
 
         return sb.toString();
+    }
+
+    private String generateId() {
+        return (this.instructionType+this.getTotalIteration()+this.getIteration().getName()+this.getIteration().getValue()).hashCode()+"";
+    }
+
+    private String generateVariableId() {
+        return (this.instructionType+ new BigInteger(32, random).toString(32));
     }
 }

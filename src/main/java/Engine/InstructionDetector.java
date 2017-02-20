@@ -128,13 +128,28 @@ public class InstructionDetector {
 
             if (isNumber(identifiedToken))
                 identifiedTokens.set(i, "INT => " + identifiedToken);
-            else if(identifiedToken.startsWith("\""))
+            else if(isString(identifiedToken))
                 identifiedTokens.set(i, "STRING => " + identifiedToken);
+            else if (identifiedToken.startsWith("$"))
+                identifiedTokens.set(i, "VARIABLE_NAME => " + identifiedToken);
+            else if (isExpression(identifiedToken))
+                identifiedTokens.set(i, "EXPRESSION =>" + identifiedToken);
             else if (this.instructionSet.getInstructionMap().containsKey(identifiedToken.toUpperCase()))
                 identifiedTokens.set(i, this.instructionSet.getInstructionMap().get(identifiedToken.toUpperCase()));
         }
 
         return identifiedTokens;
+    }
+
+    private boolean isExpression(String token) {
+        return this.instructionSet.getExpressionKeyword().contains(token.toUpperCase()) ? true : false;
+    }
+
+    public boolean isBoolean(String identifiedToken) {
+        if (identifiedToken.equalsIgnoreCase("true") || identifiedToken.equalsIgnoreCase("false"))
+            return true;
+
+        return false;
     }
 
     public boolean isNumber(String identifiedToken) {
@@ -146,6 +161,10 @@ public class InstructionDetector {
         return true;
     }
 
+    public boolean isString(String identifiedToken) {
+        return identifiedToken.startsWith("\"");
+    }
+
     public boolean isArithmeticOperation(String token) {
         ArrayList<String> arithmeticInstructions = this.instructionSet.getArithmeticInstructions();
 
@@ -154,13 +173,20 @@ public class InstructionDetector {
 
     public ArrayList<String> computeRegex(String text) {
         ArrayList<String> identifiedTokensLs = new ArrayList<>();
-
         Matcher matcher = this.instructionSet.getPattern().matcher(text);
-        int lastKwEnd = 0;
+
         while (matcher.find()) {
-            identifiedTokensLs.add(matcher.group(1));
+            String token = matcher.group();
+            identifiedTokensLs.add(token);
+
+            System.out.println("FOUND: " + token);
         }
 
         return identifiedTokensLs;
+    }
+
+    public static void main(String[] args) {
+        InstructionDetector instructionSet = new InstructionDetector(new InstructionSet());
+        System.out.println(instructionSet.computeRegex("true false"));
     }
 }

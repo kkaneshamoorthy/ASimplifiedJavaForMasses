@@ -64,8 +64,12 @@ public class InstructionSet {
     public HashMap<String, ArrayList<String>> keywordAndFunction;
     public HashMap<String, String> instructionMap;
 
+    public ArrayList<String> getExpressionKeyword() {
+        return this.expressionKeyword;
+    }
+
     private static final String[] KEYWORDS = new String[] {
-            PRINT, LOOP, IF, INPUT, FUNCTION
+            PRINT, LOOP, IF, INPUT, FUNCTION, "main", "$", "equal", "\\+", "add", "true", "false", "else"
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
@@ -80,17 +84,19 @@ public class InstructionSet {
     private static final String RELATIONAL_PATTERN = "\\b(" + String.join("|", RELATIONAL_OPERATION_PATTERN) + ")\\b";
     private static final String BITWISE_PATTERN = "\\b(" + String.join("|", BITWISE_OPERATION_PATTERN) + ")\\b";
     private static final String NUMBER_PATTERN =  "[0-9]+";
-    private static final String VARIABLE_PATTERN = "[$a-zA-Z]+";
-    private static final String STRING_PATTERN= "\"[a-zA-Z]+\"";
+    private static final String STR_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\"";
+    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\"\\s*(\\+\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\")*";
+    private static final String EXPRESSION_PATTERN = "";
+    private static final String ID_PATTERN = "\\$[a-z][0-9a-zA-Z_]*";
     private static final String EQUAL_PATTERN = "=";
 
     private static final Pattern PATTERN = Pattern.compile(
             "(" + KEYWORD_PATTERN
-                    + "|" + NUMBER_PATTERN
-                    + "|" + VARIABLE_PATTERN
+                    + "|" + ID_PATTERN
                     + "|" + STRING_PATTERN
-                    + "|" + EQUAL_PATTERN
-                    + "|" + RELATIONAL_PATTERN + ")", Pattern.CASE_INSENSITIVE
+                    + "|" + NUMBER_PATTERN
+                    + "|" + RELATIONAL_PATTERN
+                    + "|" + EQUAL_PATTERN + ")", Pattern.CASE_INSENSITIVE
     );
 
     public InstructionSet() { this.intialise(); }
@@ -98,9 +104,8 @@ public class InstructionSet {
     public String computeRegex(String text) {
         Matcher matcher = PATTERN.matcher(text);
         String word = "";
-        int lastKwEnd = 0;
         while (matcher.find()) {
-            word = matcher.group(1);
+            word = matcher.group(0);
         }
 
         return word;
@@ -137,6 +142,8 @@ public class InstructionSet {
         expressionKeyword.add("AND");
         expressionKeyword.add("OR");
         expressionKeyword.add("NOT");
+        expressionKeyword.add("TRUE");
+        expressionKeyword.add("FALSE");
 
         printKeyWord = new ArrayList<String>();
         printKeyWord.add(this.PRINT);

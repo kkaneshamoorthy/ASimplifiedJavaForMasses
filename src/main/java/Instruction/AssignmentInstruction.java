@@ -4,14 +4,17 @@ import Memory.Variable;
 
 public class AssignmentInstruction implements Instruction{
     private String instructionType;
-    private Variable assignedTo;
+    private String id;
     private String expression;
+    private Variable assignedTo;
     private boolean isFullyDefined = false;
+
 
     public AssignmentInstruction(Variable assignedTo, String expression) {
         this.instructionType = "ASSIGNMENT";
         this.assignedTo = assignedTo;
         this.expression = expression;
+        this.id = generateId();
     }
 
     public Variable getAssignedTo() {
@@ -20,6 +23,11 @@ public class AssignmentInstruction implements Instruction{
 
     public String getExpression() {
         return this.expression;
+    }
+
+    @Override
+    public String getInstructionID() {
+        return this.id;
     }
 
     @Override
@@ -34,7 +42,7 @@ public class AssignmentInstruction implements Instruction{
 
     @Override
     public String generateCode() {
-        return (assignedTo.getName() + " = " + formatExpression(expression)+";");
+        return (assignedTo.getType() + " " + assignedTo.getName().replace("$", "") + " = " + formatExpression(expression)+";");
     }
 
     private String formatExpression(String expression) {
@@ -44,5 +52,9 @@ public class AssignmentInstruction implements Instruction{
                 .replace("VARIABLE_NAME => ", "")
                 .replace("UNKNOWN", "")
                 .trim();
+    }
+
+    private String generateId() {
+        return (this.getInstructionType()+this.getExpression()+this.getAssignedTo().getName()+this.getAssignedTo().getValue()).hashCode()+"";
     }
 }

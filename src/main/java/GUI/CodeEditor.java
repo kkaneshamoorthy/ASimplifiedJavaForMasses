@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class CodeEditor extends CodeArea {
 
     private static final String[] KEYWORDS = new String[] {
-            "print", "input", "loop", "$", "if", "equal"
+            "print", "input", "loop", "$", "if", "equal", "function", "main", "true", "false", "else"
     };
 
     private static final String[] ARITHMETIC_OPERATION_PATTERN = new String[] {

@@ -40,6 +40,10 @@ public class Controller implements Initializable {
         VirtualizedScrollPane v = (VirtualizedScrollPane) editorStackPane.getChildren().get(0);
         editor = (CodeEditor) v.getContent();
         loadTreeItems();
+
+        this.console.setEditable(false);
+        setConsoleMessage();
+        setEditorDefaultText();
     }
 
     public void loadTreeItems() {
@@ -159,7 +163,9 @@ public class Controller implements Initializable {
         LexicalAnalyser la = new LexicalAnalyser();
         HashMap<Integer, Instruction> instructions = la.lexicalAnalyser(this.editor.getText().split("\\n"));
         HashMap<Integer, String> javaCode = la.codeGeneration(instructions);
-
+        console.clear();
+        console.setStyle("-fx-text-fill: black;");
+        setConsoleMessage();
         CodeExecution codeExecution = new CodeExecution(console);
         codeExecution.executeCode(la.getInstructionStorage(), la.getVariableHolder());
     }
@@ -181,4 +187,15 @@ public class Controller implements Initializable {
         System.out.println("onDragDropped");
         event.consume();
     }
+
+    private void setConsoleMessage() {
+        this.console.insertText(this.console.getLength(), "------------Output of code execution------------");
+        this.console.insertText(this.console.getLength(), "\n");
+    }
+
+    private void setEditorDefaultText() {
+        this.editor.insertText(this.console.getLength(), "function main:");
+        this.editor.insertText(this.console.getLength(), "\n\t");
+    }
+
 }

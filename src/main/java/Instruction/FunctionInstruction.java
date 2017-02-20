@@ -28,6 +28,11 @@ public class FunctionInstruction implements Instruction{
     }
 
     @Override
+    public String getInstructionID() {
+        return functionName;
+    }
+
+    @Override
     public boolean isFullyDefined() {
         return this.isFullyDefined;
     }

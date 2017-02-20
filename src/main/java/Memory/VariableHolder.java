@@ -1,16 +1,17 @@
 package Memory;
 
+import org.reactfx.value.Var;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class VariableHolder {
     public static final String GLOBAL = "GLOBAL";
+    //Scope -> Variable Name, Variable
     private HashMap<String, HashMap<String, Variable>> variableStorage;
-    private HashMap<String, Variable> scopeVariableMap;
 
     public VariableHolder() {
         this.variableStorage = new HashMap<String, HashMap<String, Variable>>();
-        this.scopeVariableMap = new HashMap<>();
     }
 
     public boolean add(Variable variableToAdd) {
@@ -22,33 +23,43 @@ public class VariableHolder {
                 return false;
             } else {
                 this.variableStorage.get(scope).put(variableName, variableToAdd);
-                this.scopeVariableMap.put(variableName, variableToAdd);
             }
         } else {
             HashMap<String, Variable> nameVariableMap = new HashMap<String, Variable>();
             nameVariableMap.put(variableName, variableToAdd);
             this.variableStorage.put(scope, nameVariableMap);
-            this.scopeVariableMap.put(variableName, variableToAdd);
         }
 
         return true;
     }
 
-    public Variable getVariableGivenScopeAndName(String scope, String variableName) {
-        HashMap<String, Variable> variableNameVariableMap = this.variableStorage.get(scope);
+    public void set(Variable variableToSet) {
+        String scope = variableToSet.getScope();
+        String variableName = variableToSet.getName();
 
-        return variableNameVariableMap.get(variableName);
+        if (this.variableStorage.containsKey(scope)) {
+            this.variableStorage.get(scope).put(variableName, variableToSet);
+        } else {
+            HashMap<String, Variable> nameVariableMap = new HashMap<String, Variable>();
+            nameVariableMap.put(variableName, variableToSet);
+            this.variableStorage.put(scope, nameVariableMap);
+        }
     }
 
-    public HashMap<String, Variable> getVariableGivenScope(String scope) {
-        return this.variableStorage.get(scope);
+    public Variable getVariableGivenScopeAndName(String variableName, String scope) {
+        if (this.variableStorage.get(scope) != null)
+            return this.variableStorage.get(scope).get(variableName);
+
+        return null;
     }
 
-    public Variable getVarGivenScopeAndName(String scope, String variableName) {
-        return this.variableStorage.get(scope).get(variableName);
+    public static void main(String[] args) {
+        VariableHolder variableHolder = new VariableHolder();
+        variableHolder.add(new Variable("a", "a", "a"));
+        System.out.println(variableHolder.getVariableGivenScopeAndName("a", "a"));
     }
 
-    public void removeVariablesFromScope(String scope) {
-        this.variableStorage.remove(scope);
+    public boolean hasVariable(String variableName, String scope) {
+        return (this.getVariableGivenScopeAndName(variableName, scope) != null) ? true : false;
     }
 }
