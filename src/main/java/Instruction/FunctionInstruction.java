@@ -1,6 +1,9 @@
 package Instruction;
 
 import Engine.BlockInstruction;
+import Memory.Variable;
+
+import java.util.ArrayList;
 
 public class FunctionInstruction implements Instruction{
     private String instructionType;
@@ -46,9 +49,11 @@ public class FunctionInstruction implements Instruction{
     public String generateCode() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(this.functionName.equalsIgnoreCase("main") ? "public static void main(String[] args) {  \n" : "public static void " + this.functionName + "() { \n");
+        String parameter = (this.functionName.equalsIgnoreCase("main") ? "String[] args" : "");
+
+        sb.append("public static void " +  this.functionName + "("+parameter+") {");
         sb.append(this.body == null ? "" : this.body.generateCode());
-        sb.append(this.functionName.equalsIgnoreCase("main") ? "}" : "}  \n");
+        sb.append("}  \n");
 
         return sb.toString();
     }

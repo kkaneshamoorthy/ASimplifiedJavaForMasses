@@ -1,9 +1,6 @@
 package Engine;
 
-import Memory.InstructionStorage;
-import Memory.JavaProgramTemplate;
-import Memory.Variable;
-import Memory.VariableHolder;
+import Memory.*;
 
 import Instruction.Instruction;
 import Instruction.InputInstruction;
@@ -12,6 +9,7 @@ import Instruction.LoopInstruction;
 import Instruction.IfInstruction;
 import Instruction.AssignmentInstruction;
 import Instruction.FunctionInstruction;
+import Instruction.FunctionDispatchInstruction;
 import Utility.FileUtility;
 import org.reactfx.value.Var;
 
@@ -26,6 +24,7 @@ public class LexicalAnalyser {
     private InstructionSet instructionSet;
     private VariableHolder variableHolder;
     private InstructionStorage instructionStorage;
+    private FunctionStorage functionStorage;
 
     public LexicalAnalyser() {
         this.instructionSet = new InstructionSet();
@@ -33,25 +32,11 @@ public class LexicalAnalyser {
         this.instructionDetector = new InstructionDetector(this.instructionSet);
         this.variableHolder = new VariableHolder();
         this.instructionStorage = new InstructionStorage();
+        this.functionStorage = new FunctionStorage();
     }
 
     public InstructionStorage getInstructionStorage() { return this.instructionStorage; }
     public VariableHolder getVariableHolder() { return this.variableHolder; }
-
-    public void generateCode(HashMap<Integer, Instruction> tokenisedInstriction ) {
-        HashMap<Integer, String> javaCode = this.codeGeneration(tokenisedInstriction);
-
-        System.out.println("--- Java code is being generated ---");
-
-        for (Integer instructionCounter : javaCode.keySet()) {
-            String instruction = javaCode.get(instructionCounter);
-            System.out.println(instruction);
-        }
-
-        FileUtility.saveJavaProgram(null, new JavaProgramTemplate(this.instructionStorage, this.variableHolder));
-
-        System.out.println("--- Finished generating code ---");
-    }
 
     public HashMap<Integer, Instruction> lexicalAnalyser(String[] statements) {
         int instructionCounter = -1;
@@ -140,14 +125,23 @@ public class LexicalAnalyser {
                         }
                         break;
                     case "FUNCTION":
-                        if (identifiedTokens.contains("main")) {
-                            FunctionInstruction functionInstruction = new FunctionInstruction("main");
+                        //TODO: add function parameters to the variable holder with function name being the scope
+                        String functionName = getArrLsElement(identifiedTokens, "FUNCTION_NAME");
+                        if (functionName != null) {
+                            functionName = this.retrieveData(functionName).replace("()", "").trim();
+                            FunctionInstruction functionInstruction = new FunctionInstruction(functionName);
                             previousInstruction = functionInstruction;
                             this.instructionStorage.addInstruction(instructionCounter, functionInstruction);
+                            this.functionStorage.add(functionInstruction);
+                            instructionCounter++;
                         }
                         break;
+                    case "CALL":
+                        functionName = retrieveData(getArrLsElement(identifiedTokens, "FUNCTION_NAME =>")).replace("(", "").replace(")", "");
+                        FunctionDispatchInstruction functionDispatchInstruction = new FunctionDispatchInstruction(functionName);
+                        setBody(previousInstruction, functionDispatchInstruction);
+                        break;
                     case "ELSE":
-
                         break;
                     default:
                         unknownToken(token, identifiedTokens, previousInstruction);
@@ -161,6 +155,7 @@ public class LexicalAnalyser {
     private AssignmentInstruction createAssignment(ArrayList<String> identifiedTokens, String scope) {
         String variableName = "";
         String variableValue = "";
+        System.out.println(identifiedTokens);
         for (int i=0; i<identifiedTokens.size(); i++) {
             String token = identifiedTokens.get(i);
             if (token.startsWith("VARIABLE_NAME"))
@@ -168,6 +163,8 @@ public class LexicalAnalyser {
             else
                 variableValue += retrieveData(token);
         }
+
+        System.out.println("VARIABLE VALUE: " + variableValue);
 
         if (this.variableHolder.hasVariable(variableName, scope)) {
             this.variableHolder.getVariableGivenScopeAndName(variableName, scope)
@@ -197,6 +194,10 @@ public class LexicalAnalyser {
             variableValue = token.replace("STRING =>", "").trim();
         else if (token.startsWith("EXPRESSION =>"))
             variableValue = token.replace("EXPRESSION =>", "").trim();
+        else if (token.startsWith("FUNCTION_NAME =>"))
+            variableValue = token.replace("FUNCTION_NAME =>", "").trim();
+        else if (token.startsWith("ARITHMETIC_OPERATION =>"))
+            variableValue = token.replace("ARITHMETIC_OPERATION =>", "").trim();
 
         return variableValue;
     }
@@ -266,48 +267,5 @@ public class LexicalAnalyser {
                 return token;
 
         return result;
-    }
-
-    public HashMap<Integer, String> codeGeneration(HashMap<Integer, Instruction> tokenisedInstruction) {
-        HashMap<Integer, String> javaCode = new HashMap<>();
-
-        for (Integer instructionCounter : tokenisedInstruction.keySet()) {
-            Instruction instruction = tokenisedInstruction.get(instructionCounter);
-            javaCode.put(instructionCounter, instruction.generateCode());
-        }
-
-        return javaCode;
-    }
-
-    private void codeExecution(HashMap<Integer, HashMap<String, String>> tokenisedInstruction) {
-        for (Integer instructionCounter : tokenisedInstruction.keySet()) {
-            HashMap<String, String> tokens = tokenisedInstruction.get(instructionCounter);
-            for (String instruction : tokens.keySet()) {
-                switch (instruction) {
-                    case InstructionSet.INPUT:
-                        String additionalInfo = tokens.get(instruction);
-                        if (additionalInfo.equals("GET_INPUT")) {
-                            Scanner s = new Scanner(System.in);
-                            System.out.println("Enter a str: ");
-                            String tempVariableValue = s.nextLine();
-                            Variable var = new Variable(VariableHolder.GLOBAL, "varx", tempVariableValue);
-                            this.variableHolder.add(var);
-                            this.variableHolder.add(var);
-                        }
-                        break;
-                    case InstructionSet.PRINT:
-                        String addInfo = tokens.get("PRINT");
-                        if (addInfo.contains("PRINT_VARIABLE")) {
-                            tokens.put(InstructionSet.PRINT, tokens.get(InstructionSet.PRINT)+"varx");
-                            String variableName = tokens.get("PRINT").split("=>")[1].trim();
-                            String variableValue = this.variableHolder.getVariableGivenScopeAndName(VariableHolder.GLOBAL, variableName).getValue();
-                            System.out.println(variableValue);
-                        } else if (addInfo.contains("STRING =>")) {
-                            System.out.println(addInfo.split("=>")[1].trim().replace("\"", ""));
-                        }
-                        break;
-                }
-            }
-        }
     }
 }

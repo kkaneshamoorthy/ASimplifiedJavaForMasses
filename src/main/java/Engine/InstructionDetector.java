@@ -126,14 +126,20 @@ public class InstructionDetector {
         for (int i=0; i<identifiedTokens.size(); i++) {
             String identifiedToken = identifiedTokens.get(i);
 
+            System.out.println(identifiedToken);
+
             if (isNumber(identifiedToken))
-                identifiedTokens.set(i, "INT => " + identifiedToken);
+                identifiedTokens.set(i, "INT =>" + identifiedToken);
             else if(isString(identifiedToken))
-                identifiedTokens.set(i, "STRING => " + identifiedToken);
+                identifiedTokens.set(i, "STRING =>" + identifiedToken);
             else if (identifiedToken.startsWith("$"))
-                identifiedTokens.set(i, "VARIABLE_NAME => " + identifiedToken);
+                identifiedTokens.set(i, "VARIABLE_NAME =>" + identifiedToken);
+            else if (isArithmeticOperation(identifiedToken.trim()))
+                identifiedTokens.set(i, "ARITHMETIC_OPERATION =>"+identifiedToken);
             else if (isExpression(identifiedToken))
                 identifiedTokens.set(i, "EXPRESSION =>" + identifiedToken);
+            else if (isFunction(identifiedToken))
+                identifiedTokens.set(i, "FUNCTION_NAME =>"+identifiedToken);
             else if (this.instructionSet.getInstructionMap().containsKey(identifiedToken.toUpperCase()))
                 identifiedTokens.set(i, this.instructionSet.getInstructionMap().get(identifiedToken.toUpperCase()));
         }
@@ -141,7 +147,14 @@ public class InstructionDetector {
         return identifiedTokens;
     }
 
-    private boolean isExpression(String token) {
+    public boolean isFunction(String token) {
+        if (token.contains("(") && token.contains(")"))
+            return true;
+
+        return false;
+    }
+
+    public boolean isExpression(String token) {
         return this.instructionSet.getExpressionKeyword().contains(token.toUpperCase()) ? true : false;
     }
 
@@ -166,9 +179,20 @@ public class InstructionDetector {
     }
 
     public boolean isArithmeticOperation(String token) {
-        ArrayList<String> arithmeticInstructions = this.instructionSet.getArithmeticInstructions();
 
-        return arithmeticInstructions.contains(token);
+
+        System.out.println("IAO:" + token);
+
+//        if (token.length() == 0) return false;
+//        ArrayList<String> arithmeticInstructions = this.instructionSet.getArithmeticInstructions();
+//        token.replace(" ", "");
+//        for (char character : token.toCharArray()) {
+//            if (character == ' ') continue;
+//            if (!isNumber(character+"") && !arithmeticInstructions.contains(character+""))
+//                return  false;
+//        }
+//
+        return false;
     }
 
     public ArrayList<String> computeRegex(String text) {
@@ -178,8 +202,6 @@ public class InstructionDetector {
         while (matcher.find()) {
             String token = matcher.group();
             identifiedTokensLs.add(token);
-
-            System.out.println("FOUND: " + token);
         }
 
         return identifiedTokensLs;
@@ -187,6 +209,7 @@ public class InstructionDetector {
 
     public static void main(String[] args) {
         InstructionDetector instructionSet = new InstructionDetector(new InstructionSet());
-        System.out.println(instructionSet.computeRegex("true false"));
+        System.out.println(instructionSet.computeRegex("+"));
+//        System.out.println(instructionSet.identifyTokens("$x = $y + 1"));
     }
 }

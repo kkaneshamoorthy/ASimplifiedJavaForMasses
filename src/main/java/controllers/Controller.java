@@ -1,6 +1,7 @@
 package controllers;
 
 import Engine.CodeExecution;
+import Engine.CodeGeneration;
 import Engine.LexicalAnalyser;
 import GUI.CodeEditor;
 import GUI.Dialog.*;
@@ -30,7 +31,9 @@ public class Controller implements Initializable {
     @FXML
     private CodeEditor editor;
     @FXML
-    private TreeView treeView;
+    private TreeView instructionView;
+    @FXML
+    private TreeView storageView;
     @FXML
     private TextArea console;
 
@@ -39,16 +42,80 @@ public class Controller implements Initializable {
         System.out.println("View is loaded!");
         VirtualizedScrollPane v = (VirtualizedScrollPane) editorStackPane.getChildren().get(0);
         editor = (CodeEditor) v.getContent();
-        loadTreeItems();
+        loadInstructionItems();
+        loadStorageItems();
 
         this.console.setEditable(false);
         setConsoleMessage();
         setEditorDefaultText();
     }
 
-    public void loadTreeItems() {
+    @FXML
+    public void refreshRecord() {
+//        AvailableStorage availableStorage = new AvailableStorage(this.storageView, this.editor);
+//        availableStorage.run();
+    }
 
-        treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+
+    public void loadStorageItems() {
+        this.storageView.setCellFactory(new Callback<TreeView, TreeCell>() {
+            @Override
+            public TreeCell call(TreeView param) {
+                TreeCell<String> treeCell = new TreeCell<String>() {
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null)
+                            setText(item);
+                    }
+                };
+
+                treeCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (event.getClickCount() == 2 && treeCell.getTreeItem() != null) {
+                            String selectedItem = treeCell.getTreeItem().getValue();
+                            System.out.println(selectedItem);
+                            switch (selectedItem) {
+                                case "Function":
+                                    FunctionDialog functionDialog = new FunctionDialog();
+                                    Optional<String> functionName = functionDialog.showAndWait();
+                                    if (functionName.isPresent())
+                                        editor.appendText("function " + functionName.get() + ": \n\t");
+                                    break;
+                            }
+                        }
+                    }
+                });
+
+                treeCell.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        Bounds s = mouseEvent.getPickResult().getIntersectedNode().getBoundsInLocal();
+                        Bounds t = editorStackPane.getBoundsInLocal();
+                        mouseEvent.setDragDetect(true);
+                    }
+                });
+
+                return treeCell;
+            }
+        });
+
+        TreeItem<String> root = new TreeItem<String>("Storage");
+        TreeItem<String> functionItem = new TreeItem<>("Functions");
+        functionItem.setExpanded(true);
+        TreeItem<String> variableItem = new TreeItem<>("Variables");
+        variableItem.setExpanded(true);
+
+        root.getChildren().add(functionItem);
+        root.getChildren().add(variableItem);
+
+        storageView.setRoot(root);
+        storageView.setShowRoot(false);
+    }
+
+    public void loadInstructionItems() {
+
+        instructionView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             @Override
             public TreeCell<String> call(TreeView<String> stringTreeView) {
                 TreeCell<String> treeCell = new TreeCell<String>() {
@@ -138,9 +205,9 @@ public class Controller implements Initializable {
         root.getChildren().add(instructionItem);
         root.getChildren().add(variableItem);
 
-        treeView.setRoot(root);
-        treeView.setShowRoot(false);
-        treeView.setContextMenu(new ContextMenu(new MenuItem("Create Variable")));
+        instructionView.setRoot(root);
+        instructionView.setShowRoot(false);
+        instructionView.setContextMenu(new ContextMenu(new MenuItem("Create Variable")));
     }
 
     @FXML
@@ -160,21 +227,17 @@ public class Controller implements Initializable {
 
     @FXML
     private void run(ActionEvent event) throws Exception {
-        LexicalAnalyser la = new LexicalAnalyser();
-        HashMap<Integer, Instruction> instructions = la.lexicalAnalyser(this.editor.getText().split("\\n"));
-        HashMap<Integer, String> javaCode = la.codeGeneration(instructions);
         console.clear();
         console.setStyle("-fx-text-fill: black;");
         setConsoleMessage();
         CodeExecution codeExecution = new CodeExecution(console);
-        codeExecution.executeCode(la.getInstructionStorage(), la.getVariableHolder());
+        codeExecution.executeCode(this.editor.getText().split("\\n"));
     }
 
     @FXML
     private void generateJavaCode(ActionEvent event) {
-        LexicalAnalyser la = new LexicalAnalyser();
-        HashMap<Integer, Instruction> hashMap = la.lexicalAnalyser(this.editor.getText().split("\\n"));
-        la.generateCode(hashMap);
+        CodeGeneration codeGeneration = new CodeGeneration();
+        codeGeneration.generateCode(this.editor.getText().split("\\n"));
     }
 
     @FXML
@@ -194,7 +257,7 @@ public class Controller implements Initializable {
     }
 
     private void setEditorDefaultText() {
-        this.editor.insertText(this.console.getLength(), "function main:");
+        this.editor.insertText(this.console.getLength(), "function main():");
         this.editor.insertText(this.console.getLength(), "\n\t");
     }
 

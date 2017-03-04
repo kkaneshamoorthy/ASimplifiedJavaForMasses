@@ -69,7 +69,7 @@ public class InstructionSet {
     }
 
     private static final String[] KEYWORDS = new String[] {
-            PRINT, LOOP, IF, INPUT, FUNCTION, "main", "$", "equal", "\\+", "add", "true", "false", "else"
+            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\+", "\\-", "\\*", "\\/", "add", "true", "false", "else", "call", "="
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
@@ -84,14 +84,18 @@ public class InstructionSet {
     private static final String RELATIONAL_PATTERN = "\\b(" + String.join("|", RELATIONAL_OPERATION_PATTERN) + ")\\b";
     private static final String BITWISE_PATTERN = "\\b(" + String.join("|", BITWISE_OPERATION_PATTERN) + ")\\b";
     private static final String NUMBER_PATTERN =  "[0-9]+";
-    private static final String STR_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\"";
     private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\"\\s*(\\+\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\")*";
-    private static final String EXPRESSION_PATTERN = "";
-    private static final String ID_PATTERN = "\\$[a-z][0-9a-zA-Z_]*";
+    private static final String VARIABLE_NAMING_PATTERN = "\\$[a-z][0-9a-zA-Z_]";
+    private static final String ID_PATTERN = VARIABLE_NAMING_PATTERN+"*";
+    private static final String NAME_PATTERN = "[a-zA-Z0-9]*";
+    private static final String FUNCTION_NAME_PATTERN = NAME_PATTERN + "\\(\\)";
     private static final String EQUAL_PATTERN = "=";
+    private static final String ARITHEMETRIC_PATTERN = NUMBER_PATTERN+"[\\+\\-\\*\\/\\s*]*"+NUMBER_PATTERN;
 
     private static final Pattern PATTERN = Pattern.compile(
             "(" + KEYWORD_PATTERN
+                    + "|" + FUNCTION_NAME_PATTERN
+                    + "|" + ARITHEMETRIC_PATTERN
                     + "|" + ID_PATTERN
                     + "|" + STRING_PATTERN
                     + "|" + NUMBER_PATTERN
@@ -123,7 +127,6 @@ public class InstructionSet {
         arithmeticKeyword = new ArrayList<String>();
         arithmeticKeyword.add("+");
         arithmeticKeyword.add("-");
-        arithmeticKeyword.add("=");
         arithmeticKeyword.add("*");
         arithmeticKeyword.add("/");
         arithmeticKeyword.add("%");

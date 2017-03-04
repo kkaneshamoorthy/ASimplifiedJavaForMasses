@@ -17,8 +17,10 @@ public class CodeExecution {
         this.console = console;
     }
 
-    public void executeCode(InstructionStorage instructionStorage, VariableHolder variableHolder) throws Exception {
-        JavaProgramTemplate javaProgramTemplate = new JavaProgramTemplate(instructionStorage, variableHolder);
+    public void executeCode(String[] sourceCode) throws Exception {
+        LexicalAnalyser la = new LexicalAnalyser();
+        la.lexicalAnalyser(sourceCode);
+        JavaProgramTemplate javaProgramTemplate = new JavaProgramTemplate(la.getInstructionStorage(), la.getVariableHolder());
         FileUtility.saveJavaProgramTemporaryForExecution(null, javaProgramTemplate);
 
         System.out.println("---- Output ----");

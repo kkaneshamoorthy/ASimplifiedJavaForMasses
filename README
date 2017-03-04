@@ -1,0 +1,10 @@
+Function:
+
+function <function_name>( <variableName>* )
+
+
+Variable:
+
+$x = 45
+$x = "Hello world"
+

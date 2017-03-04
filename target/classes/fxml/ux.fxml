@@ -55,14 +55,17 @@
         </VBox>
     </top>
     <center>
-        <EditorStackPane fx:id="editorStackPane" accessibleText="Editor"></EditorStackPane>
+        <EditorStackPane fx:id="editorStackPane" onKeyReleased="#refreshRecord" accessibleText="Editor"></EditorStackPane>
     </center>
     <!--<center>-->
         <!--<HBox fx:id="targetBox" onDragOver="#dragOver" onDragDropped="#dragDropped"></HBox>-->
     <!--</center>-->
     <left>
-        <TreeView fx:id="treeView" editable="false" prefHeight="371.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
+        <TreeView fx:id="instructionView" editable="false" prefHeight="371.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
     </left>
+    <right>
+        <TreeView fx:id="storageView" editable="false" prefHeight="371.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
+    </right>
     <bottom>
         <TextArea fx:id="console" prefHeight="250"></TextArea>
         <!--<ConsoleStackPane fx:id="console"></ConsoleStackPane>-->
