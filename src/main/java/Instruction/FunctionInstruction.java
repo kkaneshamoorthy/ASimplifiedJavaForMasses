@@ -1,10 +1,5 @@
 package Instruction;
 
-import Engine.BlockInstruction;
-import Memory.Variable;
-
-import java.util.ArrayList;
-
 public class FunctionInstruction implements Instruction{
     private String instructionType;
     private String functionName;
@@ -14,6 +9,7 @@ public class FunctionInstruction implements Instruction{
     public FunctionInstruction(String functionName) {
         this.instructionType = "FUNCTION";
         this.functionName = functionName;
+
     }
 
     public FunctionInstruction setBody(BlockInstruction newBody) {
@@ -56,5 +52,10 @@ public class FunctionInstruction implements Instruction{
         sb.append("}  \n");
 
         return sb.toString();
+    }
+
+    @Override
+    public void setId(String id) {
+        this.functionName = id;
     }
 }

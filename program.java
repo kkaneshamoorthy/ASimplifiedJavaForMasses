@@ -1,2 +1,2 @@
-public class program { public static void main(String[] args) {int x = 1;}  
+public class program { public static void main(String[] args) {System.out.println(4);}  
 }

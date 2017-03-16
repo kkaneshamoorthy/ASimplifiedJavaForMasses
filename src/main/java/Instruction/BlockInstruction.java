@@ -1,4 +1,4 @@
-package Engine;
+package Instruction;
 
 import java.util.HashMap;
 import Instruction.Instruction;

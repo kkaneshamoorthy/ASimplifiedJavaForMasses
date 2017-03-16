@@ -1,7 +1,5 @@
 package Instruction;
 
-import Memory.Variable;
-
 public class PrintInstruction implements Instruction {
     private String instructionType;
     private String id;
@@ -46,6 +44,11 @@ public class PrintInstruction implements Instruction {
         sb.append("System.out.println("+this.data.getValue()+");");
 
         return sb.toString();
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     private String generateId() {

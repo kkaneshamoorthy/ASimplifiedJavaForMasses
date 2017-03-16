@@ -1,4 +1,4 @@
-package Memory;
+package Instruction;
 
 import Engine.InstructionDetector;
 import Engine.InstructionSet;

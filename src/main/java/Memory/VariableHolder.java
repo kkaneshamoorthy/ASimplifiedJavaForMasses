@@ -1,8 +1,7 @@
 package Memory;
 
-import org.reactfx.value.Var;
+import Instruction.Variable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class VariableHolder {

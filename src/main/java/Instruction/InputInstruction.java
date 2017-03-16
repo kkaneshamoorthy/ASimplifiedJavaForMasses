@@ -1,7 +1,5 @@
 package Instruction;
 
-import Memory.Variable;
-
 public class InputInstruction implements Instruction{
     private String instructionType;
     private String id;
@@ -58,6 +56,11 @@ public class InputInstruction implements Instruction{
         sb.append("String " + this.data.getName() + " = s.nextLine() \n");
 
         return sb.toString();
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     private String generateId() {

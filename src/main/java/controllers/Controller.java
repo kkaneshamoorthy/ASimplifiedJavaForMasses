@@ -43,7 +43,7 @@ public class Controller implements Initializable {
         VirtualizedScrollPane v = (VirtualizedScrollPane) editorStackPane.getChildren().get(0);
         editor = (CodeEditor) v.getContent();
         loadInstructionItems();
-        loadStorageItems();
+//        loadStorageItems();
 
         this.console.setEditable(false);
         setConsoleMessage();
@@ -103,11 +103,7 @@ public class Controller implements Initializable {
         TreeItem<String> root = new TreeItem<String>("Storage");
         TreeItem<String> functionItem = new TreeItem<>("Functions");
         functionItem.setExpanded(true);
-        TreeItem<String> variableItem = new TreeItem<>("Variables");
-        variableItem.setExpanded(true);
-
         root.getChildren().add(functionItem);
-        root.getChildren().add(variableItem);
 
         storageView.setRoot(root);
         storageView.setShowRoot(false);
@@ -188,8 +184,6 @@ public class Controller implements Initializable {
         });
 
         TreeItem<String> root = new TreeItem<String>("Instructions");
-        TreeItem<String> variableItem = new TreeItem<>("Variable");
-        variableItem.setExpanded(true);
         TreeItem<String> instructionItem = new TreeItem<>("Instructions");
         instructionItem.setExpanded(true);
 
@@ -198,16 +192,12 @@ public class Controller implements Initializable {
         instructionItem.getChildren().add(new TreeItem<>("Print"));
         instructionItem.getChildren().add(new TreeItem<>("Input"));
         instructionItem.getChildren().add(new TreeItem<>("Function"));
-
-        variableItem.getChildren().add(new TreeItem<>("Create Variable"));
-        variableItem.getChildren().add(new TreeItem<>("Edit Variable"));
+        instructionItem.getChildren().add(new TreeItem<>("Create Variable"));
 
         root.getChildren().add(instructionItem);
-        root.getChildren().add(variableItem);
 
         instructionView.setRoot(root);
         instructionView.setShowRoot(false);
-        instructionView.setContextMenu(new ContextMenu(new MenuItem("Create Variable")));
     }
 
     @FXML

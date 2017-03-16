@@ -1,8 +1,5 @@
 package Instruction;
 
-import Engine.BlockInstruction;
-import Memory.Variable;
-
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -12,25 +9,25 @@ public class LoopInstruction implements Instruction {
     private String id;
     public String variableID;
     private boolean isFullyDefined = false;
-    private int numOfIteration;
-    private Variable iteration;
+    private Variable numOfIteration;
+    private Variable currentIterationValue;
     private BlockInstruction body;
     private SecureRandom random = new SecureRandom();
 
     public LoopInstruction() {
         this.instructionType = "LOOP";
         this.variableID = generateVariableId();
-        this.iteration = new Variable(variableID, "0", "GLOBAL");
+        this.currentIterationValue = new Variable(variableID, "0", "GLOBAL");
         this.id = generateId();
     }
 
-    public LoopInstruction setIteration(Variable iteration) {
-        this.iteration = iteration;
+    public LoopInstruction setCurrentIterationValue(Variable currentIterationValue) {
+        this.currentIterationValue = currentIterationValue;
 
         return this;
     }
 
-    public LoopInstruction setNumOfIteration(int numOfIteration) {
+    public LoopInstruction setNumOfIteration(Variable numOfIteration) {
         this.numOfIteration = numOfIteration;
 
         return this;
@@ -42,19 +39,23 @@ public class LoopInstruction implements Instruction {
         return this;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public BlockInstruction getBody() {
         return this.body;
     }
 
     public int getCurrentIterationNum() {
-        return Integer.parseInt(this.iteration.getValue());
+        return Integer.parseInt(this.currentIterationValue.getValue());
     }
 
-    public int getTotalIteration() {
+    public Variable getTotalIteration() {
         return this.numOfIteration;
     }
 
-    public Variable getIteration() { return this.iteration; }
+    public Variable getCurrentIterationValue() { return this.currentIterationValue; }
 
     @Override
     public String getInstructionID() {
@@ -77,7 +78,7 @@ public class LoopInstruction implements Instruction {
         System.out.println(this.body);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("for (int " + this.iteration.getName() + " = 0; " + this.iteration.getName() + "<" + numOfIteration + "; " + this.iteration.getName() + "++) \n");
+        sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "<" + numOfIteration.getValue() + "; " + this.currentIterationValue.getName() + "++) \n");
         sb.append("{ \n");
         sb.append(this.body == null ? "" : this.body.generateCode());
         sb.append("} \n");
@@ -86,7 +87,7 @@ public class LoopInstruction implements Instruction {
     }
 
     private String generateId() {
-        return (this.instructionType+this.getTotalIteration()+this.getIteration().getName()+this.getIteration().getValue()).hashCode()+"";
+        return (this.instructionType+this.getTotalIteration()+this.getCurrentIterationValue().getName()+this.getCurrentIterationValue().getValue()).hashCode()+"";
     }
 
     private String generateVariableId() {

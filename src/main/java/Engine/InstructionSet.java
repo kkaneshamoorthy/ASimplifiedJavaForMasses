@@ -1,5 +1,7 @@
 package Engine;
 
+import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -84,13 +86,13 @@ public class InstructionSet {
     private static final String RELATIONAL_PATTERN = "\\b(" + String.join("|", RELATIONAL_OPERATION_PATTERN) + ")\\b";
     private static final String BITWISE_PATTERN = "\\b(" + String.join("|", BITWISE_OPERATION_PATTERN) + ")\\b";
     private static final String NUMBER_PATTERN =  "[0-9]+";
-    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\"\\s*(\\+\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\")*";
+    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\"\\s*(\\*\\+\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\")*";
     private static final String VARIABLE_NAMING_PATTERN = "\\$[a-z][0-9a-zA-Z_]";
     private static final String ID_PATTERN = VARIABLE_NAMING_PATTERN+"*";
     private static final String NAME_PATTERN = "[a-zA-Z0-9]*";
     private static final String FUNCTION_NAME_PATTERN = NAME_PATTERN + "\\(\\)";
     private static final String EQUAL_PATTERN = "=";
-    private static final String ARITHEMETRIC_PATTERN = NUMBER_PATTERN+"[\\+\\-\\*\\/\\s*]*"+NUMBER_PATTERN;
+    private static final String ARITHEMETRIC_PATTERN = "[\\+\\-\\*\\/\\s+]";
 
     private static final Pattern PATTERN = Pattern.compile(
             "(" + KEYWORD_PATTERN
@@ -103,7 +105,40 @@ public class InstructionSet {
                     + "|" + EQUAL_PATTERN + ")", Pattern.CASE_INSENSITIVE
     );
 
-    public InstructionSet() { this.intialise(); }
+    public InstructionSet() {
+        this.intialise();
+        this.initialisePointsForKeyword();
+    }
+
+
+    private HashMap<String, Integer> wordPointMap = new HashMap<>();
+
+    public int getPoints(String word) {
+        word = word.toUpperCase();
+        if (this.wordPointMap.containsKey(word))
+            return this.wordPointMap.get(word);
+
+        return 0;
+    }
+
+    public void initialisePointsForKeyword() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File(this.getClass().getResource("/data/wordWithPoints.csv").getPath())));
+            String line = "";
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                this.wordPointMap.put(data[0].toUpperCase(), Integer.parseInt(data[1]));
+            }
+        } catch (FileNotFoundException e) {
+            //TODO: show dialog
+            System.out.println("File not found");
+        } catch (IOException e) {
+            //TODO: show dialog
+            System.out.println("IOException");
+        }
+    }
 
     public String computeRegex(String text) {
         Matcher matcher = PATTERN.matcher(text);
@@ -124,40 +159,56 @@ public class InstructionSet {
     public ArrayList<String> getArithmeticInstructions() { return this.arithmeticKeyword; }
 
     private void intialise() {
-        arithmeticKeyword = new ArrayList<String>();
-        arithmeticKeyword.add("+");
-        arithmeticKeyword.add("-");
-        arithmeticKeyword.add("*");
-        arithmeticKeyword.add("/");
-        arithmeticKeyword.add("%");
-
         expressionKeyword = new ArrayList<String >();
-        expressionKeyword.add("<");
-        expressionKeyword.add(">");
-        expressionKeyword.add("<=");
-        expressionKeyword.add(">=");
-        expressionKeyword.add("==");
-        expressionKeyword.add("EQUAL");
-        expressionKeyword.add("!=");
-        expressionKeyword.add("!");
-        expressionKeyword.add("&&");
-        expressionKeyword.add("||");
-        expressionKeyword.add("AND");
-        expressionKeyword.add("OR");
-        expressionKeyword.add("NOT");
-        expressionKeyword.add("TRUE");
-        expressionKeyword.add("FALSE");
+//        expressionKeyword.add("<");
+//        expressionKeyword.add(">");
+//        expressionKeyword.add("<=");
+//        expressionKeyword.add(">=");
+//        expressionKeyword.add("==");
+//        expressionKeyword.add("EQUAL");
+//        expressionKeyword.add("!=");
+//        expressionKeyword.add("!");
+//        expressionKeyword.add("&&");
+//        expressionKeyword.add("||");
+//        expressionKeyword.add("AND");
+//        expressionKeyword.add("OR");
+//        expressionKeyword.add("NOT");
+//        expressionKeyword.add("TRUE");
+//        expressionKeyword.add("FALSE");
 
+
+        //Print
         printKeyWord = new ArrayList<String>();
         printKeyWord.add(this.PRINT);
         printKeyWord.add(this.CONSOLE);
+        printKeyWord.add("WRITE");
 
+        //Variable
         variableKeyWord = new ArrayList<String>();
         variableKeyWord.add(this.VARIABLE);
         variableKeyWord.add(this.CREATE);
-        variableKeyWord.add("=");
         variableKeyWord.add("$");
 
+        //Assignment
+        ArrayList<String> assignment = new ArrayList<>();
+        assignment.add("=");
+        assignment.add("$");
+        assignment.add("+");
+        assignment.add("-");
+        assignment.add("*");
+        assignment.add("/");
+        assignment.add("%");
+
+
+        //function
+        ArrayList<String> function = new ArrayList<>();
+        function.add("function");
+        function.add("method");
+        function.add("(");
+        function.add(")");
+        function.add(":");
+
+        //loop
         loopKeyword = new ArrayList<String>();
         loopKeyword.add("LOOP");
         loopKeyword.add(":");
@@ -170,7 +221,8 @@ public class InstructionSet {
         keywordAndFunction.put(this.LOOP, loopKeyword);
         keywordAndFunction.put(this.VARIABLE, variableKeyWord);
         keywordAndFunction.put(this.EXP, expressionKeyword);
-        keywordAndFunction.put(this.ARITHMETIC, arithmeticKeyword);
+        keywordAndFunction.put("ASSIGNMENT", assignment);
+        keywordAndFunction.put("FUNCTION", function);
 
         this.init();
     }
@@ -186,7 +238,7 @@ public class InstructionSet {
         this.instructionMap.put(this.IF, this.IF);
         this.instructionMap.put("$", "$");
 
-        this.instructionMap.put(this.PLUS, this.PLUS);
+        this.instructionMap.put(this.PLUS, "ARITHMETIC_OPERATION =>+");
         this.instructionMap.put(this.ADDTXT, this.PLUS);
         this.instructionMap.put(this.MINUS, this.MINUS);
         this.instructionMap.put(this.MINUSTXT, this.MINUS);

@@ -57,6 +57,17 @@ public class TestInstructionDetector extends TestCase{
         assertEquals(expectedResult, actualResult);
     }
 
+    public void test_identifyToken_validVariableName() {
+        String token = "$x";
+        ArrayList<String> expectedResult = new ArrayList<>();
+        expectedResult.add("VARIABLE_NAME =>$x");
+        expectedResult.add("");
+        ArrayList<String> actualResult = this.instructionDetector
+                .identifyTokens(token);
+
+        assertEquals(expectedResult, actualResult);
+    }
+
     public void test_identifyToken_with_arrayOfToken() {
         String[] tokens = new String[] {"print", "23"};
         List<String> expectedResult = Arrays.asList("PRINT", "INT => 23");

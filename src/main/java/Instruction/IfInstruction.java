@@ -1,7 +1,5 @@
 package Instruction;
 
-import Engine.BlockInstruction;
-
 public class IfInstruction implements Instruction{
     private String instructionType;
     private boolean isFullyDefined = false;
@@ -58,6 +56,11 @@ public class IfInstruction implements Instruction{
         sb.append("} \n");
 
         return sb.toString();
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     private String generateId() {

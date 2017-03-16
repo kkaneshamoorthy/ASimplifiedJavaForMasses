@@ -1,19 +1,19 @@
 package Instruction;
 
-import Memory.Variable;
-
 import java.util.ArrayList;
 
 public class FunctionDispatchInstruction implements Instruction{
     private String instructionType;
     private String functionName;
     private boolean isFullyDefined = false;
+    private String id;
     private ArrayList<Variable> arguments;
 
     public FunctionDispatchInstruction(String functionName) {
         this.instructionType = "FUNCTION DISPATCH";
         this.functionName = functionName;
         arguments = new ArrayList<>();
+        this.id = functionName+"_dispatch";
     }
 
     public void addArgument(Variable agrs) {
@@ -22,7 +22,7 @@ public class FunctionDispatchInstruction implements Instruction{
 
     @Override
     public String getInstructionID() {
-        return functionName+"_dispatch";
+        return this.id;
     }
 
     @Override
@@ -41,5 +41,10 @@ public class FunctionDispatchInstruction implements Instruction{
         sb.append(functionName + "();");
 
         return sb.toString();
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 }

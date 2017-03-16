@@ -13,7 +13,7 @@ public class LoopDialog extends Dialog {
 
     public LoopDialog() {
         this.setTitle("Loop Instruction");
-        this.setHeaderText("Loop Instruction");
+        this.setHeaderText("How many times you want to loop?");
 
         okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);

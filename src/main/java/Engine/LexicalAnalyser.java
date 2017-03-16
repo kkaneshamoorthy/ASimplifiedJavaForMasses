@@ -3,19 +3,18 @@ package Engine;
 import Memory.*;
 
 import Instruction.Instruction;
+import Instruction.Variable;
 import Instruction.InputInstruction;
 import Instruction.PrintInstruction;
 import Instruction.LoopInstruction;
 import Instruction.IfInstruction;
+import Instruction.BlockInstruction;
 import Instruction.AssignmentInstruction;
 import Instruction.FunctionInstruction;
 import Instruction.FunctionDispatchInstruction;
-import Utility.FileUtility;
-import org.reactfx.value.Var;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class LexicalAnalyser {
     private HashMap<Integer, HashMap<String, String>> instructions;
@@ -44,14 +43,16 @@ public class LexicalAnalyser {
         for (String statement : statements) {
             ArrayList<String> identifiedTokens = this.instructionDetector.identifyTokens(statement);
 
-            System.out.print("LEXER: "); //TESTING PURPOSES
-            for (String t : identifiedTokens)
-                System.out.print(t + ", ");
-            System.out.println();
+//            System.out.print("LEXER: "); //TESTING PURPOSES
+//            for (String t : identifiedTokens)
+//                System.out.print(t + ", ");
+//            System.out.println();
 
-            for (String token : identifiedTokens) {
-                token = token.toUpperCase();
-                switch (token) {
+            String detectedInstruction = this.instructionDetector.detectInstruction(statement);
+            System.out.println("Detected Instruction: " + detectedInstruction);
+//            for (String token : identifiedTokens) {
+//                token = token.toUpperCase();
+                switch (detectedInstruction) {
                     case "INPUT":
                         if (!statement.startsWith("\t")) {
                             instructionCounter++;
@@ -83,17 +84,17 @@ public class LexicalAnalyser {
                             Variable var = createVariable("intVar", intStr.replace("INT =>", "").trim(), scope);
                             printInstruction.setData(var);
                         } else if (varName != null && varName.startsWith("VARIABLE_NAME")) {
-                            String variableName = varName.replace("VARIABLE_NAME =>", "").replace("$", "").trim();
-                            System.out.println(variableName + " " + scope);
+                            String variableName = varName.replace("VARIABLE_NAME =>", "").trim();
                             Variable var = this.variableHolder.getVariableGivenScopeAndName(variableName, scope);
-                            System.out.println("VARIABLE NAME ----- " + var);
                             printInstruction.setData(new Variable(var.getName(), var.getValue(), var.getScope()));
                         }
                         break;
                     case "LOOP":
+                        String previousInstructionID = previousInstruction.getInstructionID();
                         if (statement.startsWith("\t")) {
                             LoopInstruction loopInstruction = new LoopInstruction();
                             loopInstruction.setBody(new BlockInstruction());
+                            loopInstruction.setNumOfIteration(variableisier(this.getExpression(identifiedTokens), previousInstructionID));
                             this.setBody(previousInstruction, loopInstruction);
                             previousInstruction = loopInstruction;
                         } else {
@@ -101,6 +102,7 @@ public class LexicalAnalyser {
                             previousInstruction = new LoopInstruction();
                             this.instructionStorage.addInstruction(instructionCounter, previousInstruction);
                         }
+                        previousInstruction.setId(previousInstructionID);
                         break;
                     case "ASSIGNMENT":
                         if (statement.startsWith("\t")) {
@@ -144,38 +146,83 @@ public class LexicalAnalyser {
                     case "ELSE":
                         break;
                     default:
-                        unknownToken(token, identifiedTokens, previousInstruction);
+                        unknownToken(detectedInstruction, identifiedTokens, previousInstruction);
                 }
-            }
+//            }
         }
 
         return this.instructionStorage.getInstructions();
     }
 
-    private AssignmentInstruction createAssignment(ArrayList<String> identifiedTokens, String scope) {
-        String variableName = "";
-        String variableValue = "";
-        System.out.println(identifiedTokens);
-        for (int i=0; i<identifiedTokens.size(); i++) {
-            String token = identifiedTokens.get(i);
-            if (token.startsWith("VARIABLE_NAME"))
-                variableName = token.replace("VARIABLE_NAME =>", "").replace("$", "").trim();
-            else
-                variableValue += retrieveData(token);
+    private Variable variableisier(String expr, String scope) {
+        if (this.isVariable(expr)) {
+            return this.variableHolder.getVariableGivenScopeAndName(expr, scope);
         }
 
-        System.out.println("VARIABLE VALUE: " + variableValue);
+        Variable variable = new Variable(expr+scope, expr, scope);
+        this.variableHolder.add(variable);
+        return variable;
+    }
+
+    private boolean isVariable(String expr) {
+        if (expr.startsWith("$"))
+            return true;
+        return false;
+    }
+
+    private AssignmentInstruction createAssignment(ArrayList<String> identifiedTokens, String scope) {
+        String variableName = getVariableToBeAssigned(identifiedTokens);
+        String variableValue = getAssignExpression(identifiedTokens, scope);
 
         if (this.variableHolder.hasVariable(variableName, scope)) {
             this.variableHolder.getVariableGivenScopeAndName(variableName, scope)
                     .setValue(variableValue);
 
-            return null;
+            AssignmentInstruction assignmentInstruction = new AssignmentInstruction(
+                    this.variableHolder.getVariableGivenScopeAndName(variableName, scope),
+                    variableValue
+            );
+
+            assignmentInstruction.setDeclaration(false);
+            return assignmentInstruction;
         }
 
         Variable assignedTo = createVariable(variableName, variableValue, scope);
+        this.variableHolder.add(assignedTo);
 
         return new AssignmentInstruction(assignedTo, variableValue);
+    }
+
+    public String getVariableToBeAssigned(ArrayList<String> tokens) {
+        for (String token : tokens) {
+            if (token.startsWith("VARIABLE_NAME"))
+                return token.replace("VARIABLE_NAME =>", "").trim();
+        }
+
+        return "";
+    }
+
+    public String getAssignExpression(ArrayList<String> tokens, String scope) {
+        StringBuilder variableName = new StringBuilder();
+        boolean visited = false;
+
+        for (String token : tokens) {
+            if (token.equals("ASSIGNMENT")) {
+                visited = true;
+                continue;
+            }
+            if (visited) {
+                if (token.startsWith("VARIABLE_NAME =>")) {
+                    String varN = token.replace("VARIABLE_NAME =>", "");
+                    String val = this.variableHolder.getVariableGivenScopeAndName(varN, scope).getValue();
+                    variableName.append(val);
+                } else {
+                    variableName.append(retrieveData(token));
+                }
+            }
+        }
+
+        return variableName.toString();
     }
 
     private String getExpression(ArrayList<String> tokens) {
@@ -198,11 +245,13 @@ public class LexicalAnalyser {
             variableValue = token.replace("FUNCTION_NAME =>", "").trim();
         else if (token.startsWith("ARITHMETIC_OPERATION =>"))
             variableValue = token.replace("ARITHMETIC_OPERATION =>", "").trim();
+        else if (token.startsWith("VARIABLE_NAME =>"))
+            variableValue = token.replace("VARIABLE_NAME =>", "").trim();
 
         return variableValue;
     }
 
-    private Variable createVariable(String variableName, String variableValue, String scope) {
+    public Variable createVariable(String variableName, String variableValue, String scope) {
         Variable var = new Variable(variableName, variableValue, scope);
         boolean isSucessful = this.variableHolder.add(var);
 
@@ -210,11 +259,11 @@ public class LexicalAnalyser {
     }
 
     private void unknownToken(String identifiedToken, ArrayList<String> identifiedTokens, Instruction previousInstruction) {
-        if (this.instructionDetector.isNumber(identifiedToken) || this.instructionDetector.isArithmeticOperation(identifiedToken)) {
+        if (this.instructionDetector.isNumber(identifiedToken)) {
             if (identifiedTokens.contains("LOOP")) {
                 if (whichInstruction(previousInstruction).equals("LOOP")) {
                     LoopInstruction instruction = (LoopInstruction) previousInstruction;
-                    instruction.setNumOfIteration(Integer.parseInt(identifiedToken.replace("INT =>", "").trim()));
+                    instruction.setNumOfIteration(variableisier(identifiedToken.replace("INT =>", "").trim(), previousInstruction.getInstructionID()));
                 }
             }
         }
@@ -222,7 +271,6 @@ public class LexicalAnalyser {
 
     private void setBody(Instruction previousInstruction, Instruction instruction) {
         BlockInstruction bi = null;
-
         switch (whichInstruction(previousInstruction)) {
             case InstructionSet.FUNCTION:
                 FunctionInstruction functionInstruction = (FunctionInstruction) previousInstruction;

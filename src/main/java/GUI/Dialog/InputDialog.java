@@ -11,7 +11,7 @@ public class InputDialog extends Dialog {
 
     public InputDialog() {
         this.setTitle("Input Instruction");
-        this.setHeaderText("Input Instruction");
+        this.setHeaderText("Where do you want to take the user input from?");
 
         okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);

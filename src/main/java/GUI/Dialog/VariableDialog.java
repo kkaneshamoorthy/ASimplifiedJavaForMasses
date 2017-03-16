@@ -13,7 +13,7 @@ public class VariableDialog extends Dialog{
 
     public VariableDialog() {
         this.setTitle("Create Variable");
-        this.setHeaderText("Create Variable");
+        this.setHeaderText("Name the variable and its value");
 
         okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);

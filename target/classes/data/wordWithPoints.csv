@@ -1,0 +1,13 @@
+print,5
+WRITE,2
+loop,5
+create,1
+variable,2
+console,1
+function,5
+=,5
++,1
+-,1
+/,1
+*,1
+$,1

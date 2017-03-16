@@ -12,7 +12,7 @@ public class PrintDialog extends Dialog{
 
     public PrintDialog() {
         this.setTitle("Print Instruction");
-        this.setHeaderText("Print Instruction");
+        this.setHeaderText("What would you like to print?");
 
         okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);

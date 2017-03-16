@@ -1,7 +1,5 @@
 package Instruction;
 
-import Engine.*;
-import Memory.Variable;
 import junit.framework.TestCase;
 
 public class TestLoopInstruction extends TestCase {
@@ -27,8 +25,8 @@ public class TestLoopInstruction extends TestCase {
 
         blockInstruction.addInstructionToBlock(ifInstruction);
 
-        this.loopInstruction.setNumOfIteration(3);
-        this.loopInstruction.setIteration(new Variable("i", "3", "GLOBAL"));
+        this.loopInstruction.setNumOfIteration(new Variable("$x", ""+3, "GLOBAL"));
+        this.loopInstruction.setCurrentIterationValue(new Variable("i", "3", "GLOBAL"));
         this.loopInstruction.setBody(blockInstruction);
 
         System.out.println(this.loopInstruction.generateCode());
@@ -40,8 +38,8 @@ public class TestLoopInstruction extends TestCase {
         printInstruction.setData(new Variable("i", "Hello world!", "GLOBAL"));
         blockInstructionForPrint.addInstructionToBlock(printInstruction);
 
-        this.loopInstruction.setNumOfIteration(3);
-        this.loopInstruction.setIteration(new Variable("i", "3", "GLOBAL"));
+        this.loopInstruction.setNumOfIteration(new Variable("$x", ""+3, "GLOBAL"));
+        this.loopInstruction.setCurrentIterationValue(new Variable("i", "3", "GLOBAL"));
         this.loopInstruction.setBody(blockInstructionForPrint);
 
         System.out.println(this.loopInstruction.generateCode());

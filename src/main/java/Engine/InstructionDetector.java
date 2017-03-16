@@ -22,22 +22,23 @@ public class InstructionDetector {
 
         HashMap<String, Integer> functionDetection = new HashMap<String, Integer>();
         int highestSoFar = 0;
-        String mostLikelyFunction = "";
+        String mostLikelyFunction = "Unknown";
         for (int i=0; i<words.length; i++) {
-            String key = words[i];
+            String key = words[i].trim();
             HashMap<String, ArrayList<String>> instructionsWithKeyword = this.instructionSet.getInstructionSet();
 
             for (String function : instructionsWithKeyword.keySet()) {
                 int functionScore = -1;
                 ArrayList<String> functionKeywords = instructionsWithKeyword.get(function);
                 for (String keyword : functionKeywords) {
-                    if (keyword.equals(key)) {
+                    if (keyword.equalsIgnoreCase(key)) {
+                        int wordPoint = this.instructionSet.getPoints(key);
                         if (functionDetection.containsKey(function)) {
-                            functionScore = functionDetection.get(function)+1;
+                            functionScore = functionDetection.get(function)+wordPoint;
                             functionDetection.put(function, functionScore);
                         } else {
-                            functionDetection.put(function, 1);
-                            functionScore = 1;
+                            functionScore = wordPoint;
+                            functionDetection.put(function, functionScore);
                         }
 
                         if (highestSoFar < functionScore) {
@@ -125,17 +126,12 @@ public class InstructionDetector {
 
         for (int i=0; i<identifiedTokens.size(); i++) {
             String identifiedToken = identifiedTokens.get(i);
-
-            System.out.println(identifiedToken);
-
             if (isNumber(identifiedToken))
                 identifiedTokens.set(i, "INT =>" + identifiedToken);
             else if(isString(identifiedToken))
                 identifiedTokens.set(i, "STRING =>" + identifiedToken);
             else if (identifiedToken.startsWith("$"))
                 identifiedTokens.set(i, "VARIABLE_NAME =>" + identifiedToken);
-            else if (isArithmeticOperation(identifiedToken.trim()))
-                identifiedTokens.set(i, "ARITHMETIC_OPERATION =>"+identifiedToken);
             else if (isExpression(identifiedToken))
                 identifiedTokens.set(i, "EXPRESSION =>" + identifiedToken);
             else if (isFunction(identifiedToken))
@@ -178,23 +174,6 @@ public class InstructionDetector {
         return identifiedToken.startsWith("\"");
     }
 
-    public boolean isArithmeticOperation(String token) {
-
-
-        System.out.println("IAO:" + token);
-
-//        if (token.length() == 0) return false;
-//        ArrayList<String> arithmeticInstructions = this.instructionSet.getArithmeticInstructions();
-//        token.replace(" ", "");
-//        for (char character : token.toCharArray()) {
-//            if (character == ' ') continue;
-//            if (!isNumber(character+"") && !arithmeticInstructions.contains(character+""))
-//                return  false;
-//        }
-//
-        return false;
-    }
-
     public ArrayList<String> computeRegex(String text) {
         ArrayList<String> identifiedTokensLs = new ArrayList<>();
         Matcher matcher = this.instructionSet.getPattern().matcher(text);
@@ -208,8 +187,15 @@ public class InstructionDetector {
     }
 
     public static void main(String[] args) {
-        InstructionDetector instructionSet = new InstructionDetector(new InstructionSet());
-        System.out.println(instructionSet.computeRegex("+"));
+        InstructionDetector detector = new InstructionDetector(new InstructionSet());
+//        System.out.println(instructionSet.identifyTokens("$x=\"*\""));
 //        System.out.println(instructionSet.identifyTokens("$x = $y + 1"));
+        System.out.println(detector.detectInstruction(("write i would like to print \" hello \"")));
+        System.out.println(detector.detectInstruction(("$s = 45")));
+        System.out.println(detector.detectInstruction(("write a function main ( ) :")));
+        System.out.println(detector.detectInstruction(("loop 5 times:")));
+        System.out.println(detector.detectInstruction(("$x = 5+4")));
+        System.out.println(detector.detectInstruction(("create $x")));
+        System.out.println(detector.detectInstruction(("write a function called Main():")));
     }
 }

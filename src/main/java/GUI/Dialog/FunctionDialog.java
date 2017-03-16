@@ -10,7 +10,7 @@ public class FunctionDialog extends Dialog{
 
     public FunctionDialog() {
         this.setTitle("Create Function");
-        this.setHeaderText("Function");
+        this.setHeaderText("What do you want to call the function?");
 
         okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
