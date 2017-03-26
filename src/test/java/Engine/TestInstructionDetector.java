@@ -69,11 +69,10 @@ public class TestInstructionDetector extends TestCase{
     }
 
     public void test_identifyToken_with_arrayOfToken() {
-        String[] tokens = new String[] {"print", "23"};
-        List<String> expectedResult = Arrays.asList("PRINT", "INT => 23");
-        ArrayList<String> actualResult = this.instructionDetector
-                .identifyToken(tokens);
 
-        assertEquals(expectedResult, actualResult);
+    }
+
+    public void test_instructionDetection() {
+
     }
 }

@@ -12,6 +12,7 @@ import Instruction.BlockInstruction;
 import Instruction.AssignmentInstruction;
 import Instruction.FunctionInstruction;
 import Instruction.FunctionDispatchInstruction;
+import Instruction.ErrorMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,10 +44,10 @@ public class LexicalAnalyser {
         for (String statement : statements) {
             ArrayList<String> identifiedTokens = this.instructionDetector.identifyTokens(statement);
 
-//            System.out.print("LEXER: "); //TESTING PURPOSES
-//            for (String t : identifiedTokens)
-//                System.out.print(t + ", ");
-//            System.out.println();
+            System.out.print("LEXER: "); //TESTING PURPOSES
+            for (String t : identifiedTokens)
+                System.out.print(t + ", ");
+            System.out.println();
 
             String detectedInstruction = this.instructionDetector.detectInstruction(statement);
             System.out.println("Detected Instruction: " + detectedInstruction);
@@ -65,14 +66,14 @@ public class LexicalAnalyser {
                         break;
                     case "PRINT":
                         PrintInstruction printInstruction = null;
-                        if (statement.startsWith("\t")) {
-                            printInstruction = new PrintInstruction();
-                            this.setBody(previousInstruction, printInstruction);
-                        } else {
-                            instructionCounter++;
-                            printInstruction = new PrintInstruction();
-                            this.instructionStorage.addInstruction(instructionCounter, printInstruction);
-                        }
+//                        if (statement.startsWith("\t")) {
+                        printInstruction = new PrintInstruction();
+//                        }
+//                        else {
+//                            instructionCounter++;
+//                            printInstruction = new PrintInstruction();
+//                            this.instructionStorage.addInstruction(instructionCounter, printInstruction);
+//                        }
                         String str = getArrLsElement(identifiedTokens, "STRING");
                         String intStr = getArrLsElement(identifiedTokens, "INT");
                         String varName = getArrLsElement(identifiedTokens, "VARIABLE_NAME");
@@ -87,7 +88,13 @@ public class LexicalAnalyser {
                             String variableName = varName.replace("VARIABLE_NAME =>", "").trim();
                             Variable var = this.variableHolder.getVariableGivenScopeAndName(variableName, scope);
                             printInstruction.setData(new Variable(var.getName(), var.getValue(), var.getScope()));
+                        } else {
+//                            printInstruction.setData(new Variable("error", "\"ERROR: please enter valid value to print\"", printInstruction.getInstructionID()+"Err"));
+                            this.setBody(previousInstruction, new ErrorMessage(new Variable(previousInstruction.getInstructionID()+"error", "\"Error: Please enter a valid data to print\"", printInstruction.getInstructionID())));
+                            break;
                         }
+
+                        this.setBody(previousInstruction, printInstruction);
                         break;
                     case "LOOP":
                         String previousInstructionID = previousInstruction.getInstructionID();
@@ -140,8 +147,14 @@ public class LexicalAnalyser {
                         break;
                     case "CALL":
                         functionName = retrieveData(getArrLsElement(identifiedTokens, "FUNCTION_NAME =>")).replace("(", "").replace(")", "");
-                        FunctionDispatchInstruction functionDispatchInstruction = new FunctionDispatchInstruction(functionName);
-                        setBody(previousInstruction, functionDispatchInstruction);
+                        if (functionName.equals("ERROR")) {
+                            Variable varErrMsg = new Variable(previousInstruction.getInstructionID()+"callErr", "\"Error: Invalid function name\"", previousInstruction.getInstructionID());
+                            ErrorMessage errorMessage = new ErrorMessage(varErrMsg);
+                            setBody(previousInstruction, errorMessage);
+                        } else {
+                            FunctionDispatchInstruction functionDispatchInstruction = new FunctionDispatchInstruction(functionName);
+                            setBody(previousInstruction, functionDispatchInstruction);
+                        }
                         break;
                     case "ELSE":
                         break;
@@ -234,6 +247,9 @@ public class LexicalAnalyser {
     }
 
     private String retrieveData(String token) {
+        if (token == null)
+            return "ERROR";
+
         String variableValue = "";
         if (token.startsWith("INT =>"))
             variableValue = token.replace("INT =>", "").trim();

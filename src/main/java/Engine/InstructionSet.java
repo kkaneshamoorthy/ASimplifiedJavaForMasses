@@ -21,12 +21,16 @@ public class InstructionSet {
     static final String ARITHMETIC = "ARITHMETIC";
     static final String INPUT = "INPUT";
     static final String FUNCTION = "FUNCTION";
+    static final String ASSIGNMENT = "ASSIGNMENT";
+    static final String DISPATCH = "CALL";
+
+    static final String UNKNOWN = "UNKNOWN";
 
     private final String PLUS = "+";
     private final String ADDTXT = "ADD";
     private final String MINUS = "-";
     private final String MINUSTXT = "MINUS";
-    private final String EQUAL = "=";
+    static final String EQUAL = "=";
     private final String EQUALTXT = "EQUAL";
     private final String MULTI = "*";
     private final String DIVI = "/";
@@ -37,7 +41,7 @@ public class InstructionSet {
     private final String GT = ">";
     private final String LTET = "<=";
     private final String GTET = ">=";
-    private final String EQ = "==";
+    static final String EQ = "==";
     private final String NEQ = "!=";
     private final String NOT = "!";
     private final String AND = "&&";
@@ -71,7 +75,7 @@ public class InstructionSet {
     }
 
     private static final String[] KEYWORDS = new String[] {
-            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\+", "\\-", "\\*", "\\/", "add", "true", "false", "else", "call", "="
+            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\+", "\\-", "\\*", "\\/", "\\%", "add", "true", "false", "else", "call", "="
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
@@ -216,6 +220,18 @@ public class InstructionSet {
         loopKeyword.add("GO");
         loopKeyword.add("THROUGH");
 
+        //function call
+        ArrayList<String> functionCall = new ArrayList<>();
+        functionCall.add("CALL");
+        functionCall.add("(");
+        functionCall.add(")");
+
+        //if
+        ArrayList<String> ifKeyword = new ArrayList<>();
+        ifKeyword.add("IF");
+        ifKeyword.add("CONDITION");
+        ifKeyword.add(":");
+
         keywordAndFunction = new HashMap<String, ArrayList<String>>();
         keywordAndFunction.put(this.PRINT, printKeyWord);
         keywordAndFunction.put(this.LOOP, loopKeyword);
@@ -223,6 +239,8 @@ public class InstructionSet {
         keywordAndFunction.put(this.EXP, expressionKeyword);
         keywordAndFunction.put("ASSIGNMENT", assignment);
         keywordAndFunction.put("FUNCTION", function);
+        keywordAndFunction.put("CALL", functionCall);
+        keywordAndFunction.put("IF", ifKeyword);
 
         this.init();
     }
@@ -240,19 +258,19 @@ public class InstructionSet {
 
         this.instructionMap.put(this.PLUS, "ARITHMETIC_OPERATION =>+");
         this.instructionMap.put(this.ADDTXT, this.PLUS);
-        this.instructionMap.put(this.MINUS, this.MINUS);
+        this.instructionMap.put(this.MINUS, "ARITHMETIC_OPERATION =>-");
         this.instructionMap.put(this.MINUSTXT, this.MINUS);
         this.instructionMap.put(this.EQUAL, "ASSIGNMENT");
-        this.instructionMap.put(this.MULTI, this.MULTI);
-        this.instructionMap.put(this.DIVI, this.DIVI);
+        this.instructionMap.put(this.MULTI, "ARITHMETIC_OPERATION => *");
+        this.instructionMap.put(this.DIVI, "ARITHMETIC_OPERATION => /");
         this.instructionMap.put(this.DIVIDETXT, this.DIVI);
-        this.instructionMap.put(this.MOD, this.MOD);
+        this.instructionMap.put(this.MOD, "ARITHMETIC_OPERATION => %");
 
         this.instructionMap.put(this.LT, "LT");
         this.instructionMap.put(this.GT, "GT");
         this.instructionMap.put(this.LTET, "LTET");
         this.instructionMap.put(this.GTET, "GTET");
-        this.instructionMap.put(this.EQ, "EQ");
+        this.instructionMap.put(EQ, "EQ");
         this.instructionMap.put(this.EQUALTXT, "EQ");
         this.instructionMap.put(this.NEQ, "NEQ");
         this.instructionMap.put(this.NOT, "NOT");

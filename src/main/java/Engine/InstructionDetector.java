@@ -18,85 +18,90 @@ public class InstructionDetector {
     }
 
     public String detectInstruction(String statement) {
-        String[] words = statement.toUpperCase().split(" ");
+        String[] tokens = statement.toUpperCase().trim().split(" ");
 
-        HashMap<String, Integer> functionDetection = new HashMap<String, Integer>();
+        HashMap<String, Integer> instructionScoreMap = new HashMap<String, Integer>();
         int highestSoFar = 0;
-        String mostLikelyFunction = "Unknown";
-        for (int i=0; i<words.length; i++) {
-            String key = words[i].trim();
-            HashMap<String, ArrayList<String>> instructionsWithKeyword = this.instructionSet.getInstructionSet();
+        String mostLikelyInstruction = "UNKNOWN";
+        for (String token : tokens) {
+            HashMap<String, ArrayList<String>> instructionWordMap = this.instructionSet.getInstructionSet();
 
-            for (String function : instructionsWithKeyword.keySet()) {
+            for (String function : instructionWordMap.keySet()) {
                 int functionScore = -1;
-                ArrayList<String> functionKeywords = instructionsWithKeyword.get(function);
-                for (String keyword : functionKeywords) {
-                    if (keyword.equalsIgnoreCase(key)) {
-                        int wordPoint = this.instructionSet.getPoints(key);
-                        if (functionDetection.containsKey(function)) {
-                            functionScore = functionDetection.get(function)+wordPoint;
-                            functionDetection.put(function, functionScore);
+                ArrayList<String> instructionKeywords = instructionWordMap.get(function);
+                for (String keyword : instructionKeywords) {
+                    if (keyword.equalsIgnoreCase(token)) {
+                        int wordPoint = this.instructionSet.getPoints(token);
+                        if (instructionScoreMap.containsKey(function)) {
+                            functionScore = instructionScoreMap.get(function)+wordPoint;
+                            instructionScoreMap.put(function, functionScore);
                         } else {
                             functionScore = wordPoint;
-                            functionDetection.put(function, functionScore);
+                            instructionScoreMap.put(function, functionScore);
                         }
 
                         if (highestSoFar < functionScore) {
                             highestSoFar = functionScore;
-                            mostLikelyFunction = function;
+                            mostLikelyInstruction = function;
                         }
                     }
                 }
             }
         }
 
-        return mostLikelyFunction;
+        return mostLikelyInstruction;
     }
 
-    public ArrayList<String> identifyToken(String[] tokens) {
-        ArrayList<String> identifiedToken = new ArrayList<>();
+    public HashMap<Integer, Pair> detect(String[] statements) {
+        HashMap<Integer, Pair> instructionMap = new HashMap<>();
+        int instructionCounter = 0;
 
-        for (int i=0; i<tokens.length; i++) {
-            String token = tokens[i];
-            if (token.contains("\"")) {
-                String temp = token;
-                int j = i+1;
-                for (; j<tokens.length; j++) {
-                    if (!tokens[j].contains("\""))
-                        temp += " "+tokens[j];
-                    else {
-                        temp += " "+tokens[j];
-                        break;
-                    }
+        for (String statement : statements) {
+            String detectedInstruction = this.detectInstruction(statement);
+            ArrayList<String> identifiedTokens = this.identifyTokens(statement);
+            String value = "";
+
+            for (String token : identifiedTokens) {
+                String retrievedValue = this.retrieveData(token);
+                if (token.equals("") || token.equals("ERROR") || retrievedValue.equals(InstructionSet.UNKNOWN)) continue;
+                if (token.equals(InstructionSet.ASSIGNMENT)) {
+                    value+= InstructionSet.EQUAL;
+                } else if (token.equals("EQ")) {
+                    value+= InstructionSet.EQ;
                 }
-                i = j;
-                identifiedToken.add("STRING => " + temp);
+                value += retrievedValue;
             }
-            identifiedToken = this.identifyToken(token, identifiedToken);
+
+            instructionMap.put(instructionCounter, new Pair(detectedInstruction, value));
+            instructionCounter+=1;
         }
 
-        return identifiedToken;
+        for (Integer key : instructionMap.keySet()) {
+            System.out.println(key + " " + instructionMap.get(key).getKey() + " " +instructionMap.get(key).getValue());
+        }
+
+        return instructionMap;
     }
 
-    public ArrayList<String> identifyToken(String token, ArrayList<String> identifiedTokens) {
-        HashMap<String, String> instructionMap = this.instructionSet.getInstructionMap();
-        if (instructionMap.containsKey(token.toUpperCase()))
-            identifiedTokens.add(instructionMap.get(token.toUpperCase()));
-        else if (this.isNumber(token))
-            identifiedTokens.add("INT => " + token);
-        else
-            for (char c : token.toCharArray()) {
-                String identifiedToken = this.identifyToken(c);
-                if (identifiedToken.equals("$")) {
-                    String varIns = getVariableName(token).replace("$", "");
-                    identifiedTokens.add("VARIABLE_NAME => " + varIns);
-                    continue;
-                }
+    private String retrieveData(String token) {
+        if (token == null)
+            return "ERROR";
 
-                identifiedTokens.add(identifiedToken);
-            }
+        String variableValue = "";
+        if (token.startsWith("INT =>"))
+            return token.replace("INT =>", "").trim();
+        else if (token.startsWith("STRING =>"))
+            return token.replace("STRING =>", "").trim();
+        else if (token.startsWith("EXPRESSION =>"))
+            return token.replace("EXPRESSION =>", "").trim();
+        else if (token.startsWith("FUNCTION_NAME =>"))
+            return token.replace("FUNCTION_NAME =>", "").trim();
+        else if (token.startsWith("ARITHMETIC_OPERATION =>"))
+            return token.replace("ARITHMETIC_OPERATION =>", "").trim();
+        else if (token.startsWith("VARIABLE_NAME =>"))
+            return token.replace("VARIABLE_NAME =>", "").trim();
 
-        return identifiedTokens;
+        return variableValue;
     }
 
     public String getVariableName(String statement) {
@@ -121,8 +126,8 @@ public class InstructionDetector {
         return this.UNKNOWN;
     }
 
-    public ArrayList<String> identifyTokens(String tokens) {
-        ArrayList<String> identifiedTokens = this.computeRegex(tokens);
+    public ArrayList<String> identifyTokens(String statement) {
+        ArrayList<String> identifiedTokens = this.computeRegex(statement);
 
         for (int i=0; i<identifiedTokens.size(); i++) {
             String identifiedToken = identifiedTokens.get(i);
@@ -190,12 +195,37 @@ public class InstructionDetector {
         InstructionDetector detector = new InstructionDetector(new InstructionSet());
 //        System.out.println(instructionSet.identifyTokens("$x=\"*\""));
 //        System.out.println(instructionSet.identifyTokens("$x = $y + 1"));
-        System.out.println(detector.detectInstruction(("write i would like to print \" hello \"")));
-        System.out.println(detector.detectInstruction(("$s = 45")));
-        System.out.println(detector.detectInstruction(("write a function main ( ) :")));
-        System.out.println(detector.detectInstruction(("loop 5 times:")));
-        System.out.println(detector.detectInstruction(("$x = 5+4")));
-        System.out.println(detector.detectInstruction(("create $x")));
-        System.out.println(detector.detectInstruction(("write a function called Main():")));
+//        System.out.println(detector.detectInstruction(("write i would like to print \" hello \"")));
+//        System.out.println(detector.detectInstruction(("$s = 45")));
+//        System.out.println(detector.detectInstruction(("write a function main ( ) :")));
+//        System.out.println(detector.detectInstruction(("loop 5 times:")));
+//        System.out.println(detector.detectInstruction(("$x = 5+4")));
+//        System.out.println(detector.detectInstruction(("create $x")));
+//        System.out.println(detector.detectInstruction(("write a function called Main():")));
+//        System.out.println(detector.detectInstruction(("write what 2+2 to the console")));
+//        System.out.println(detector.detectInstruction(("print 5")));
+//        System.out.println(detector.detectInstruction(("\tprint 5")));
+//        System.out.println(detector.detectInstruction(("call main()")));
+//        System.out.println(detector.detectInstruction(("if (2==2):")));
+
+//        detector.detect(new String[]{"please print \"Hello World!\""});
+//        detector.detect(new String[]{"call main():"});
+//        detector.detect(new String[]{"print 5"});
+//        detector.detect(new String[]{"create $x"});
+//        detector.detect(new String[]{"if 2==2:"});
+//        detector.detect(new String[]{"write what 2+2 to the console"});
+//        detector.detect(new String[]{"print 2+2+3"});
+//        detector.detect(new String[]{"$x = 5+4"});
+//        detector.detect(new String[]{"$x = 45"});
+//        detector.detect(new String[]{"if 4==4:"});
+//        detector.detect(new String[]{"$x = 4/4"});
+//        detector.detect(new String[]{"function main():"});
+
+
+
+        SynaticAnalyser synaticAnalyser = new SynaticAnalyser();
+        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():","$x = 4/4", "$x = 4"}));
+
     }
+
 }
