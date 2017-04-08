@@ -62,7 +62,7 @@ public class ParameterizedInstructionDetector {
     @Test
     public void testParameterizedInputs() {
         InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
-        String actualOutput = instructionDetector.detectInstruction(input);
+        String actualOutput = instructionDetector.detectInstruction(input.toUpperCase().trim().split(" "));
 
         assertEquals("Incorrect instruction detected", actualOutput, expectedOutput);
     }

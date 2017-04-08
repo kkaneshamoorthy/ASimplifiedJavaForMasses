@@ -3,9 +3,7 @@ package Engine;
 import Instruction.*;
 import Memory.FunctionStorage;
 import Memory.VariableHolder;
-import javafx.scene.control.TextArea;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SynaticAnalyser {
@@ -17,10 +15,19 @@ public class SynaticAnalyser {
         this.functionStorage = new FunctionStorage();
     }
 
+    public FunctionStorage getFunctionStorage() {
+        return this.functionStorage;
+    }
+
+    public VariableHolder getVariableHolder() {
+        return this.variableHolder;
+    }
+
     public HashMap<Integer, Instruction> generateInstructions(HashMap<Integer, Pair> tokens) {
         //Initialisation
         HashMap<Integer, Instruction> annotatedInstructions = new HashMap<Integer, Instruction>();
         Instruction parentInstruction = null;
+        Instruction parsentFunction = null;
 
         for (Integer instructionCounter : tokens.keySet()) {
             Pair instructionKeyPair = tokens.get(instructionCounter);
@@ -31,23 +38,63 @@ public class SynaticAnalyser {
                 case InstructionSet.FUNCTION:
                     FunctionInstruction functionInstruction = new FunctionInstruction(instructionValue.replace("(", "").replace(")", ""));
                     parentInstruction = functionInstruction;
+                    parsentFunction = functionInstruction;
                     this.functionStorage.add(functionInstruction);
                     annotatedInstructions.put(instructionCounter, functionInstruction);
                     break;
                 case InstructionSet.PRINT:
+                    if (instructionValue.isEmpty()) {
+                        this.setBody(parentInstruction, reportError(instructionCounter, "\"Please enter a valid data to print\""));
+                        continue;
+                    }
+                    PrintInstruction printInstruction = new PrintInstruction();
+                    printInstruction.setData(new Variable(parentInstruction.getInstructionID()+"PRINT"+instructionCounter, instructionValue, parentInstruction.getInstructionID()));
+                    this.setBody(parentInstruction, printInstruction);
                     break;
-                case InstructionSet.LOOP:
-                    break;
-                case InstructionSet.VARIABLE:
+                case InstructionSet.LOOP: //TODO: once finished executing loop - change scope to function
+                    if (instructionValue.isEmpty()) {
+                        this.setBody(parentInstruction, reportError(instructionCounter, "\"Please enter a valid number of iterations\""));
+                        continue;
+                    }
+                    LoopInstruction loopInstruction = new LoopInstruction();
+                    loopInstruction.setBody(new BlockInstruction());
+                    loopInstruction.setNumOfIteration(new Variable(parentInstruction.getInstructionID()+"LOOP"+instructionCounter, instructionValue, parentInstruction.getInstructionID()));
+                    this.setBody(parentInstruction, loopInstruction);
+                    parentInstruction = loopInstruction;
                     break;
                 case InstructionSet.IF:
+                    IfInstruction ifInstruction = new IfInstruction();
+                    ifInstruction.setCondition(instructionValue);
+                    ifInstruction.setBody(new BlockInstruction());
+                    this.setBody(parentInstruction, ifInstruction);
+                    parentInstruction = ifInstruction;
                     break;
                 case InstructionSet.ASSIGNMENT:
-                    Variable assignedTo = this.variableisier(this.getVariableToBeAssigned(instructionValue), parentInstruction.getInstructionID());
-                    AssignmentInstruction assignmentInstruction = new AssignmentInstruction(assignedTo, this.getAssignmentExpression(instructionValue));
+                    String varName = getVariableToBeAssigned(instructionValue);
+                    Variable varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parsentFunction.getInstructionID());
+                    if (varToBeAssigned == null) varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parentInstruction.getInstructionID());
+
+                    boolean isDeclaration = false;
+                    if (varToBeAssigned == null) {
+                        isDeclaration = true;
+                        varToBeAssigned = new Variable(varName, varName, parentInstruction.getInstructionID());
+                        this.variableHolder.add(varToBeAssigned);
+                    }
+
+
+                    String value = this.getAssignmentExpression(instructionValue);
+                    varToBeAssigned.setValue(value);
+                    AssignmentInstruction assignmentInstruction = new AssignmentInstruction(varToBeAssigned, this.getAssignmentExpression(instructionValue));
+                    assignmentInstruction.setDeclaration(isDeclaration);
                     this.setBody(parentInstruction, assignmentInstruction);
                     break;
                 case InstructionSet.DISPATCH:
+                    if (instructionValue.isEmpty()) {
+                        this.setBody(parentInstruction, reportError(instructionCounter, "\"Detected an invalid function name\""));
+                        continue;
+                    }
+                    FunctionDispatchInstruction functionDispatchInstruction = new FunctionDispatchInstruction(instructionValue.replace("(","").replace(")",""));
+                    this.setBody(parentInstruction, functionDispatchInstruction);
                     break;
                 case InstructionSet.INPUT:
                     break;
@@ -63,6 +110,10 @@ public class SynaticAnalyser {
         }
 
         return annotatedInstructions;
+    }
+
+    private ErrorMessage reportError(Integer instructionCounter, String message) {
+        return new ErrorMessage(new Variable(instructionCounter+"Err", message, message.hashCode()+""+instructionCounter));
     }
 
     private Variable variableisier(String varName, String scope) {
@@ -93,14 +144,15 @@ public class SynaticAnalyser {
 
     public String getAssignmentExpression(String token) {
         StringBuilder expr = new StringBuilder();
-        for (int i=token.length()-1; i>=0; i--) {
+        boolean isValue = false;
+        for (int i=0; i<=token.length()-1; i++) {
             char c = token.charAt(i);
 
-            if (c == '=') return expr.toString();
-            expr.append(c);
+            if (isValue) expr.append(c);
+            if (c == '=') isValue = true;
         }
 
-        return null;
+        return expr.toString();
     }
 
     private void setBody(Instruction parentInstruction, Instruction childInstruction) {

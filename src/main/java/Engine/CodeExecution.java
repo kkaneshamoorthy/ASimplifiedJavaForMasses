@@ -1,5 +1,6 @@
 package Engine;
 
+import Instruction.Instruction;
 import Memory.InstructionStorage;
 import Memory.JavaProgramTemplate;
 import Memory.VariableHolder;
@@ -9,6 +10,7 @@ import javafx.scene.control.TextArea;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 public class CodeExecution {
     private TextArea console;
@@ -18,14 +20,17 @@ public class CodeExecution {
     }
 
     public void executeCode(String[] sourceCode) throws Exception {
-        LexicalAnalyser la = new LexicalAnalyser();
-        la.lexicalAnalyser(sourceCode);
-        JavaProgramTemplate javaProgramTemplate = new JavaProgramTemplate(la.getInstructionStorage(), la.getVariableHolder());
+        SynaticAnalyser synaticAnalyser = new SynaticAnalyser();
+        InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
+        HashMap<Integer, Instruction> map = synaticAnalyser.generateInstructions(instructionDetector.detect(sourceCode));
+        JavaProgramTemplate javaProgramTemplate = new JavaProgramTemplate(map, synaticAnalyser.getVariableHolder());
         FileUtility.saveJavaProgramTemporaryForExecution(null, javaProgramTemplate);
 
         System.out.println("---- Output ----");
         runProcess("javac " + javaProgramTemplate.getClassName() +".java");
         runProcess("java " + javaProgramTemplate.getClassName());
+
+        FileUtility.clearTempFile();
     }
 
     private void printLines(String name, InputStream ins) throws Exception {

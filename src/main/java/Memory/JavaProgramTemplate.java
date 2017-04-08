@@ -7,21 +7,20 @@ import java.util.HashMap;
 public class JavaProgramTemplate {
     private String className;
     private VariableHolder variableHolder;
-    private InstructionStorage instructionStorage;
+    private HashMap<Integer, Instruction> instructionHashMap;
 
-    public JavaProgramTemplate(InstructionStorage instructionStorage, VariableHolder variableHolder) {
+    public JavaProgramTemplate(HashMap<Integer, Instruction> instructionHashMap, VariableHolder variableHolder) {
         this.variableHolder = variableHolder;
-        this.instructionStorage = instructionStorage;
-        this.className = "program";
+        this.instructionHashMap = instructionHashMap;
+        this.className = "temp";
     }
 
     public String getClassName() { return this.className; }
     public VariableHolder getVariableHolder() { return this.variableHolder; }
-    public InstructionStorage getInstructionStorage() { return this.instructionStorage; }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        HashMap<Integer, String> javaCode = this.codeGeneration(this.instructionStorage.instructionMap);
+        HashMap<Integer, String> javaCode = this.codeGeneration(this.instructionHashMap);
 
         sb.append("public class " + className + " { ");
         for (Integer instructionCounter : javaCode.keySet())

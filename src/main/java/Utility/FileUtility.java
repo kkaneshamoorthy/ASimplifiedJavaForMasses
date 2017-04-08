@@ -33,13 +33,18 @@ public class FileUtility {
 
     public static void saveTemporaryFile(Stage primaryStage, String content) {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(fileName+".java"));
+            File temp = new File("temp.java");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
             bw.write(content);
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
             //TODO: Print exception to the console
         }
+    }
+
+    public static void clearTempFile() {
+        FileUtility.saveTemporaryFile(null, "");
     }
 
     public static void openFile(Stage primaryStage, CodeEditor editor) {

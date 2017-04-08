@@ -17,13 +17,14 @@ public class InstructionDetector {
         this.instructionSet = instructionSet;
     }
 
-    public String detectInstruction(String statement) {
-        String[] tokens = statement.toUpperCase().trim().split(" ");
-
+    public String detectInstruction(String[] tokens) {
         HashMap<String, Integer> instructionScoreMap = new HashMap<String, Integer>();
         int highestSoFar = 0;
         String mostLikelyInstruction = "UNKNOWN";
         for (String token : tokens) {
+            String annotatedToken = retrieveData(token);
+            if (!annotatedToken.equals("")) token = annotatedToken;
+
             HashMap<String, ArrayList<String>> instructionWordMap = this.instructionSet.getInstructionSet();
 
             for (String function : instructionWordMap.keySet()) {
@@ -57,7 +58,13 @@ public class InstructionDetector {
         int instructionCounter = 0;
 
         for (String statement : statements) {
-            String detectedInstruction = this.detectInstruction(statement);
+            String detectedInstruction = this.detectInstruction(statement.toUpperCase().trim().split(" "));
+            if (detectedInstruction.equals("UNKNOWN")) {
+                ArrayList<String> ls = identifyTokens(statement);
+                String[] identifiedTokens = identifyTokens(statement).toArray(new String[ls.size()]);
+                detectedInstruction = this.detectInstruction(identifiedTokens);
+            }
+
             ArrayList<String> identifiedTokens = this.identifyTokens(statement);
             String value = "";
 
@@ -220,12 +227,19 @@ public class InstructionDetector {
 //        detector.detect(new String[]{"if 4==4:"});
 //        detector.detect(new String[]{"$x = 4/4"});
 //        detector.detect(new String[]{"function main():"});
+//        detector.detect(new String[]{"$x = \"*\""});
 
 
 
         SynaticAnalyser synaticAnalyser = new SynaticAnalyser();
-        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():","$x = 4/4", "$x = 4"}));
-
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():","$x = 4/4", "$x = 4"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "if 4==\"hello\":"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"write what 2+2 to the console"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "print"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call main()"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "get input from"}));
+        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = \"*\"", "$y = \"h\"", "$x =$x+$y", "print $x"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"$x=$x+$y"})); //TODO: it is assignment whether there is a space or not
     }
-
 }

@@ -27,6 +27,6 @@ public class Variable {
         if (instructionDetector.isString(this.value)) return "String";
         if (instructionDetector.isBoolean(this.value)) return "boolean";
 
-        return "int";
+        return "String";
     }
 }

@@ -41,7 +41,7 @@ public class PrintInstruction implements Instruction {
     public String generateCode() {
         StringBuilder sb = new StringBuilder();
         System.out.println(this.data.getName() + " " + this.data.getValue());
-        sb.append("System.out.println("+this.data.getValue()+");");
+        sb.append("System.out.println("+this.data.getValue().replace("$", "")+");");
 
         return sb.toString();
     }

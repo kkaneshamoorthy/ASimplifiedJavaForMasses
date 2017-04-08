@@ -56,12 +56,12 @@ public class AssignmentInstruction implements Instruction{
     }
 
     private String formatExpression(String expression) {
-        System.out.println(expression+" called");
         return expression.replace("ASSIGNMENT", "")
                 .replace("INT =>", "")
                 .replace("STRING =>", "")
                 .replace("VARIABLE_NAME => ", "")
                 .replace("UNKNOWN", "")
+                .replace("$","")
                 .trim();
     }
 

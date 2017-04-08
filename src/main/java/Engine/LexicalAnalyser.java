@@ -49,7 +49,7 @@ public class LexicalAnalyser {
                 System.out.print(t + ", ");
             System.out.println();
 
-            String detectedInstruction = this.instructionDetector.detectInstruction(statement);
+            String detectedInstruction = this.instructionDetector.detectInstruction(statement.toUpperCase().trim().split(" "));
             System.out.println("Detected Instruction: " + detectedInstruction);
 //            for (String token : identifiedTokens) {
 //                token = token.toUpperCase();

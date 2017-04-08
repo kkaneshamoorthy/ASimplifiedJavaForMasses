@@ -11,8 +11,10 @@ import java.util.HashMap;
 public class CodeGeneration {
 
     public void generateCode(String[] sourceCode) {
-        LexicalAnalyser la = new LexicalAnalyser();
-        HashMap<Integer, Instruction> tokenisedInstriction = la.lexicalAnalyser(sourceCode);
+//        LexicalAnalyser la = new LexicalAnalyser();
+        SynaticAnalyser synaticAnalyser = new SynaticAnalyser();
+        InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
+        HashMap<Integer, Instruction> tokenisedInstriction = synaticAnalyser.generateInstructions(instructionDetector.detect(sourceCode));
         HashMap<Integer, String> javaCode = this.generateJavaCode(tokenisedInstriction);
 
         System.out.println("--- Java code is being generated ---");
@@ -22,7 +24,7 @@ public class CodeGeneration {
             System.out.println(instruction);
         }
 
-        FileUtility.saveJavaProgram(null, new JavaProgramTemplate(la.getInstructionStorage(), la.getVariableHolder()));
+        FileUtility.saveJavaProgram(null, new JavaProgramTemplate(tokenisedInstriction, synaticAnalyser.getVariableHolder()));
 
         System.out.println("--- Finished generating code ---");
     }

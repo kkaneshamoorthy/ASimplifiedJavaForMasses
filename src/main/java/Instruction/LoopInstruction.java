@@ -78,7 +78,7 @@ public class LoopInstruction implements Instruction {
         System.out.println(this.body);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "<" + numOfIteration.getValue() + "; " + this.currentIterationValue.getName() + "++) \n");
+        sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "<" + numOfIteration.getValue().replace("$", "") + "; " + this.currentIterationValue.getName() + "++) \n");
         sb.append("{ \n");
         sb.append(this.body == null ? "" : this.body.generateCode());
         sb.append("} \n");

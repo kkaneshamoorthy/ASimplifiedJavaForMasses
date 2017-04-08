@@ -75,7 +75,7 @@ public class InstructionSet {
     }
 
     private static final String[] KEYWORDS = new String[] {
-            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\+", "\\-", "\\*", "\\/", "\\%", "add", "true", "false", "else", "call", "="
+            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\+", "\\-", "\\*", "\\/", "\\%", "add", "true", "false", "else", "call", "=", "store", "in"
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
@@ -90,7 +90,7 @@ public class InstructionSet {
     private static final String RELATIONAL_PATTERN = "\\b(" + String.join("|", RELATIONAL_OPERATION_PATTERN) + ")\\b";
     private static final String BITWISE_PATTERN = "\\b(" + String.join("|", BITWISE_OPERATION_PATTERN) + ")\\b";
     private static final String NUMBER_PATTERN =  "[0-9]+";
-    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\"\\s*(\\*\\+\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\")*";
+    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\*\\/%&\\s!]{0,19}\"\\s*(\\*\\+\\*\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\")*";
     private static final String VARIABLE_NAMING_PATTERN = "\\$[a-z][0-9a-zA-Z_]";
     private static final String ID_PATTERN = VARIABLE_NAMING_PATTERN+"*";
     private static final String NAME_PATTERN = "[a-zA-Z0-9]*";
@@ -184,8 +184,8 @@ public class InstructionSet {
         //Print
         printKeyWord = new ArrayList<String>();
         printKeyWord.add(this.PRINT);
-        printKeyWord.add(this.CONSOLE);
         printKeyWord.add("WRITE");
+        printKeyWord.add("\"");
 
         //Variable
         variableKeyWord = new ArrayList<String>();
@@ -202,7 +202,6 @@ public class InstructionSet {
         assignment.add("*");
         assignment.add("/");
         assignment.add("%");
-
 
         //function
         ArrayList<String> function = new ArrayList<>();
@@ -232,6 +231,12 @@ public class InstructionSet {
         ifKeyword.add("CONDITION");
         ifKeyword.add(":");
 
+        //input
+        ArrayList<String> inputKeyword = new ArrayList<>();
+        inputKeyword.add("INPUT");
+        inputKeyword.add("USER");
+        inputKeyword.add("GET");
+
         keywordAndFunction = new HashMap<String, ArrayList<String>>();
         keywordAndFunction.put(this.PRINT, printKeyWord);
         keywordAndFunction.put(this.LOOP, loopKeyword);
@@ -241,6 +246,7 @@ public class InstructionSet {
         keywordAndFunction.put("FUNCTION", function);
         keywordAndFunction.put("CALL", functionCall);
         keywordAndFunction.put("IF", ifKeyword);
+        keywordAndFunction.put("INPUT", inputKeyword);
 
         this.init();
     }
