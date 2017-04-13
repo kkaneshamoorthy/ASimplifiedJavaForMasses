@@ -75,7 +75,7 @@ public class InstructionSet {
     }
 
     private static final String[] KEYWORDS = new String[] {
-            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\/", "\\%", "add", "true", "false", "else", "call", "=", "store", "in", "go", "through"
+            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\/", "\\+", "\\%", "add", "true", "false", "else", "call", "=", "store", "in", "go", "through"
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
@@ -104,7 +104,7 @@ public class InstructionSet {
                     + "|" + FUNCTION_NAME_PATTERN
                     + "|" + ARITHEMETRIC_PATTERN
                     + "|" + ID_PATTERN
-                    + "|" + TEXT_PATTERN
+//                    + "|" + TEXT_PATTERN
                     + "|" + STRING_PATTERN
                     + "|" + NUMBER_PATTERN
                     + "|" + RELATIONAL_PATTERN
@@ -199,7 +199,7 @@ public class InstructionSet {
         ArrayList<String> assignment = new ArrayList<>();
         assignment.add("=");
         assignment.add("$");
-//        assignment.add("+");
+        assignment.add("+");
 //        assignment.add("-");
 //        assignment.add("*");
 //        assignment.add("/");

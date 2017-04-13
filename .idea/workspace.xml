@@ -7,28 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be01a58c-6b11-4a1e-9198-8f606789a433" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/Engine/SyntaticAnalyser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/Engine/SyntaticAnalyser.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Engine/InstructionDetector.class" afterPath="$PROJECT_DIR$/target/classes/Engine/InstructionDetector.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Engine/InstructionSet.class" afterPath="$PROJECT_DIR$/target/classes/Engine/InstructionSet.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Engine/SynaticAnalyser.class" afterPath="$PROJECT_DIR$/target/classes/Engine/SynaticAnalyser.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/AssignmentInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/AssignmentInstruction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/FunctionDispatchInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/FunctionDispatchInstruction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/FunctionInstruction.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/FunctionInstruction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Instruction/Variable.class" afterPath="$PROJECT_DIR$/target/classes/Instruction/Variable.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Memory/FunctionStorage.class" afterPath="$PROJECT_DIR$/target/classes/Memory/FunctionStorage.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/temp.class" afterPath="$PROJECT_DIR$/temp.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Engine/SynaticAnalyser.java" afterPath="$PROJECT_DIR$/src/main/java/Engine/SynaticAnalyser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/FunctionDispatchInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/FunctionDispatchInstruction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/Variable.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/Variable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Memory/FunctionStorage.java" afterPath="$PROJECT_DIR$/src/main/java/Memory/FunctionStorage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/data/wordWithPoints.csv" afterPath="$PROJECT_DIR$/src/main/resources/data/wordWithPoints.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/data/wordWithPoints.csv" afterPath="$PROJECT_DIR$/target/classes/data/wordWithPoints.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java" afterPath="$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -58,8 +47,8 @@
       <file leaf-file-name="InstructionSet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="206" column="0" lean-forward="true" selection-start-line="206" selection-start-column="0" selection-end-line="206" selection-end-column="0" />
+            <state relative-caret-position="495">
+              <caret line="214" column="0" lean-forward="false" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -68,11 +57,21 @@
       <file leaf-file-name="SynaticAnalyser.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Engine/SynaticAnalyser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="111" column="53" lean-forward="false" selection-start-line="111" selection-start-column="53" selection-end-line="111" selection-end-column="53" />
+            <state relative-caret-position="91">
+              <caret line="180" column="0" lean-forward="false" selection-start-line="180" selection-start-column="2" selection-end-line="188" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoopInstruction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="453">
+              <caret line="88" column="33" lean-forward="true" selection-start-line="88" selection-start-column="33" selection-end-line="88" selection-end-column="33" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,8 +99,8 @@
       <file leaf-file-name="AssignmentInstruction.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="24" lean-forward="true" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+            <state relative-caret-position="525">
+              <caret line="92" column="44" lean-forward="false" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1069#1070#0" expanded="true" />
@@ -117,21 +116,6 @@
             <state relative-caret-position="477">
               <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Variable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/Variable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
-              <folding>
-                <element signature="e#689#690#0" expanded="true" />
-                <element signature="e#721#722#0" expanded="true" />
-                <element signature="e#751#752#0" expanded="true" />
-                <element signature="e#783#784#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -152,8 +136,8 @@
       <file leaf-file-name="InstructionDetector.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2361">
-              <caret line="55" column="63" lean-forward="false" selection-start-line="55" selection-start-column="63" selection-end-line="55" selection-end-column="63" />
+            <state relative-caret-position="376">
+              <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -209,6 +193,8 @@
       <find>createTempFile</find>
       <find>program</find>
       <find>functionInstruction</find>
+      <find>RDKGHDFRGH</find>
+      <find>system</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -263,15 +249,15 @@
         <option value="$PROJECT_DIR$/src/main/java/Instruction/PrintInstruction.java" />
         <option value="$PROJECT_DIR$/src/main/java/Engine/LexicalAnalyser.java" />
         <option value="$PROJECT_DIR$/src/test/java/Engine/ParameterizedInstructionDetector.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java" />
         <option value="$PROJECT_DIR$/src/main/resources/data/wordWithPoints.csv" />
         <option value="$PROJECT_DIR$/src/main/java/Memory/FunctionStorage.java" />
         <option value="$PROJECT_DIR$/src/main/java/Instruction/FunctionDispatchInstruction.java" />
         <option value="$PROJECT_DIR$/src/main/java/Instruction/Variable.java" />
         <option value="$PROJECT_DIR$/src/main/java/Instruction/FunctionInstruction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java" />
         <option value="$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java" />
         <option value="$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java" />
         <option value="$PROJECT_DIR$/src/main/java/Engine/SynaticAnalyser.java" />
       </list>
     </option>
@@ -1378,7 +1364,7 @@
       <workItem from="1491674785392" duration="7874000" />
       <workItem from="1491774692941" duration="10959000" />
       <workItem from="1491988954782" duration="12939000" />
-      <workItem from="1492034726933" duration="9021000" />
+      <workItem from="1492034726933" duration="10754000" />
     </task>
     <servers />
   </component>
@@ -1415,7 +1401,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="382916000" />
+    <option name="totallyTimeSpent" value="384649000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1830,14 +1816,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="80" column="168" lean-forward="false" selection-start-line="80" selection-start-column="168" selection-end-line="80" selection-end-column="168" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Engine/LexicalAnalyser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="409">
@@ -1894,22 +1872,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2361">
-          <caret line="55" column="63" lean-forward="false" selection-start-line="55" selection-start-column="63" selection-end-line="55" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="206" column="0" lean-forward="true" selection-start-line="206" selection-start-column="0" selection-end-line="206" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/Instruction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -1954,10 +1916,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="214" column="0" lean-forward="false" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Engine/InstructionDetector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/AssignmentInstruction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="24" lean-forward="true" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+        <state relative-caret-position="525">
+          <caret line="92" column="44" lean-forward="false" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1069#1070#0" expanded="true" />
@@ -1966,10 +1944,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Instruction/LoopInstruction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="453">
+          <caret line="88" column="33" lean-forward="true" selection-start-line="88" selection-start-column="33" selection-end-line="88" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Engine/SynaticAnalyser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="111" column="53" lean-forward="false" selection-start-line="111" selection-start-column="53" selection-end-line="111" selection-end-column="53" />
+        <state relative-caret-position="91">
+          <caret line="180" column="0" lean-forward="false" selection-start-line="180" selection-start-column="2" selection-end-line="188" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

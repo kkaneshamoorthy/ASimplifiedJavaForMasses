@@ -50,13 +50,10 @@ public class SynaticAnalyser {
                         functionInstruction.setFunctionName(functionName);
                     }
 
-                    System.out.println("PARAMETER:"+instructionValue);
-
                     ArrayList<String> parameterList = this.getArgumentList(instructionValue);
                     ArrayList<Variable> parameterVariableList = new ArrayList<Variable>();
                     int parameterCounter = 0;
                     for (String parameter : parameterList) {
-                        System.out.println(functionArgName+"=>"+parameterCounter+": "+parameter);
                         Variable argumentVariable = this.variableHolder.getVariableGivenScopeAndName(
                                 functionArgName+"=>"+parameterCounter,
                                 functionInstruction.getInstructionID()
@@ -109,7 +106,6 @@ public class SynaticAnalyser {
                     break;
                 case InstructionSet.ASSIGNMENT:
                     String varName = getVariableToBeAssigned(instructionValue);
-                    System.out.println("NAME"+varName);
                     Variable varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parentFunction.getInstructionID());
 
                     boolean isDeclaration = false;
@@ -200,8 +196,6 @@ public class SynaticAnalyser {
         for (int i=0; i<value.length(); i++) {
             char c = value.charAt(i);
 
-            System.out.println(c + " " + expr.toString() + " " + value + " " + i + " " + value.length());
-
             if (i == value.length()-1) {
                 if (isOperation(c)) {
                     ls.add(new Variable(c+"", c+"", "OPERATION")); //operation
@@ -218,8 +212,6 @@ public class SynaticAnalyser {
                         ls.add(new Variable("", expr.toString(), "NONE")); //constant
                 }
             } else if (isOperation(c)) {
-                ls.add(new Variable(c+"", c+"", "OPERATION")); //operation
-                expr.append(c);
                 if (isVariable(expr.toString())) {
                     Variable var = this.variableHolder.getVariableGivenScopeAndName(expr.toString(), scope);
                     if (var != null) ls.add(var);
@@ -228,6 +220,8 @@ public class SynaticAnalyser {
                     }
                 } else
                     ls.add(new Variable("", expr.toString(), "NONE")); //constant
+
+                ls.add(new Variable(c+"", c+"", "OPERATION")); //operation
 
                 expr = new StringBuilder();
             } else expr.append(c);

@@ -56,7 +56,7 @@ public class AssignmentInstruction implements Instruction{
 
     @Override
     public String generateCode() {
-        System.out.println("RDKGHDFRGH"+formatExpression() + " == " + assignedTo.getName() );
+//        System.out.println("RDKGHDFRGH"+formatExpression() + " == " + assignedTo.getName() );
         return (
                 ((this.isDeclaration) ? assignedTo.getType()+" " : "")  + assignedTo.getName().replace("$", "") + " = " + formatExpression()+";"
         );
@@ -90,7 +90,7 @@ public class AssignmentInstruction implements Instruction{
 
         System.out.println(sb.toString() + " " + isString);
 
-        return sb.toString();
+        return sb.toString().replace("$", "");
     }
 
     @Override

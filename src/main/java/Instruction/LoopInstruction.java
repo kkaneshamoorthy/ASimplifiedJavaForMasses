@@ -78,14 +78,14 @@ public class LoopInstruction implements Instruction {
         System.out.println(this.body);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "<" + numOfIteration.getValue().replace("$", "") + "; " + this.currentIterationValue.getName() + "++) \n");
+        sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "<" + 5 + "; " + this.currentIterationValue.getName() + "++) \n");
         sb.append("{ \n");
         sb.append(this.body == null ? "" : this.body.generateCode());
         sb.append("} \n");
 
         return sb.toString();
     }
-
+//numOfIteration.getValue().replace("$", "")
     private String generateId() {
         return (this.instructionType+this.getTotalIteration()+this.getCurrentIterationValue().getName()+this.getCurrentIterationValue().getValue()).hashCode()+"";
     }

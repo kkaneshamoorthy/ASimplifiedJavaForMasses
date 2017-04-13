@@ -83,9 +83,9 @@ public class InstructionDetector {
             instructionCounter+=1;
         }
 
-        for (Integer key : instructionMap.keySet()) {
-            System.out.println(key + " " + instructionMap.get(key).getKey() + " " +instructionMap.get(key).getValue());
-        }
+//        for (Integer key : instructionMap.keySet()) {
+//            System.out.println(key + " " + instructionMap.get(key).getKey() + " " +instructionMap.get(key).getValue());
+//        }
 
         return instructionMap;
     }
@@ -233,7 +233,7 @@ public class InstructionDetector {
 //        detector.detect(new String[]{"call main($x)"});
 //        detector.detect(new String[]{"call main(\"Hello\")"});
 //        detector.detect(new String[]{"call main(\"Hello\", 54)"});
-        detector.detect(new String[]{"*"});
+        detector.detect(new String[]{"$x = 234"});
 
 
 
