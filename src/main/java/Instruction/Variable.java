@@ -3,7 +3,7 @@ package Instruction;
 import Engine.InstructionDetector;
 import Engine.InstructionSet;
 
-public class Variable {
+public class    Variable {
     private String name;
     private String value;
     private String scope;
@@ -20,7 +20,13 @@ public class Variable {
     public String getScope() { return this.scope; }
     public void setValue(String newValue) { this.value = newValue; }
     public void setName(String name) { this.name = name; }
+    public void setType(String type) {
+        this.type = type;
+    }
     public String getType() {
+        return this.type;
+    }
+    public String getExprType() {
         InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
 
         if (instructionDetector.isNumber(this.value)) return "int";

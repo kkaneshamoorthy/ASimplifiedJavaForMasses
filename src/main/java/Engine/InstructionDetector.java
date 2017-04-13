@@ -228,6 +228,12 @@ public class InstructionDetector {
 //        detector.detect(new String[]{"$x = 4/4"});
 //        detector.detect(new String[]{"function main():"});
 //        detector.detect(new String[]{"$x = \"*\""});
+//        detector.detect(new String[]{"call main(4)"});
+//        detector.detect(new String[]{"call main()"});
+//        detector.detect(new String[]{"call main($x)"});
+//        detector.detect(new String[]{"call main(\"Hello\")"});
+//        detector.detect(new String[]{"call main(\"Hello\", 54)"});
+        detector.detect(new String[]{"*"});
 
 
 
@@ -239,7 +245,11 @@ public class InstructionDetector {
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "print"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call main()"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "get input from"}));
-        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = \"*\"", "$y = \"h\"", "$x =$x+$y", "print $x"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = \"*\"", "$y = \"h\"", "$x =$x+$y", "print $x"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"$x=$x+$y"})); //TODO: it is assignment whether there is a space or not
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call main(343, 45, 567, \"Hello world\")"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call hello(1, 2)", "function hello($x, $y):"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call hello(223)", "function hello($x, $y):"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$s = 1", "call hello($s)", "function hello($x, $y):"}));
     }
 }

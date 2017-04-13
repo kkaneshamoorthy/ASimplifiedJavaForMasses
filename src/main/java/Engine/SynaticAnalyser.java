@@ -3,7 +3,10 @@ package Engine;
 import Instruction.*;
 import Memory.FunctionStorage;
 import Memory.VariableHolder;
+import org.reactfx.value.Var;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class SynaticAnalyser {
@@ -27,7 +30,7 @@ public class SynaticAnalyser {
         //Initialisation
         HashMap<Integer, Instruction> annotatedInstructions = new HashMap<Integer, Instruction>();
         Instruction parentInstruction = null;
-        Instruction parsentFunction = null;
+        Instruction parentFunction = null;
 
         for (Integer instructionCounter : tokens.keySet()) {
             Pair instructionKeyPair = tokens.get(instructionCounter);
@@ -36,9 +39,44 @@ public class SynaticAnalyser {
 
             switch (instruction) {
                 case InstructionSet.FUNCTION:
-                    FunctionInstruction functionInstruction = new FunctionInstruction(instructionValue.replace("(", "").replace(")", ""));
+                    String functionName = this.getFunctionName(instructionValue);
+                    String functionArgName = "UNDEFINED";
+                    FunctionInstruction functionInstruction = this.functionStorage.get("UNDEFINED");
+
+                    if (functionInstruction == null) {
+                        functionInstruction = new FunctionInstruction(functionName);
+                        functionArgName = functionName;
+                    } else {
+                        functionInstruction.setFunctionName(functionName);
+                    }
+
+                    System.out.println("PARAMETER:"+instructionValue);
+
+                    ArrayList<String> parameterList = this.getArgumentList(instructionValue);
+                    ArrayList<Variable> parameterVariableList = new ArrayList<Variable>();
+                    int parameterCounter = 0;
+                    for (String parameter : parameterList) {
+                        System.out.println(functionArgName+"=>"+parameterCounter+": "+parameter);
+                        Variable argumentVariable = this.variableHolder.getVariableGivenScopeAndName(
+                                functionArgName+"=>"+parameterCounter,
+                                functionInstruction.getInstructionID()
+                        );
+
+                        //TODO: if no pass method passes anything, meaning no one calls, then argument variable is empty value
+                        if (argumentVariable == null) {
+                            argumentVariable = new Variable(parameter, "", functionInstruction.getInstructionID());
+                        } else {
+                            argumentVariable.setName(parameter);
+                        }
+
+                        parameterVariableList.add(argumentVariable);
+                        parameterCounter++;
+                    }
+
+                    functionInstruction.setParameter(parameterVariableList);
+
                     parentInstruction = functionInstruction;
-                    parsentFunction = functionInstruction;
+                    parentFunction = functionInstruction;
                     this.functionStorage.add(functionInstruction);
                     annotatedInstructions.put(instructionCounter, functionInstruction);
                     break;
@@ -71,8 +109,8 @@ public class SynaticAnalyser {
                     break;
                 case InstructionSet.ASSIGNMENT:
                     String varName = getVariableToBeAssigned(instructionValue);
-                    Variable varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parsentFunction.getInstructionID());
-                    if (varToBeAssigned == null) varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parentInstruction.getInstructionID());
+                    System.out.println("NAME"+varName);
+                    Variable varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parentFunction.getInstructionID());
 
                     boolean isDeclaration = false;
                     if (varToBeAssigned == null) {
@@ -81,10 +119,11 @@ public class SynaticAnalyser {
                         this.variableHolder.add(varToBeAssigned);
                     }
 
+                    String value = this.getAssignmentExpression(instructionValue); //anything after the EQ = sign0
+                    AssignmentInstruction assignmentInstruction = new AssignmentInstruction(varToBeAssigned, value);
+                    ArrayList<Variable> ls = getArgumentAsVariableList(value, parentFunction.getInstructionID());
+                    assignmentInstruction.setExpression(ls);
 
-                    String value = this.getAssignmentExpression(instructionValue);
-                    varToBeAssigned.setValue(value);
-                    AssignmentInstruction assignmentInstruction = new AssignmentInstruction(varToBeAssigned, this.getAssignmentExpression(instructionValue));
                     assignmentInstruction.setDeclaration(isDeclaration);
                     this.setBody(parentInstruction, assignmentInstruction);
                     break;
@@ -93,14 +132,37 @@ public class SynaticAnalyser {
                         this.setBody(parentInstruction, reportError(instructionCounter, "\"Detected an invalid function name\""));
                         continue;
                     }
-                    FunctionDispatchInstruction functionDispatchInstruction = new FunctionDispatchInstruction(instructionValue.replace("(","").replace(")",""));
+                    functionName = getFunctionName(instructionValue);
+                    if (functionName == null) {
+                        this.setBody(parentInstruction, reportError(instructionCounter, "\"Detected an invalid function name\""));
+                        continue;
+                    }
+
+                    String functionArgument = this.getFunctionArgument(instructionValue);
+                    ArrayList<Variable> argumentList = getArgumentAsVariableList(functionArgument, parentFunction.getInstructionID());
+                    if (argumentList == null) {
+                        this.setBody(parentInstruction, reportError(instructionCounter, "\"Syntax error at function call\""));
+                        continue;
+                    }
+
+                    FunctionDispatchInstruction functionDispatchInstruction = new FunctionDispatchInstruction(functionName);
                     this.setBody(parentInstruction, functionDispatchInstruction);
+                    FunctionInstruction funcInstr = this.functionStorage.get(functionName);
+
+                    if (funcInstr == null) {
+                        funcInstr = new FunctionInstruction("UNDEFINED"); //TODO: make the functionName unique
+                        this.functionStorage.add(funcInstr);
+                    }
+
+                    for (Variable argument : argumentList) {
+                        functionDispatchInstruction.addArgument(argument);
+                    }
+
                     break;
                 case InstructionSet.INPUT:
                     break;
             }
         }
-
 
         CodeGeneration codeGeneration = new CodeGeneration();
         HashMap<Integer, String> ls = codeGeneration.generateJavaCode(annotatedInstructions);
@@ -110,6 +172,98 @@ public class SynaticAnalyser {
         }
 
         return annotatedInstructions;
+    }
+
+    private String getFunctionArgument(String value) {
+        int startIndex = value.indexOf("(");
+        int endIndex = value.indexOf(")");
+
+        return value.substring(startIndex+1, endIndex);
+    }
+
+
+//    write a function called main():
+//    print what 345 + 345 is to the console
+//    call printStar(12)
+//
+//    write a function called printStar($num):
+//    store $star = '*'
+//    write a loop to go through $num times:
+//    and then print $star
+//    $star = $star+"*"
+
+
+    private ArrayList<Variable> getArgumentAsVariableList(String value, String scope) {
+        ArrayList<Variable> ls = new ArrayList<Variable>();
+
+        StringBuilder expr = new StringBuilder();
+        for (int i=0; i<value.length(); i++) {
+            char c = value.charAt(i);
+
+            System.out.println(c + " " + expr.toString() + " " + value + " " + i + " " + value.length());
+
+            if (i == value.length()-1) {
+                if (isOperation(c)) {
+                    ls.add(new Variable(c+"", c+"", "OPERATION")); //operation
+                } else {
+                    expr.append(c);
+
+                    if (isVariable(expr.toString())) {
+                        Variable var = this.variableHolder.getVariableGivenScopeAndName(expr.toString(), scope);
+                        if (var != null) ls.add(var);
+                        else {
+                            //TODO: variable not defined
+                        }
+                    } else
+                        ls.add(new Variable("", expr.toString(), "NONE")); //constant
+                }
+            } else if (isOperation(c)) {
+                ls.add(new Variable(c+"", c+"", "OPERATION")); //operation
+                expr.append(c);
+                if (isVariable(expr.toString())) {
+                    Variable var = this.variableHolder.getVariableGivenScopeAndName(expr.toString(), scope);
+                    if (var != null) ls.add(var);
+                    else {
+                        //TODO: variable not defined
+                    }
+                } else
+                    ls.add(new Variable("", expr.toString(), "NONE")); //constant
+
+                expr = new StringBuilder();
+            } else expr.append(c);
+        }
+
+        return ls;
+    }
+
+    private boolean isOperation(char c) {
+        if (c == '+' || c == '-' || c == '/' || c == '*' || c == '%')
+            return true;
+
+        return false;
+    }
+
+    private ArrayList<String> getArgumentList(String value) {
+        ArrayList<String> argumentList = new ArrayList<>();
+        if (!value.contains("(")) return null;
+
+        int startIndex = value.indexOf("(")+1;
+        int endIndex = value.indexOf(")");
+        String args = value.substring(startIndex, endIndex).trim();
+        if (args.isEmpty()) return argumentList;
+        String[] arguments = args.split(",");
+        argumentList.addAll(Arrays.asList(arguments));
+
+        return argumentList;
+    }
+
+    private String getFunctionName(String value) {
+        int startIndex = 0;
+        int endIndex = value.indexOf("(");
+
+        if (endIndex == -1) return null;
+
+        return value.substring(startIndex, endIndex);
     }
 
     private ErrorMessage reportError(Integer instructionCounter, String message) {

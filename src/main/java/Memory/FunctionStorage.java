@@ -16,5 +16,9 @@ public class FunctionStorage {
         this.functionMap.put(functionInstruction.getFunctionName(), functionInstruction);
     }
 
+    public FunctionInstruction get(String functionName) {
+        return this.functionMap.get(functionName);
+    }
+
     public HashMap<String, FunctionInstruction> getFunction() { return this.functionMap; }
 }

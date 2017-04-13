@@ -16,8 +16,8 @@ public class FunctionDispatchInstruction implements Instruction{
         this.id = functionName+"_dispatch";
     }
 
-    public void addArgument(Variable agrs) {
-        this.arguments.add(agrs);
+    public void addArgument(Variable args) {
+        this.arguments.add(args);
     }
 
     @Override
@@ -38,7 +38,15 @@ public class FunctionDispatchInstruction implements Instruction{
     @Override
     public String generateCode() {
         StringBuilder sb = new StringBuilder();
-        sb.append(functionName + "();");
+
+        StringBuilder argument = new StringBuilder();
+        for (int i=0; i<this.arguments.size(); i++) {
+            Variable arg = this.arguments.get(i);
+            argument.append("\""+arg.getValue()+"\"");//type conversion -> changes any data to string - which is default
+            if (i != this.arguments.size()-1) argument.append(", ");
+        }
+
+        sb.append(functionName + "("+argument.toString()+");");
 
         return sb.toString();
     }
