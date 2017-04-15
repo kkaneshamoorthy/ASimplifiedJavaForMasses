@@ -56,7 +56,6 @@ public class AssignmentInstruction implements Instruction{
 
     @Override
     public String generateCode() {
-//        System.out.println("RDKGHDFRGH"+formatExpression() + " == " + assignedTo.getName() );
         return (
                 ((this.isDeclaration) ? assignedTo.getType()+" " : "")  + assignedTo.getName().replace("$", "") + " = " + formatExpression()+";"
         );
@@ -67,28 +66,36 @@ public class AssignmentInstruction implements Instruction{
         boolean isString = false;
 
         for (Variable argument : this.expressionLs) {
+            String variableName = argument.getName().replace("$", "");
+            String variableValue = argument.getValue().replace("$", "");
+
+
             if (argument.getScope().equals("OPERATION")) {
-                sb.append(argument.getValue());
+                sb.append(variableValue);
             } else {
                 if (argument.getExprType().equals("String")) {
                     isString = true;
                 }
 
                 if (argument.getScope().equals("NONE")) {
-                    sb.append(argument.getValue());
+                    sb.append(variableValue);
                 } else {
-                    sb.append(argument.getName());
+                    sb.append(variableName);
                 }
             }
+
+            System.out.println("AssignmentInstruction:"+variableName + " " + variableValue + " " + isString + " " + this.assignedTo.getExprType());
         }
 
+        this.assignedTo.setValue(sb.toString().replace("$", ""));
+
+        //todo: string is returned
         if (isString) {
             this.assignedTo.setType("String");
         } else {
             this.assignedTo.setType("int");
+            return sb.toString().replace("\"", "");
         }
-
-        System.out.println(sb.toString() + " " + isString);
 
         return sb.toString().replace("$", "");
     }

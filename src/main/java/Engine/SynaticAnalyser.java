@@ -3,7 +3,6 @@ package Engine;
 import Instruction.*;
 import Memory.FunctionStorage;
 import Memory.VariableHolder;
-import org.reactfx.value.Var;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,10 +11,14 @@ import java.util.HashMap;
 public class SynaticAnalyser {
     private VariableHolder variableHolder;
     private FunctionStorage functionStorage;
+    private InstructionDetector instructionDetector;
+
+    private HashMap<String, ArrayList<Variable>> undefinedFunctionMap = new HashMap<>();
 
     public SynaticAnalyser() {
         this.variableHolder = new VariableHolder();
         this.functionStorage = new FunctionStorage();
+        this.instructionDetector = new InstructionDetector(new InstructionSet());
     }
 
     public FunctionStorage getFunctionStorage() {
@@ -30,7 +33,7 @@ public class SynaticAnalyser {
         //Initialisation
         HashMap<Integer, Instruction> annotatedInstructions = new HashMap<Integer, Instruction>();
         Instruction parentInstruction = null;
-        Instruction parentFunction = null;
+        FunctionInstruction parentFunction = null;
 
         for (Integer instructionCounter : tokens.keySet()) {
             Pair instructionKeyPair = tokens.get(instructionCounter);
@@ -40,37 +43,38 @@ public class SynaticAnalyser {
             switch (instruction) {
                 case InstructionSet.FUNCTION:
                     String functionName = this.getFunctionName(instructionValue);
-                    String functionArgName = "UNDEFINED";
-                    FunctionInstruction functionInstruction = this.functionStorage.get("UNDEFINED");
-
-                    if (functionInstruction == null) {
-                        functionInstruction = new FunctionInstruction(functionName);
-                        functionArgName = functionName;
-                    } else {
-                        functionInstruction.setFunctionName(functionName);
-                    }
-
+                    FunctionInstruction functionInstruction = new FunctionInstruction(functionName);
+                    ArrayList<Variable> formalParameter = new ArrayList<Variable>();
+                    ArrayList<Variable> actualParameter = new ArrayList<Variable>();
                     ArrayList<String> parameterList = this.getArgumentList(instructionValue);
-                    ArrayList<Variable> parameterVariableList = new ArrayList<Variable>();
-                    int parameterCounter = 0;
+
                     for (String parameter : parameterList) {
-                        Variable argumentVariable = this.variableHolder.getVariableGivenScopeAndName(
-                                functionArgName+"=>"+parameterCounter,
+                        //create variable and store it in the list
+
+                        //TODO: do i need a parameter counter
+                        Variable parameterVariable = new Variable(
+                                parameter,
+                                "",
                                 functionInstruction.getInstructionID()
                         );
 
-                        //TODO: if no pass method passes anything, meaning no one calls, then argument variable is empty value
-                        if (argumentVariable == null) {
-                            argumentVariable = new Variable(parameter, "", functionInstruction.getInstructionID());
-                        } else {
-                            argumentVariable.setName(parameter);
-                        }
-
-                        parameterVariableList.add(argumentVariable);
-                        parameterCounter++;
+                        formalParameter.add(parameterVariable);
+                        this.variableHolder.add(parameterVariable);
                     }
 
-                    functionInstruction.setParameter(parameterVariableList);
+//                    if (this.undefinedFunctionMap.containsKey(functionName)) {
+//                        for (int i=0; i<actualParameter.size(); i++) {
+//                            formalParameter.get(i).setType(actualParameter.get(i).getValue());
+//                        }
+//
+//                        this.undefinedFunctionMap.remove(functionName);
+//                    }
+
+
+                    functionInstruction.setParameter(formalParameter);
+
+                    //TODO: call a method sort and link all the parameter variables through variableHolder
+//                    this.resolveForwardReferences();
 
                     parentInstruction = functionInstruction;
                     parentFunction = functionInstruction;
@@ -82,6 +86,10 @@ public class SynaticAnalyser {
                         this.setBody(parentInstruction, reportError(instructionCounter, "\"Please enter a valid data to print\""));
                         continue;
                     }
+
+
+                    this.loader(parentFunction);
+
                     PrintInstruction printInstruction = new PrintInstruction();
                     printInstruction.setData(new Variable(parentInstruction.getInstructionID()+"PRINT"+instructionCounter, instructionValue, parentInstruction.getInstructionID()));
                     this.setBody(parentInstruction, printInstruction);
@@ -90,6 +98,17 @@ public class SynaticAnalyser {
                     if (instructionValue.isEmpty()) {
                         this.setBody(parentInstruction, reportError(instructionCounter, "\"Please enter a valid number of iterations\""));
                         continue;
+                    }
+                    if (instructionValue.contains("$")) {
+
+                        this.loader(parentFunction);
+
+                        Variable var = this.variableHolder.getVariableGivenScopeAndName(instructionValue, parentFunction.getInstructionID());
+                        System.out.println("NUMBER:"+var.getValue());
+                        if (!this.instructionDetector.isNumber(var.getValue())) {
+                            this.setBody(parentInstruction, reportError(instructionCounter, "\"Loop iterator must be a number\""));
+                            continue;
+                        }
                     }
                     LoopInstruction loopInstruction = new LoopInstruction();
                     loopInstruction.setBody(new BlockInstruction());
@@ -107,15 +126,22 @@ public class SynaticAnalyser {
                 case InstructionSet.ASSIGNMENT:
                     String varName = getVariableToBeAssigned(instructionValue);
                     Variable varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parentFunction.getInstructionID());
+                    String value = this.getAssignmentExpression(instructionValue); //anything after the EQ = sign0
 
                     boolean isDeclaration = false;
                     if (varToBeAssigned == null) {
                         isDeclaration = true;
-                        varToBeAssigned = new Variable(varName, varName, parentInstruction.getInstructionID());
+                        varToBeAssigned = new Variable(varName, value, parentInstruction.getInstructionID());
                         this.variableHolder.add(varToBeAssigned);
                     }
+//                    else { //already declared variable
+//                        if (!checkTypeCompatability(varToBeAssigned, value)) { //type is not same
+//                            System.out.println(varToBeAssigned.getValue() + " " + value);
+//                            setErrorMessage(parentInstruction, reportError(instructionCounter, "\"Incompatabile type: "+varToBeAssigned.getExprType()+" "+this.instructionDetector.getType(value)+"\""));
+//                            continue;
+//                        }
+//                    }
 
-                    String value = this.getAssignmentExpression(instructionValue); //anything after the EQ = sign0
                     AssignmentInstruction assignmentInstruction = new AssignmentInstruction(varToBeAssigned, value);
                     ArrayList<Variable> ls = getArgumentAsVariableList(value, parentFunction.getInstructionID());
                     assignmentInstruction.setExpression(ls);
@@ -143,11 +169,18 @@ public class SynaticAnalyser {
 
                     FunctionDispatchInstruction functionDispatchInstruction = new FunctionDispatchInstruction(functionName);
                     this.setBody(parentInstruction, functionDispatchInstruction);
-                    FunctionInstruction funcInstr = this.functionStorage.get(functionName);
+                    FunctionInstruction funcInstr = this.functionStorage.get(functionName); //Check if function already defined
 
                     if (funcInstr == null) {
-                        funcInstr = new FunctionInstruction("UNDEFINED"); //TODO: make the functionName unique
-                        this.functionStorage.add(funcInstr);
+                        if (this.undefinedFunctionMap.containsKey(functionName)) {
+                            //already defined in the undefined function
+                        } else {
+                            this.undefinedFunctionMap.put(functionName, argumentList);
+                        }
+                    } else {
+                        if (funcInstr.getParameter().size() == argumentList.size()) {
+                            this.setErrorMessage(parentInstruction, reportError(instructionCounter, "\"The actual and formal parameter does not match\""));
+                        }
                     }
 
                     for (Variable argument : argumentList) {
@@ -168,6 +201,35 @@ public class SynaticAnalyser {
         }
 
         return annotatedInstructions;
+    }
+
+    private void loader(FunctionInstruction parentFunction) {
+        ArrayList<Variable> ls = this.undefinedFunctionMap.get(parentFunction.getFunctionName());
+        if (ls != null) {
+            ArrayList<Variable> functionParameterList = this.functionStorage.get(parentFunction.getFunctionName()).getParameter();
+
+            for (int i=0; i<functionParameterList.size(); i++) {
+                functionParameterList.get(i).setValue(ls.get(i).getValue());
+            }
+        }
+    }
+
+    private void resolveForwardReferences() {
+        for (String functionName : this.undefinedFunctionMap.keySet()) {
+            setErrorMessage(this.functionStorage.get("main"), reportError(-1, "\"Call to undefined function. Make sure the function you called is defined:"+functionName+" \""));
+            this.undefinedFunctionMap.remove(functionName);
+        }
+    }
+
+    private void setErrorMessage(Instruction parentInstruction, ErrorMessage errorMessage) {
+        this.setBody(parentInstruction, errorMessage);
+    }
+
+    public boolean checkTypeCompatability(Variable variable, String value) {
+        if (variable.getExprType().equals(this.instructionDetector.getType(value)))
+            return true;
+
+        return false;
     }
 
     private String getFunctionArgument(String value) {
@@ -207,6 +269,7 @@ public class SynaticAnalyser {
                         if (var != null) ls.add(var);
                         else {
                             //TODO: variable not defined
+                            System.out.println("VARIABLE NOT DEFINED");
                         }
                     } else
                         ls.add(new Variable("", expr.toString(), "NONE")); //constant
@@ -217,6 +280,7 @@ public class SynaticAnalyser {
                     if (var != null) ls.add(var);
                     else {
                         //TODO: variable not defined
+                        System.out.println("VARIABLE NOT DEFINED");
                     }
                 } else
                     ls.add(new Variable("", expr.toString(), "NONE")); //constant

@@ -55,6 +55,30 @@ public class LoopInstruction implements Instruction {
         return this.numOfIteration;
     }
 
+    public String getIterations() {
+
+        String iterations = this.getTotalIteration().getValue();
+
+        if (iterations.contains("$")) {
+            return iterations.replace("$", "");
+        } else if (isNumber(iterations)) {
+            return iterations;
+        } else {
+            //TODO: error
+        }
+
+        return iterations;
+    }
+
+    public boolean isNumber(String identifiedToken) {
+        if (identifiedToken.startsWith("INT =>")) return true;
+        try {
+            Integer.parseInt(identifiedToken);
+        } catch (NumberFormatException e) { return false; }
+
+        return true;
+    }
+
     public Variable getCurrentIterationValue() { return this.currentIterationValue; }
 
     @Override
@@ -78,7 +102,7 @@ public class LoopInstruction implements Instruction {
         System.out.println(this.body);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "<" + 5 + "; " + this.currentIterationValue.getName() + "++) \n");
+        sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "<" + this.getIterations() + "; " + this.currentIterationValue.getName() + "++) \n");
         sb.append("{ \n");
         sb.append(this.body == null ? "" : this.body.generateCode());
         sb.append("} \n");

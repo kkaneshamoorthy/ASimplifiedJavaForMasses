@@ -28,7 +28,7 @@ public class    Variable {
     }
     public String getExprType() {
         InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
-
+        //TODO: if there is variable check its type
         if (instructionDetector.isNumber(this.value)) return "int";
         if (instructionDetector.isString(this.value)) return "String";
         if (instructionDetector.isBoolean(this.value)) return "boolean";

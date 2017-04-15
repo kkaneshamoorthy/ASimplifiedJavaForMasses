@@ -174,12 +174,22 @@ public class InstructionDetector {
     }
 
     public boolean isNumber(String identifiedToken) {
+        identifiedToken = identifiedToken.replace("\"", "");
         if (identifiedToken.startsWith("INT =>")) return true;
         try {
             Integer.parseInt(identifiedToken);
         } catch (NumberFormatException e) { return false; }
 
         return true;
+    }
+
+    public String getType(String value) {
+
+        if (this.isNumber(value)) return "int";
+        if (this.isString(value)) return "String";
+        if (this.isBoolean(value)) return "boolean";
+
+        return "String";
     }
 
     public boolean isString(String identifiedToken) {
@@ -233,7 +243,8 @@ public class InstructionDetector {
 //        detector.detect(new String[]{"call main($x)"});
 //        detector.detect(new String[]{"call main(\"Hello\")"});
 //        detector.detect(new String[]{"call main(\"Hello\", 54)"});
-        detector.detect(new String[]{"$x = 234"});
+//        detector.detect(new String[]{"$x = 234"});
+        System.out.println(detector.isNumber("\"12\""));
 
 
 

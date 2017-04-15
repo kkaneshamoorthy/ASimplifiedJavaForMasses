@@ -42,7 +42,7 @@ public class FunctionDispatchInstruction implements Instruction{
         StringBuilder argument = new StringBuilder();
         for (int i=0; i<this.arguments.size(); i++) {
             Variable arg = this.arguments.get(i);
-            argument.append("\""+arg.getValue()+"\"");//type conversion -> changes any data to string - which is default
+            argument.append(""+arg.getValue()+"");//type conversion -> changes any data to string - which is default
             if (i != this.arguments.size()-1) argument.append(", ");
         }
 
