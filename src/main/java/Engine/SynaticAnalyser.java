@@ -3,6 +3,7 @@ package Engine;
 import Instruction.*;
 import Memory.FunctionStorage;
 import Memory.VariableHolder;
+import Utility.Helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +43,7 @@ public class SynaticAnalyser {
 
             switch (instruction) {
                 case InstructionSet.FUNCTION:
-                    String functionName = this.getFunctionName(instructionValue);
+                    String functionName = Helper.getFunctionName(instructionValue);
                     FunctionInstruction functionInstruction = new FunctionInstruction(functionName);
                     ArrayList<Variable> formalParameter = new ArrayList<Variable>();
                     ArrayList<Variable> actualParameter = new ArrayList<Variable>();
@@ -97,7 +98,7 @@ public class SynaticAnalyser {
                         continue;
                     }
                     if (instructionValue.contains("$")) {
-                        if (!this.instructionDetector.isNumber(getValueFromFunctionDispatch(parentFunction, instructionValue))) {
+                        if (!Helper.isNumber(getValueFromFunctionDispatch(parentFunction, instructionValue))) {
                             this.setBody(parentInstruction, reportError(instructionCounter, "\"Loop iterator must be a number\""));
                             continue;
                         }
@@ -116,7 +117,7 @@ public class SynaticAnalyser {
                     parentInstruction = ifInstruction;
                     break;
                 case InstructionSet.ASSIGNMENT:
-                    String varName = getVariableToBeAssigned(instructionValue);
+                    String varName = Helper.getVariableToBeAssigned(instructionValue);
                     Variable varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parentFunction.getInstructionID());
                     String value = this.getAssignmentExpression(instructionValue); //anything after the EQ = sign0
                     String varPreviousType = "";
@@ -159,7 +160,7 @@ public class SynaticAnalyser {
                         this.setBody(parentInstruction, reportError(instructionCounter, "\"Detected an invalid function name\""));
                         continue;
                     }
-                    functionName = getFunctionName(instructionValue);
+                    functionName = Helper.getFunctionName(instructionValue);
                     if (functionName == null) {
                         this.setBody(parentInstruction, reportError(instructionCounter, "\"Detected an invalid function name\""));
                         continue;
@@ -208,6 +209,26 @@ public class SynaticAnalyser {
         return annotatedInstructions;
     }
 
+    public boolean checkTypeCompatability(String oldType, String newType) {
+        if (oldType.equals(newType))
+            return true;
+
+        return false;
+    }
+
+    public String getAssignmentExpression(String token) {
+        StringBuilder expr = new StringBuilder();
+        boolean isValue = false;
+        for (int i=0; i<=token.length()-1; i++) {
+            char c = token.charAt(i);
+
+            if (isValue) expr.append(c);
+            if (c == '=') isValue = true;
+        }
+
+        return expr.toString();
+    }
+
     private String getExpression(String expression, String scope) {
         StringBuilder sb = new StringBuilder();
         ArrayList<Variable> expressionData = this.getArgumentAsVariableList(expression, scope);
@@ -219,15 +240,6 @@ public class SynaticAnalyser {
 
         return sb.toString();
     }
-
-//    write a function called main():
-//    call printStarPattern(12):
-//
-//    write a function called printStarPattern($height):
-//    $star = "*"
-//    loop through the $height:
-//    print $star to the console
-//            $star = $star + "*"
 
     private void loader(FunctionInstruction parentFunction) {
         ArrayList<Variable> argumentList = this.undefinedFunctionMap.get(parentFunction.getFunctionName());
@@ -267,31 +279,12 @@ public class SynaticAnalyser {
         this.setBody(parentInstruction, errorMessage);
     }
 
-    public boolean checkTypeCompatability(String oldType, String newType) {
-        if (oldType.equals(newType))
-            return true;
-
-        return false;
-    }
-
     private String getFunctionArgument(String value) {
         int startIndex = value.indexOf("(");
         int endIndex = value.indexOf(")");
 
         return value.substring(startIndex+1, endIndex);
     }
-
-
-//    write a function called main():
-//    print what 345 + 345 is to the console
-//    call printStar(12)
-//
-//    write a function called printStar($num):
-//    store $star = '*'
-//    write a loop to go through $num times:
-//    and then print $star
-//    $star = $star+"*"
-
 
     private ArrayList<Variable> getArgumentAsVariableList(String value, String scope) {
         ArrayList<Variable> ls = new ArrayList<Variable>();
@@ -301,12 +294,12 @@ public class SynaticAnalyser {
             char c = value.charAt(i);
 
             if (i == value.length()-1) {
-                if (isOperation(c)) {
+                if (Helper.isOperation(c)) {
                     ls.add(new Variable(c+"", c+"", "OPERATION")); //operation
                 } else {
                     expr.append(c);
 
-                    if (isVariable(expr.toString())) {
+                    if (Helper.isVariable(expr.toString())) {
                         Variable var = this.variableHolder.getVariableGivenScopeAndName(expr.toString(), scope);
                         if (var != null) ls.add(var);
                         else {
@@ -316,8 +309,8 @@ public class SynaticAnalyser {
                     } else
                         ls.add(new Variable("", expr.toString(), "NONE")); //constant
                 }
-            } else if (isOperation(c)) {
-                if (isVariable(expr.toString())) {
+            } else if (Helper.isOperation(c)) {
+                if (Helper.isVariable(expr.toString())) {
                     Variable var = this.variableHolder.getVariableGivenScopeAndName(expr.toString(), scope);
                     if (var != null) ls.add(var);
                     else {
@@ -336,13 +329,6 @@ public class SynaticAnalyser {
         return ls;
     }
 
-    private boolean isOperation(char c) {
-        if (c == '+' || c == '-' || c == '/' || c == '*' || c == '%')
-            return true;
-
-        return false;
-    }
-
     private ArrayList<String> getArgumentList(String value) {
         ArrayList<String> argumentList = new ArrayList<>();
         if (!value.contains("(")) return null;
@@ -357,56 +343,8 @@ public class SynaticAnalyser {
         return argumentList;
     }
 
-    private String getFunctionName(String value) {
-        int startIndex = 0;
-        int endIndex = value.indexOf("(");
-
-        if (endIndex == -1) return null;
-
-        return value.substring(startIndex, endIndex);
-    }
-
     private ErrorMessage reportError(Integer instructionCounter, String message) {
         return new ErrorMessage(new Variable(instructionCounter+"Err", message, message.hashCode()+""+instructionCounter));
-    }
-
-    private Variable variableisier(String varName, String scope) {
-        if (this.variableHolder.hasVariable(varName, scope)) {
-            return this.variableHolder.getVariableGivenScopeAndName(varName, scope);
-        }
-
-        Variable variable = new Variable(varName, varName, scope);
-        this.variableHolder.add(variable);
-        return variable;
-    }
-
-    private boolean isVariable(String expr) {
-        if (expr.startsWith("$"))
-            return true;
-        return false;
-    }
-
-    public String getVariableToBeAssigned(String tokens) {
-        StringBuilder varName = new StringBuilder();
-        for (char c : tokens.toCharArray()) {
-            if (c == '=') return varName.toString();
-            varName.append(c);
-        }
-
-        return null;
-    }
-
-    public String getAssignmentExpression(String token) {
-        StringBuilder expr = new StringBuilder();
-        boolean isValue = false;
-        for (int i=0; i<=token.length()-1; i++) {
-            char c = token.charAt(i);
-
-            if (isValue) expr.append(c);
-            if (c == '=') isValue = true;
-        }
-
-        return expr.toString();
     }
 
     private void setBody(Instruction parentInstruction, Instruction childInstruction) {

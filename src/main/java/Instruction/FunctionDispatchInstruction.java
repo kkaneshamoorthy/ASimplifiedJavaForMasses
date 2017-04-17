@@ -2,6 +2,7 @@ package Instruction;
 
 import Engine.InstructionDetector;
 import Engine.InstructionSet;
+import Utility.Helper;
 
 import java.util.ArrayList;
 
@@ -56,9 +57,7 @@ public class FunctionDispatchInstruction implements Instruction{
     }
 
     public String getType(String value) {
-        InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
-
-        return instructionDetector.getType(value);
+        return Helper.getType(value);
     }
 
     @Override

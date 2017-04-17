@@ -2,11 +2,9 @@ package controllers;
 
 import Engine.CodeExecution;
 import Engine.CodeGeneration;
-import Engine.LexicalAnalyser;
 import GUI.CodeEditor;
 import GUI.Dialog.*;
 import GUI.EditorStackPane;
-import Instruction.Instruction;
 import Utility.FileUtility;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -20,7 +18,6 @@ import javafx.util.Pair;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import javafx.event.ActionEvent;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 

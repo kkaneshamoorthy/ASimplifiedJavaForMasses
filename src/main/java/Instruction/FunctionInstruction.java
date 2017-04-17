@@ -2,6 +2,7 @@ package Instruction;
 
 import Engine.InstructionDetector;
 import Engine.InstructionSet;
+import Utility.Helper;
 
 import java.util.ArrayList;
 
@@ -78,11 +79,9 @@ public class FunctionInstruction implements Instruction{
     }
 
     public String getType(String value) {
-        InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
-
-        if (instructionDetector.isNumber(value)) return "int";
-        if (instructionDetector.isString(value)) return "String";
-        if (instructionDetector.isBoolean(value)) return "boolean";
+        if (Helper.isNumber(value)) return "int";
+        if (Helper.isString(value)) return "String";
+        if (Helper.isBoolean(value)) return "boolean";
 
         return "String";
     }

@@ -2,6 +2,7 @@ package Instruction;
 
 import Engine.InstructionDetector;
 import Engine.InstructionSet;
+import Utility.Helper;
 
 public class    Variable {
     private String name;
@@ -29,9 +30,9 @@ public class    Variable {
     public String getExprType() {
         InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
         //TODO: if there is variable check its type
-        if (instructionDetector.isNumber(this.value)) return "int";
-        if (instructionDetector.isString(this.value)) return "String";
-        if (instructionDetector.isBoolean(this.value)) return "boolean";
+        if (Helper.isNumber(this.value)) return "int";
+        if (Helper.isString(this.value)) return "String";
+        if (Helper.isBoolean(this.value)) return "boolean";
 
         return "String";
     }

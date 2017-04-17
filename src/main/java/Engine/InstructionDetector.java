@@ -1,5 +1,7 @@
 package Engine;
 
+import Utility.Helper;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ public class InstructionDetector {
         int highestSoFar = 0;
         String mostLikelyInstruction = "UNKNOWN";
         for (String token : tokens) {
-            String annotatedToken = retrieveData(token);
+            String annotatedToken = Helper.retrieveData(token);
             if (!annotatedToken.equals("")) token = annotatedToken;
 
             HashMap<String, ArrayList<String>> instructionWordMap = this.instructionSet.getInstructionSet();
@@ -69,7 +71,7 @@ public class InstructionDetector {
             String value = "";
 
             for (String token : identifiedTokens) {
-                String retrievedValue = this.retrieveData(token);
+                String retrievedValue = Helper.retrieveData(token);
                 if (token.equals("") || token.equals("ERROR") || retrievedValue.equals(InstructionSet.UNKNOWN)) continue;
                 if (token.equals(InstructionSet.ASSIGNMENT)) {
                     value+= InstructionSet.EQUAL;
@@ -83,43 +85,7 @@ public class InstructionDetector {
             instructionCounter+=1;
         }
 
-//        for (Integer key : instructionMap.keySet()) {
-//            System.out.println(key + " " + instructionMap.get(key).getKey() + " " +instructionMap.get(key).getValue());
-//        }
-
         return instructionMap;
-    }
-
-    private String retrieveData(String token) {
-        if (token == null)
-            return "ERROR";
-
-        String variableValue = "";
-        if (token.startsWith("INT =>"))
-            return token.replace("INT =>", "").trim();
-        else if (token.startsWith("STRING =>"))
-            return token.replace("STRING =>", "").trim();
-        else if (token.startsWith("EXPRESSION =>"))
-            return token.replace("EXPRESSION =>", "").trim();
-        else if (token.startsWith("FUNCTION_NAME =>"))
-            return token.replace("FUNCTION_NAME =>", "").trim();
-        else if (token.startsWith("ARITHMETIC_OPERATION =>"))
-            return token.replace("ARITHMETIC_OPERATION =>", "").trim();
-        else if (token.startsWith("VARIABLE_NAME =>"))
-            return token.replace("VARIABLE_NAME =>", "").trim();
-
-        return variableValue;
-    }
-
-    public String getVariableName(String statement) {
-        String variableName = "";
-        Pattern p = Pattern.compile("\\$\\s*(\\w+)");
-        Matcher m = p.matcher(statement);
-        while (m.find()) {
-            variableName = m.group(0);
-        }
-
-        return variableName;
     }
 
     public String identifyToken(char charToken) {
@@ -127,7 +93,7 @@ public class InstructionDetector {
         HashMap<String, String> instructionMap = this.instructionSet.getInstructionMap();
         if (instructionMap.containsKey(strToken))
             return instructionMap.get(strToken);
-        else if (this.isNumber(strToken))
+        else if (Helper.isNumber(strToken))
             return strToken;
 
         return this.UNKNOWN;
@@ -138,71 +104,21 @@ public class InstructionDetector {
 
         for (int i=0; i<identifiedTokens.size(); i++) {
             String identifiedToken = identifiedTokens.get(i);
-            if (isNumber(identifiedToken))
+            if (Helper.isNumber(identifiedToken))
                 identifiedTokens.set(i, "INT =>" + identifiedToken);
-            else if(isString(identifiedToken))
+            else if(Helper.isString(identifiedToken))
                 identifiedTokens.set(i, "STRING =>" + identifiedToken);
             else if (identifiedToken.startsWith("$"))
                 identifiedTokens.set(i, "VARIABLE_NAME =>" + identifiedToken);
-            else if (isExpression(identifiedToken))
+            else if (Helper.isExpression(identifiedToken))
                 identifiedTokens.set(i, "EXPRESSION =>" + identifiedToken);
-            else if (isFunction(identifiedToken))
+            else if (Helper.isFunction(identifiedToken))
                 identifiedTokens.set(i, "FUNCTION_NAME =>"+identifiedToken);
             else if (this.instructionSet.getInstructionMap().containsKey(identifiedToken.toUpperCase()))
                 identifiedTokens.set(i, this.instructionSet.getInstructionMap().get(identifiedToken.toUpperCase()));
         }
 
         return identifiedTokens;
-    }
-
-    public boolean isFunction(String token) {
-        if (token.contains("(") && token.contains(")"))
-            return true;
-
-        return false;
-    }
-
-    public boolean isExpression(String token) {
-        return this.instructionSet.getExpressionKeyword().contains(token.toUpperCase()) ? true : false;
-    }
-
-    public boolean isBoolean(String identifiedToken) {
-        if (identifiedToken.equalsIgnoreCase("true") || identifiedToken.equalsIgnoreCase("false"))
-            return true;
-
-        return false;
-    }
-
-    public boolean isNumber(String identifiedToken) {
-        identifiedToken = identifiedToken.replace("\"", "");
-        if (identifiedToken.startsWith("INT =>")) return true;
-        try {
-            Integer.parseInt(identifiedToken);
-        } catch (NumberFormatException e) { return false; }
-
-        return true;
-    }
-
-    public boolean isNumberWithoutQuote(String identifiedToken) {
-        if (identifiedToken.startsWith("INT =>")) return true;
-        try {
-            Integer.parseInt(identifiedToken);
-        } catch (NumberFormatException e) { return false; }
-
-        return true;
-    }
-
-    public String getType(String value) {
-
-        if (this.isNumberWithoutQuote(value)) return "int";
-        if (this.isString(value)) return "String";
-        if (this.isBoolean(value)) return "boolean";
-
-        return "String";
-    }
-
-    public boolean isString(String identifiedToken) {
-        return identifiedToken.startsWith("\"");
     }
 
     public ArrayList<String> computeRegex(String text) {

@@ -1,5 +1,6 @@
 package Engine;
 
+import Utility.Helper;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -15,9 +16,10 @@ public class TestInstructionDetector extends TestCase{
     }
 
     public void testGetVariableName() {
+        Helper helper = new Helper();
         String statement = "$x = 3+4";
         String expectedVariableName = "$x";
-        String actualVariableName = this.instructionDetector
+        String actualVariableName = Helper
                 .getVariableName(statement);
 
         assertEquals(expectedVariableName, actualVariableName);
@@ -25,7 +27,7 @@ public class TestInstructionDetector extends TestCase{
 
     public void testIsNumber() {
         String numStr = "123";
-        boolean actualResult = this.instructionDetector
+        boolean actualResult = Helper
                 .isNumber(numStr);
 
         assertTrue(actualResult);
@@ -33,7 +35,7 @@ public class TestInstructionDetector extends TestCase{
 
     public void test_isNumber_with_invalidNumber() {
         String numStr = "d123as";
-        boolean actualResult = this.instructionDetector
+        boolean actualResult = Helper
                 .isNumber(numStr);
 
         assertFalse(actualResult);
