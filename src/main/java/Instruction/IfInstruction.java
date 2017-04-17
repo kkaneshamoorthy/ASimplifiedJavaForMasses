@@ -10,6 +10,7 @@ public class IfInstruction implements Instruction{
     private Variable conditionVariable;
     private ArrayList<Variable> conditionVar;
     private String id;
+    private boolean isPartOfElse = false;
 
     public IfInstruction() {
         this.instructionType = "IF";
@@ -31,6 +32,10 @@ public class IfInstruction implements Instruction{
         this.conditionVariable = new Variable(condition, condition, this.generateId());
 
         return this;
+    }
+
+    public void setPartOfElse(boolean isPartOfElse) {
+        this.isPartOfElse = isPartOfElse;
     }
 
     public String getCondition() {
@@ -97,8 +102,10 @@ public class IfInstruction implements Instruction{
     public String generateCode() {
         formatExpression();
 
+        String header = this.isPartOfElse ? " else if (" : "if (";
+
         StringBuilder sb = new StringBuilder();
-        sb.append("if ("+this.condition.replace("$", "")+") { \n");
+        sb.append(header+this.condition.replace("$", "")+") { \n");
         sb.append(body == null ? "" : this.body.generateCode());
         sb.append("} \n");
 

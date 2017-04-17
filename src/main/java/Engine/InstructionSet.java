@@ -23,6 +23,7 @@ public class InstructionSet {
     static final String FUNCTION = "FUNCTION";
     static final String ASSIGNMENT = "ASSIGNMENT";
     static final String DISPATCH = "CALL";
+    static final String ELSE = "ELSE";
 
     static final String UNKNOWN = "UNKNOWN";
 
@@ -75,7 +76,7 @@ public class InstructionSet {
     }
 
     private static final String[] KEYWORDS = new String[] {
-            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\/", "\\+", "\\%", "add", "true", "false", "else", "call", "=", "store", "in", "go", "through", "end", "loop-end"
+            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\/", "\\+", "\\%", "add", "true", "false", "else", "call", "=", "store", "in", "go", "through", "end", "loop-end", "else", "or", "otherwise"
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
@@ -85,13 +86,13 @@ public class InstructionSet {
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String RELATIONAL_PATTERN = "\\b(" + String.join("|", RELATIONAL_OPERATION_PATTERN) + ")\\b";
     private static final String NUMBER_PATTERN =  "[0-9]+";
-    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\*\\+\\/%&\\s!]*\\s*(\\*\\+\\*\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!])*\"";
+    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\=\\*\\+\\/%&\\s!]*\\s*(\\*\\+\\*\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!])*\"";
     private static final String VARIABLE_NAMING_PATTERN = "\\$[a-z][0-9a-zA-Z_]";
     private static final String ID_PATTERN = VARIABLE_NAMING_PATTERN+"*";
     private static final String NAME_PATTERN = "[a-zA-Z0-9]*";
     private static final String FUNCTION_NAME_PATTERN = NAME_PATTERN + "\\([a-zA-Z0-9\\s*\\$\",]*\\)";
     private static final String EQUAL_PATTERN = "=";
-    private static final String ARITHEMETRIC_PATTERN = "[\\+\\-\\*\\/\\s+]";
+    private static final String ARITHEMETRIC_PATTERN = "[\\%\\+\\-\\*\\/\\s+]";
 
     private static final Pattern PATTERN = Pattern.compile(
             "(" + KEYWORD_PATTERN
@@ -174,6 +175,11 @@ public class InstructionSet {
 //        expressionKeyword.add("NOT");
 //        expressionKeyword.add("TRUE");
 //        expressionKeyword.add("FALSE");
+//        expressionKeyword.add("+");
+//        expressionKeyword.add("-");
+//        expressionKeyword.add("/");
+//        expressionKeyword.add("*");
+//        expressionKeyword.add("%");
 
 
         //Print
@@ -195,7 +201,7 @@ public class InstructionSet {
         ArrayList<String> assignment = new ArrayList<>();
         assignment.add("=");
         assignment.add("$");
-        assignment.add("+");
+//        assignment.add("+");
 //        assignment.add("-");
 //        assignment.add("*");
 //        assignment.add("/");
@@ -220,6 +226,7 @@ public class InstructionSet {
         ArrayList<String> endLoop = new ArrayList<String>();
         endLoop.add("END");
         endLoop.add("END-LOOP");
+        endLoop.add("END-IF");
 
 
         //function call
@@ -232,7 +239,19 @@ public class InstructionSet {
         ArrayList<String> ifKeyword = new ArrayList<>();
         ifKeyword.add("IF");
         ifKeyword.add("CONDITION");
+        ifKeyword.add("==");
+        ifKeyword.add("<=");
+        ifKeyword.add(">=");
+        ifKeyword.add("!=");
+        ifKeyword.add("<");
+        ifKeyword.add(">");
         ifKeyword.add(":");
+
+        //else
+        ArrayList<String> elseKeyword = new ArrayList<>();
+        elseKeyword.add("ELSE");
+        elseKeyword.add("OR");
+        elseKeyword.add("OTHERWISE");
 
         //input
         ArrayList<String> inputKeyword = new ArrayList<>();
@@ -248,6 +267,7 @@ public class InstructionSet {
         keywordAndFunction.put("FUNCTION", function);
         keywordAndFunction.put("CALL", functionCall);
         keywordAndFunction.put("IF", ifKeyword);
+        keywordAndFunction.put("ELSE", elseKeyword);
         keywordAndFunction.put("INPUT", inputKeyword);
         keywordAndFunction.put("LOOP-END", endLoop);
 

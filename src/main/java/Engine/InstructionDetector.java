@@ -67,17 +67,25 @@ public class InstructionDetector {
                 detectedInstruction = this.detectInstruction(identifiedTokensArr);
             }
 
-            System.out.println(detectedInstruction);
+            System.out.println("detected:"+detectedInstruction);
 
             String value = "";
+            if (detectedInstruction.equals(InstructionSet.ELSE)) {
+                value+= InstructionSet.ELSE + " ";
+            }
+
             for (String token : identifiedTokensList) {
+                System.out.println(token);
                 String retrievedValue = Helper.retrieveData(token);
                 if (token.equals("") || token.equals("ERROR") || retrievedValue.equals(InstructionSet.UNKNOWN)) continue;
                 if (token.equals(InstructionSet.ASSIGNMENT)) {
                     value+= InstructionSet.EQUAL;
                 } else if (token.equals("EQ")) {
                     value+= InstructionSet.EQ;
+                } else if (token.equalsIgnoreCase(InstructionSet.ELSE) || token.equalsIgnoreCase("OTHERWISE") || token.equalsIgnoreCase("ORTXT")) {
+                    value+= InstructionSet.ELSE + " ";
                 }
+
                 value += retrievedValue;
             }
 
@@ -172,6 +180,10 @@ public class InstructionDetector {
 //        detector.detect(new String[]{"$x = \"Hello\"Not"});
 //        detector.detect(new String[]{"end"});
 //        detector.detect(new String[]{"$x = get input"});
+//        detector.detect(new String[]{"print $x + \" x 3  = \" + $x * 3"});
+//        detector.detect(new String[]{"15 % 5"});
+//        detector.detect(new String[]{"or if 3 == 3"});
+//        detector.detect(new String[]{"else if 2 == 2"});
 //        System.out.println(Helper.isNumber("\"12\""));
 
 
@@ -194,5 +206,12 @@ public class InstructionDetector {
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = 1", "loop 5 times", "end of loop", "print $x"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = get user input", "print $x"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = get user input", "print $x"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = 1+1", "print $x + \" x 3  = \" + $x * 3"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "print 15 % 5"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "write a loop to repeat 5 times", "write a condition if 2==2", "print 123", "end the if", "write a condition if 3==3", "print 321", "end the if","end for loop"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "write a loop to repeat 5 times", "write a condition if 2==2", "print 123", "write a condition if 3==3", "print 321", "end the if", "end the if", "end for loop"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "write if 2 == 2", "print 2", "else", "print 1", "end"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "write if 2 == 2", "print 2", "else if 3 == 3", "print 1", "end"}));
+        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "if 2 == 2", "print 2", "or if 3 == 3", "print 1", "end"}));
     }
 }

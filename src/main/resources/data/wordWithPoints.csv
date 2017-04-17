@@ -10,6 +10,7 @@ console,1
 function,5
 call,3
 if,3
+condition,3
 input,5
 user,4
 get,3
@@ -17,10 +18,14 @@ go,5
 through,2
 loop-end,5
 end,5
+else,5
+otherwise,4
+or,2
 ==,3
 =,5
-+,1
--,1
-/,1
-*,1
++,2
+-,2
+/,2
+*,2
+%,2
 $,1

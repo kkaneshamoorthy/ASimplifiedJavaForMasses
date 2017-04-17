@@ -2,19 +2,19 @@ package Engine;
 
 import Instruction.*;
 import Memory.FunctionStorage;
+import Memory.Scope;
 import Memory.VariableHolder;
 import Utility.Helper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class SynaticAnalyser {
     private VariableHolder variableHolder;
     private FunctionStorage functionStorage;
     private InstructionDetector instructionDetector;
+    private ScopeStack scopeStack;
 
     private HashMap<String, ArrayList<Variable>> undefinedFunctionMap = new HashMap<>();
 
@@ -22,6 +22,7 @@ public class SynaticAnalyser {
         this.variableHolder = new VariableHolder();
         this.functionStorage = new FunctionStorage();
         this.instructionDetector = new InstructionDetector(new InstructionSet());
+        this.scopeStack = new ScopeStack();
     }
 
     public FunctionStorage getFunctionStorage() {
@@ -45,6 +46,10 @@ public class SynaticAnalyser {
 
             switch (instruction) {
                 case InstructionSet.FUNCTION:
+
+                    if (!this.scopeStack.isEmpty())
+                        this.scopeStack.pop();
+
                     String functionName = Helper.getFunctionName(instructionValue);
                     FunctionInstruction functionInstruction = new FunctionInstruction(functionName);
                     ArrayList<Variable> formalParameter = new ArrayList<Variable>();
@@ -80,6 +85,7 @@ public class SynaticAnalyser {
 
                     parentInstruction = functionInstruction;
                     parentFunction = functionInstruction;
+                    scopeStack.push(new Scope(functionInstruction.getInstructionID(), functionInstruction));
                     this.functionStorage.add(functionInstruction);
                     annotatedInstructions.put(instructionCounter, functionInstruction);
                     break;
@@ -95,6 +101,9 @@ public class SynaticAnalyser {
                     this.setBody(parentInstruction, printInstruction);
                     break;
                 case InstructionSet.LOOP: //TODO: once finished executing loop - change scope to function
+                    if (!this.scopeStack.isEmpty())
+                        parentInstruction = this.scopeStack.top().getScopeInstruction();
+
                     if (instructionValue.isEmpty()) {
                         this.setBody(parentInstruction, reportError(instructionCounter, "\"Please enter a valid number of iterations\""));
                         continue;
@@ -110,16 +119,29 @@ public class SynaticAnalyser {
                     loopInstruction.setNumOfIteration(new Variable(parentInstruction.getInstructionID()+"LOOP"+instructionCounter, instructionValue, parentInstruction.getInstructionID()));
                     this.setBody(parentInstruction, loopInstruction);
                     parentInstruction = loopInstruction;
+                    this.scopeStack.push(new Scope(loopInstruction.getInstructionID(), loopInstruction));
                     break;
                 case InstructionSet.IF:
+                    boolean isElse = false;
+
+                    if (instructionValue.contains(InstructionSet.ELSE)) {
+                        this.endBody();
+                        instructionValue = instructionValue.replace("ELSE ", "");
+                        isElse = true;
+                    }
+
+                    if (!this.scopeStack.isEmpty())
+                        parentInstruction = this.scopeStack.top().getScopeInstruction();
 
                     ArrayList<Variable> conditionAsList = retrieveExpressionAsVariable(instructionValue, parentFunction.getInstructionID());
                     IfInstruction ifInstruction = new IfInstruction();
                     ifInstruction.setConditionVar(conditionAsList);
                     ifInstruction.setCondition(instructionValue);
                     ifInstruction.setBody(new BlockInstruction());
+                    ifInstruction.setPartOfElse(isElse);
                     this.setBody(parentInstruction, ifInstruction);
                     parentInstruction = ifInstruction;
+                    this.scopeStack.push(new Scope(ifInstruction.getInstructionID(), ifInstruction));
                     break;
                 case InstructionSet.ASSIGNMENT:
                     String varName = Helper.getVariableToBeAssigned(instructionValue);
@@ -214,7 +236,20 @@ public class SynaticAnalyser {
                     this.setBody(parentInstruction, inputInstruction);
                     break;
                 case InstructionSet.LOOP_END:
-                    parentInstruction = parentFunction;
+                    this.endBody();
+                    break;
+                case InstructionSet.ELSE:
+                    this.endBody();
+
+                    if (!this.scopeStack.isEmpty())
+                        parentInstruction = this.scopeStack.top().getScopeInstruction();
+
+                    ElseInstruction elseInstruction = new ElseInstruction();
+                    elseInstruction.setBody(new BlockInstruction());
+                    this.setBody(parentInstruction, elseInstruction);
+                    parentInstruction = elseInstruction;
+                    this.scopeStack.push(new Scope(elseInstruction.getInstructionID(), elseInstruction));
+
                     break;
             }
         }
@@ -229,6 +264,11 @@ public class SynaticAnalyser {
         }
 
         return annotatedInstructions;
+    }
+
+    private void endBody() {
+        if (!this.scopeStack.isEmpty())
+            this.scopeStack.pop();
     }
 
     public boolean checkTypeCompatability(String oldType, String newType) {
@@ -455,6 +495,12 @@ public class SynaticAnalyser {
                 if (bi != null) bi.addInstructionToBlock(childInstruction);
                 else ifInstruction.setBody(new BlockInstruction(childInstruction));
                 break;
+            case InstructionSet.ELSE:
+                ElseInstruction elseInstruction = (ElseInstruction) parentInstruction;
+                bi = elseInstruction.getBody();
+                if (bi != null) bi.addInstructionToBlock(childInstruction);
+                else elseInstruction.setBody(new BlockInstruction(childInstruction));
+                break;
         }
     }
 
@@ -469,6 +515,8 @@ public class SynaticAnalyser {
             return InstructionSet.INPUT;
         else if (instruction instanceof FunctionInstruction)
             return InstructionSet.FUNCTION;
+        else if (instruction instanceof  ElseInstruction)
+            return InstructionSet.ELSE;
         else
             return "UNKOWN";
     }
