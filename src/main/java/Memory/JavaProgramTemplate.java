@@ -23,6 +23,7 @@ public class JavaProgramTemplate {
         HashMap<Integer, String> javaCode = this.codeGeneration(this.instructionHashMap);
 
         sb.append("public class " + className + " { ");
+        sb.append("private static int autoLoopIterator = 0;");
         for (Integer instructionCounter : javaCode.keySet())
             sb.append(javaCode.get(instructionCounter));
         sb.append("}");

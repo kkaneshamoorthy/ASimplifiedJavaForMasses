@@ -1,5 +1,8 @@
 package Instruction;
 
+import Engine.InstructionDetector;
+import Engine.InstructionSet;
+
 import java.util.ArrayList;
 
 public class FunctionDispatchInstruction implements Instruction{
@@ -42,13 +45,20 @@ public class FunctionDispatchInstruction implements Instruction{
         StringBuilder argument = new StringBuilder();
         for (int i=0; i<this.arguments.size(); i++) {
             Variable arg = this.arguments.get(i);
-            argument.append(""+arg.getValue()+"");//type conversion -> changes any data to string - which is default
+            String value = arg.getValue();
+            argument.append(getType(value).equals("String") ? value : "\""+value+"\"" );//type conversion -> changes any data to string - which is default
             if (i != this.arguments.size()-1) argument.append(", ");
         }
 
         sb.append(functionName + "("+argument.toString()+");");
 
         return sb.toString();
+    }
+
+    public String getType(String value) {
+        InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
+
+        return instructionDetector.getType(value);
     }
 
     @Override

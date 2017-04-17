@@ -87,9 +87,6 @@ public class SynaticAnalyser {
                         continue;
                     }
 
-
-                    this.loader(parentFunction);
-
                     PrintInstruction printInstruction = new PrintInstruction();
                     printInstruction.setData(new Variable(parentInstruction.getInstructionID()+"PRINT"+instructionCounter, instructionValue, parentInstruction.getInstructionID()));
                     this.setBody(parentInstruction, printInstruction);
@@ -100,12 +97,7 @@ public class SynaticAnalyser {
                         continue;
                     }
                     if (instructionValue.contains("$")) {
-
-                        this.loader(parentFunction);
-
-                        Variable var = this.variableHolder.getVariableGivenScopeAndName(instructionValue, parentFunction.getInstructionID());
-                        System.out.println("NUMBER:"+var.getValue());
-                        if (!this.instructionDetector.isNumber(var.getValue())) {
+                        if (!this.instructionDetector.isNumber(getValueFromFunctionDispatch(parentFunction, instructionValue))) {
                             this.setBody(parentInstruction, reportError(instructionCounter, "\"Loop iterator must be a number\""));
                             continue;
                         }
@@ -127,24 +119,37 @@ public class SynaticAnalyser {
                     String varName = getVariableToBeAssigned(instructionValue);
                     Variable varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parentFunction.getInstructionID());
                     String value = this.getAssignmentExpression(instructionValue); //anything after the EQ = sign0
+                    String varPreviousType = "";
+                    String varPreviousValue = "";
 
                     boolean isDeclaration = false;
                     if (varToBeAssigned == null) {
                         isDeclaration = true;
                         varToBeAssigned = new Variable(varName, value, parentInstruction.getInstructionID());
                         this.variableHolder.add(varToBeAssigned);
+                    } else {
+                        varPreviousType = varToBeAssigned.getType();
+                        varPreviousValue = varToBeAssigned.getValue();
                     }
-//                    else { //already declared variable
-//                        if (!checkTypeCompatability(varToBeAssigned, value)) { //type is not same
-//                            System.out.println(varToBeAssigned.getValue() + " " + value);
-//                            setErrorMessage(parentInstruction, reportError(instructionCounter, "\"Incompatabile type: "+varToBeAssigned.getExprType()+" "+this.instructionDetector.getType(value)+"\""));
-//                            continue;
-//                        }
-//                    }
 
-                    AssignmentInstruction assignmentInstruction = new AssignmentInstruction(varToBeAssigned, value);
-                    ArrayList<Variable> ls = getArgumentAsVariableList(value, parentFunction.getInstructionID());
+                    String newValue = getExpression(value, parentFunction.getInstructionID());
+                    varToBeAssigned.setValue(newValue);
+                    AssignmentInstruction assignmentInstruction = new AssignmentInstruction(varToBeAssigned, newValue);
+                    ArrayList<Variable> ls = getArgumentAsVariableList(newValue, parentFunction.getInstructionID());
                     assignmentInstruction.setExpression(ls);
+
+                    assignmentInstruction.formatExpression();
+                    if (!varPreviousValue.isEmpty()) {
+                        String oldType = varPreviousType;
+                        String newType = assignmentInstruction.getAssignedTo().getType();
+                        System.out.println(oldType + " ===== " + newType);
+                        if (!checkTypeCompatability(oldType, newType)) { //type is not same
+                            System.out.println(varToBeAssigned.getValue() + " " + value);
+                            setErrorMessage(parentInstruction, reportError(instructionCounter, "\"Incompatible type: can not assign " + newType + " to a variable of type " + oldType+ "\""));
+                            continue;
+                        }
+                    }
+
 
                     assignmentInstruction.setDeclaration(isDeclaration);
                     this.setBody(parentInstruction, assignmentInstruction);
@@ -203,15 +208,52 @@ public class SynaticAnalyser {
         return annotatedInstructions;
     }
 
+    private String getExpression(String expression, String scope) {
+        StringBuilder sb = new StringBuilder();
+        ArrayList<Variable> expressionData = this.getArgumentAsVariableList(expression, scope);
+        for (Variable var : expressionData) {
+            if (!var.getScope().equals("NONE") && !var.getScope().equals("OPERATION")) {
+                sb.append(var.getName());
+            } else sb.append(var.getValue());
+        }
+
+        return sb.toString();
+    }
+
+//    write a function called main():
+//    call printStarPattern(12):
+//
+//    write a function called printStarPattern($height):
+//    $star = "*"
+//    loop through the $height:
+//    print $star to the console
+//            $star = $star + "*"
+
     private void loader(FunctionInstruction parentFunction) {
-        ArrayList<Variable> ls = this.undefinedFunctionMap.get(parentFunction.getFunctionName());
-        if (ls != null) {
+        ArrayList<Variable> argumentList = this.undefinedFunctionMap.get(parentFunction.getFunctionName());
+        if (argumentList != null) {
             ArrayList<Variable> functionParameterList = this.functionStorage.get(parentFunction.getFunctionName()).getParameter();
 
             for (int i=0; i<functionParameterList.size(); i++) {
-                functionParameterList.get(i).setValue(ls.get(i).getValue());
+                functionParameterList.get(i).setValue(argumentList.get(i).getValue());
             }
         }
+    }
+
+    private String getValueFromFunctionDispatch(FunctionInstruction parentFunction, String variableName) {
+        ArrayList<Variable> argumentList = this.undefinedFunctionMap.get(parentFunction.getFunctionName());
+        if (argumentList != null) {
+            ArrayList<Variable> functionParameterList = this.functionStorage.get(parentFunction.getFunctionName()).getParameter();
+
+            for (int i=0; i<functionParameterList.size(); i++) {
+                Variable variable = functionParameterList.get(i);
+                if (variable.getName().equals(variableName)) {
+                    return argumentList.get(i).getValue();
+                }
+            }
+        }
+
+        return "";
     }
 
     private void resolveForwardReferences() {
@@ -225,8 +267,8 @@ public class SynaticAnalyser {
         this.setBody(parentInstruction, errorMessage);
     }
 
-    public boolean checkTypeCompatability(Variable variable, String value) {
-        if (variable.getExprType().equals(this.instructionDetector.getType(value)))
+    public boolean checkTypeCompatability(String oldType, String newType) {
+        if (oldType.equals(newType))
             return true;
 
         return false;

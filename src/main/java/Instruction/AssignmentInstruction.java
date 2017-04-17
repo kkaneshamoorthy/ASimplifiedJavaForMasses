@@ -56,8 +56,11 @@ public class AssignmentInstruction implements Instruction{
 
     @Override
     public String generateCode() {
+        String value = this.formatExpression();
+        System.out.println("asd"+value);
+
         return (
-                ((this.isDeclaration) ? assignedTo.getType()+" " : "")  + assignedTo.getName().replace("$", "") + " = " + formatExpression()+";"
+                ((this.isDeclaration) ? assignedTo.getType()+" " : "")  + assignedTo.getName().replace("$", "") + " = " + value+";"
         );
     }
 
@@ -84,7 +87,6 @@ public class AssignmentInstruction implements Instruction{
                 }
             }
 
-            System.out.println("AssignmentInstruction:"+variableName + " " + variableValue + " " + isString + " " + this.assignedTo.getExprType());
         }
 
         this.assignedTo.setValue(sb.toString().replace("$", ""));

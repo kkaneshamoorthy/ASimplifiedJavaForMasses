@@ -183,9 +183,18 @@ public class InstructionDetector {
         return true;
     }
 
+    public boolean isNumberWithoutQuote(String identifiedToken) {
+        if (identifiedToken.startsWith("INT =>")) return true;
+        try {
+            Integer.parseInt(identifiedToken);
+        } catch (NumberFormatException e) { return false; }
+
+        return true;
+    }
+
     public String getType(String value) {
 
-        if (this.isNumber(value)) return "int";
+        if (this.isNumberWithoutQuote(value)) return "int";
         if (this.isString(value)) return "String";
         if (this.isBoolean(value)) return "boolean";
 
@@ -244,8 +253,7 @@ public class InstructionDetector {
 //        detector.detect(new String[]{"call main(\"Hello\")"});
 //        detector.detect(new String[]{"call main(\"Hello\", 54)"});
 //        detector.detect(new String[]{"$x = 234"});
-        System.out.println(detector.isNumber("\"12\""));
-
+//        System.out.println(detector.isNumber("\"12\""));
 
 
         SynaticAnalyser synaticAnalyser = new SynaticAnalyser();
@@ -262,5 +270,6 @@ public class InstructionDetector {
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call hello(1, 2)", "function hello($x, $y):"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call hello(223)", "function hello($x, $y):"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$s = 1", "call hello($s)", "function hello($x, $y):"}));
+        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = \"*\"", "loop 5 times:", "$x = $x+\"*\""}));
     }
 }
