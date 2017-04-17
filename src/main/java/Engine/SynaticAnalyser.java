@@ -5,9 +5,11 @@ import Memory.FunctionStorage;
 import Memory.VariableHolder;
 import Utility.Helper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class SynaticAnalyser {
     private VariableHolder variableHolder;
@@ -63,14 +65,13 @@ public class SynaticAnalyser {
                         this.variableHolder.add(parameterVariable);
                     }
 
-//                    if (this.undefinedFunctionMap.containsKey(functionName)) {
+                    if (this.undefinedFunctionMap.containsKey(functionName)) {
 //                        for (int i=0; i<actualParameter.size(); i++) {
 //                            formalParameter.get(i).setType(actualParameter.get(i).getValue());
 //                        }
-//
-//                        this.undefinedFunctionMap.remove(functionName);
-//                    }
 
+                        this.undefinedFunctionMap.remove(functionName);
+                    }
 
                     functionInstruction.setParameter(formalParameter);
 
@@ -89,6 +90,7 @@ public class SynaticAnalyser {
                     }
 
                     PrintInstruction printInstruction = new PrintInstruction();
+                    Variable data = this.variableHolder.getVariableGivenScopeAndName(instructionValue, parentInstruction.getInstructionID());
                     printInstruction.setData(new Variable(parentInstruction.getInstructionID()+"PRINT"+instructionCounter, instructionValue, parentInstruction.getInstructionID()));
                     this.setBody(parentInstruction, printInstruction);
                     break;
@@ -97,12 +99,12 @@ public class SynaticAnalyser {
                         this.setBody(parentInstruction, reportError(instructionCounter, "\"Please enter a valid number of iterations\""));
                         continue;
                     }
-                    if (instructionValue.contains("$")) {
-                        if (!Helper.isNumber(getValueFromFunctionDispatch(parentFunction, instructionValue))) {
-                            this.setBody(parentInstruction, reportError(instructionCounter, "\"Loop iterator must be a number\""));
-                            continue;
-                        }
-                    }
+//                    if (instructionValue.contains("$")) {
+//                        if (!Helper.isNumber(getValueFromFunctionDispatch(parentFunction, instructionValue))) {
+//                            this.setBody(parentInstruction, reportError(instructionCounter, "\"Loop iterator must be a number\""));
+//                            continue;
+//                        }
+//                    }
                     LoopInstruction loopInstruction = new LoopInstruction();
                     loopInstruction.setBody(new BlockInstruction());
                     loopInstruction.setNumOfIteration(new Variable(parentInstruction.getInstructionID()+"LOOP"+instructionCounter, instructionValue, parentInstruction.getInstructionID()));
@@ -110,7 +112,10 @@ public class SynaticAnalyser {
                     parentInstruction = loopInstruction;
                     break;
                 case InstructionSet.IF:
+
+                    ArrayList<Variable> conditionAsList = retrieveExpressionAsVariable(instructionValue, parentFunction.getInstructionID());
                     IfInstruction ifInstruction = new IfInstruction();
+                    ifInstruction.setConditionVar(conditionAsList);
                     ifInstruction.setCondition(instructionValue);
                     ifInstruction.setBody(new BlockInstruction());
                     this.setBody(parentInstruction, ifInstruction);
@@ -140,17 +145,16 @@ public class SynaticAnalyser {
                     assignmentInstruction.setExpression(ls);
 
                     assignmentInstruction.formatExpression();
-                    if (!varPreviousValue.isEmpty()) {
-                        String oldType = varPreviousType;
-                        String newType = assignmentInstruction.getAssignedTo().getType();
-                        System.out.println(oldType + " ===== " + newType);
-                        if (!checkTypeCompatability(oldType, newType)) { //type is not same
-                            System.out.println(varToBeAssigned.getValue() + " " + value);
-                            setErrorMessage(parentInstruction, reportError(instructionCounter, "\"Incompatible type: can not assign " + newType + " to a variable of type " + oldType+ "\""));
-                            continue;
-                        }
-                    }
-
+//                    if (!varPreviousValue.isEmpty()) {
+//                        String oldType = varPreviousType;
+//                        String newType = assignmentInstruction.getAssignedTo().getType();
+//                        System.out.println(oldType + " ===== " + newType);
+//                        if (!checkTypeCompatability(oldType, newType)) { //type is not same
+//                            System.out.println(varToBeAssigned.getValue() + " " + value);
+//                            setErrorMessage(parentInstruction, reportError(instructionCounter, "\"Incompatible type: can not assign " + newType + " to a variable of type " + oldType+ "\""));
+//                            continue;
+//                        }
+//                    }
 
                     assignmentInstruction.setDeclaration(isDeclaration);
                     this.setBody(parentInstruction, assignmentInstruction);
@@ -195,9 +199,27 @@ public class SynaticAnalyser {
 
                     break;
                 case InstructionSet.INPUT:
+                    String variableName = Helper.getVariableToBeAssigned(instructionValue);
+                    Variable assignedTo = this.variableHolder.getVariableGivenScopeAndName(variableName, parentInstruction.getInstructionID());
+                    isDeclaration = false;
+                    if (assignedTo == null) {
+                        isDeclaration = true;
+                        assignedTo = new Variable(variableName, "", parentInstruction.getInstructionID());
+                        this.variableHolder.add(assignedTo);
+                    }
+
+                    InputInstruction inputInstruction = new InputInstruction();
+                    inputInstruction.setAssignedTo(assignedTo);
+                    inputInstruction.setVariableDeclaration(isDeclaration);
+                    this.setBody(parentInstruction, inputInstruction);
+                    break;
+                case InstructionSet.LOOP_END:
+                    parentInstruction = parentFunction;
                     break;
             }
         }
+
+//        this.resolveForwardReferences();
 
         CodeGeneration codeGeneration = new CodeGeneration();
         HashMap<Integer, String> ls = codeGeneration.generateJavaCode(annotatedInstructions);
@@ -286,9 +308,64 @@ public class SynaticAnalyser {
         return value.substring(startIndex+1, endIndex);
     }
 
+    private boolean hasOperation(String expr) {
+        if (expr.equals("=") ||  expr.equals("<") || expr.equals(">"))
+            return true;
+
+        return false;
+    }
+
+    private ArrayList<Variable> retrieveExpressionAsVariable(String value, String scope) {
+        ArrayList<Variable> ls = new ArrayList<Variable>();
+        StringBuilder expr = new StringBuilder();
+        String operation = "";
+
+        for (int i=0; i<value.length(); i++) {
+            char c = value.charAt(i);
+
+            if (c == '=' || c == '<' || c == '>') {
+                operation +=c;
+            } else {
+                expr.append(c);
+            }
+
+            String expression = expr.toString();
+
+            if (Helper.isBooleanOperation(operation)) {
+                ls.add(new Variable(expression, expression, "NONE"));
+                ls.add(new Variable(operation, operation, "OPERATION"));
+                operation = "";
+                expr = new StringBuilder();
+                continue;
+            }
+
+            if (Helper.isVariable(expression) && !expression.equals("$")) {
+                Variable variable = retrieveVariable(expression, scope);
+
+                if (variable!=null) ls.add(variable);
+                else System.out.println("Variable undefined");
+
+                expr = new StringBuilder();
+            } else if (Helper.isBooleanOperation(expression)) {
+                ls.add(new Variable(expression, expression, "OPERATION"));
+                expr = new StringBuilder();
+            }
+        }
+
+        for (Variable v : ls) {
+            System.out.println("Name:"+v.getName() + " Value:" + v.getValue() + " Scope " + v.getScope());
+        }
+
+        return ls;
+    }
+
+    private Variable retrieveVariable(String variableName, String scope) {
+        return this.variableHolder.getVariableGivenScopeAndName(variableName, scope);
+
+    }
+
     private ArrayList<Variable> getArgumentAsVariableList(String value, String scope) {
         ArrayList<Variable> ls = new ArrayList<Variable>();
-
         StringBuilder expr = new StringBuilder();
         for (int i=0; i<value.length(); i++) {
             char c = value.charAt(i);
@@ -296,6 +373,9 @@ public class SynaticAnalyser {
             if (i == value.length()-1) {
                 if (Helper.isOperation(c)) {
                     ls.add(new Variable(c+"", c+"", "OPERATION")); //operation
+                } else if (expr.toString().equals("==")) {
+                    ls.add(new Variable(expr.toString()+"", expr.toString()+"", "OPERATION"));
+                    expr = new StringBuilder();
                 } else {
                     expr.append(c);
 
@@ -323,7 +403,14 @@ public class SynaticAnalyser {
                 ls.add(new Variable(c+"", c+"", "OPERATION")); //operation
 
                 expr = new StringBuilder();
+            } else if (expr.toString().equals("==")) {
+                ls.add(new Variable(expr.toString()+"", expr.toString()+"", "OPERATION"));
+                expr = new StringBuilder();
             } else expr.append(c);
+        }
+
+        for (Variable v : ls) {
+            System.out.println("list:"+v.getValue() + " " + v.getName());
         }
 
         return ls;

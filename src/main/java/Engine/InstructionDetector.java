@@ -25,7 +25,7 @@ public class InstructionDetector {
         String mostLikelyInstruction = "UNKNOWN";
         for (String token : tokens) {
             String annotatedToken = Helper.retrieveData(token);
-            if (!annotatedToken.equals("")) token = annotatedToken;
+            if (!annotatedToken.isEmpty()) token = annotatedToken;
 
             HashMap<String, ArrayList<String>> instructionWordMap = this.instructionSet.getInstructionSet();
 
@@ -60,17 +60,17 @@ public class InstructionDetector {
         int instructionCounter = 0;
 
         for (String statement : statements) {
+            ArrayList<String> identifiedTokensList = identifyTokens(statement);
             String detectedInstruction = this.detectInstruction(statement.toUpperCase().trim().split(" "));
             if (detectedInstruction.equals("UNKNOWN")) {
-                ArrayList<String> ls = identifyTokens(statement);
-                String[] identifiedTokens = identifyTokens(statement).toArray(new String[ls.size()]);
-                detectedInstruction = this.detectInstruction(identifiedTokens);
+                String[] identifiedTokensArr = identifiedTokensList.toArray(new String[identifiedTokensList.size()]);
+                detectedInstruction = this.detectInstruction(identifiedTokensArr);
             }
 
-            ArrayList<String> identifiedTokens = this.identifyTokens(statement);
-            String value = "";
+            System.out.println(detectedInstruction);
 
-            for (String token : identifiedTokens) {
+            String value = "";
+            for (String token : identifiedTokensList) {
                 String retrievedValue = Helper.retrieveData(token);
                 if (token.equals("") || token.equals("ERROR") || retrievedValue.equals(InstructionSet.UNKNOWN)) continue;
                 if (token.equals(InstructionSet.ASSIGNMENT)) {
@@ -153,7 +153,7 @@ public class InstructionDetector {
 //        detector.detect(new String[]{"please print \"Hello World!\""});
 //        detector.detect(new String[]{"call main():"});
 //        detector.detect(new String[]{"print 5"});
-//        detector.detect(new String[]{"create $x"});
+//        detector.detect(new String[]{"$x = 1"});
 //        detector.detect(new String[]{"if 2==2:"});
 //        detector.detect(new String[]{"write what 2+2 to the console"});
 //        detector.detect(new String[]{"print 2+2+3"});
@@ -169,7 +169,10 @@ public class InstructionDetector {
 //        detector.detect(new String[]{"call main(\"Hello\")"});
 //        detector.detect(new String[]{"call main(\"Hello\", 54)"});
 //        detector.detect(new String[]{"$x = 234"});
-//        System.out.println(detector.isNumber("\"12\""));
+//        detector.detect(new String[]{"$x = \"Hello\"Not"});
+//        detector.detect(new String[]{"end"});
+//        detector.detect(new String[]{"$x = get input"});
+//        System.out.println(Helper.isNumber("\"12\""));
 
 
         SynaticAnalyser synaticAnalyser = new SynaticAnalyser();
@@ -186,6 +189,10 @@ public class InstructionDetector {
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call hello(1, 2)", "function hello($x, $y):"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "call hello(223)", "function hello($x, $y):"}));
 //        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$s = 1", "call hello($s)", "function hello($x, $y):"}));
-        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = \"*\"", "loop 5 times:", "$x = $x+\"*\""}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = \"*\"", "loop 5 times:", "$x = $x+\"*\""}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = 12", "$y = 12", "$x = $x + $y", "print $x"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = 1", "loop 5 times", "end of loop", "print $x"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = get user input", "print $x"}));
+//        synaticAnalyser.generateInstructions(detector.detect(new String[]{"function main():", "$x = get user input", "print $x"}));
     }
 }

@@ -1,8 +1,5 @@
 package Engine;
 
-/**
- * Created by kowrishankar on 26/03/17.
- */
 public class Pair {
     private String key;
     private String value;

@@ -70,41 +70,34 @@ public class InstructionSet {
     public HashMap<String, ArrayList<String>> keywordAndFunction;
     public HashMap<String, String> instructionMap;
 
-    public ArrayList<String> getExpressionKeyword() {
+    public ArrayList<String> getExpressionPredefinedKeyword() {
         return this.expressionKeyword;
     }
 
     private static final String[] KEYWORDS = new String[] {
-            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\/", "\\+", "\\%", "add", "true", "false", "else", "call", "=", "store", "in", "go", "through"
+            PRINT, LOOP, IF, INPUT, FUNCTION, "$", "equal", "\\/", "\\+", "\\%", "add", "true", "false", "else", "call", "=", "store", "in", "go", "through", "end", "loop-end"
     };
 
     private static final String[] RELATIONAL_OPERATION_PATTERN = new String[] {
             "==", "<", ">", "<=", ">=", "!", "!=", "TRUE", "FALSE"
     };
 
-    private static final String[] BITWISE_OPERATION_PATTERN = new String[] {
-            "&&", "and", "or", "||"
-    };
-
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String RELATIONAL_PATTERN = "\\b(" + String.join("|", RELATIONAL_OPERATION_PATTERN) + ")\\b";
-    private static final String BITWISE_PATTERN = "\\b(" + String.join("|", BITWISE_OPERATION_PATTERN) + ")\\b";
     private static final String NUMBER_PATTERN =  "[0-9]+";
-    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\*\\+\\/%&\\s!]{0,19}\\s*(\\*\\+\\*\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19}\")*";
+    private static final String STRING_PATTERN= "\"[a-zA-Z0-9\\-#\\.\\(\\)\\*\\+\\/%&\\s!]*\\s*(\\*\\+\\*\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!])*\"";
     private static final String VARIABLE_NAMING_PATTERN = "\\$[a-z][0-9a-zA-Z_]";
     private static final String ID_PATTERN = VARIABLE_NAMING_PATTERN+"*";
     private static final String NAME_PATTERN = "[a-zA-Z0-9]*";
     private static final String FUNCTION_NAME_PATTERN = NAME_PATTERN + "\\([a-zA-Z0-9\\s*\\$\",]*\\)";
     private static final String EQUAL_PATTERN = "=";
     private static final String ARITHEMETRIC_PATTERN = "[\\+\\-\\*\\/\\s+]";
-    private static final String TEXT_PATTERN = "[a-zA-Z0-9\\-#\\.\\(\\)\\*\\+\\/%&\\s!]{0,19}\\s*(\\*\\+\\*\\s\"[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s!]{0,19})*";
 
     private static final Pattern PATTERN = Pattern.compile(
             "(" + KEYWORD_PATTERN
                     + "|" + FUNCTION_NAME_PATTERN
                     + "|" + ARITHEMETRIC_PATTERN
                     + "|" + ID_PATTERN
-//                    + "|" + TEXT_PATTERN
                     + "|" + STRING_PATTERN
                     + "|" + NUMBER_PATTERN
                     + "|" + RELATIONAL_PATTERN
@@ -186,6 +179,9 @@ public class InstructionSet {
         //Print
         printKeyWord = new ArrayList<String>();
         printKeyWord.add(this.PRINT);
+        printKeyWord.add("SHOW");
+        printKeyWord.add("DISPLAY");
+        printKeyWord.add("ALERT");
         printKeyWord.add("WRITE");
         printKeyWord.add("\"");
 
@@ -217,9 +213,14 @@ public class InstructionSet {
         loopKeyword = new ArrayList<String>();
         loopKeyword.add("LOOP");
         loopKeyword.add(":");
-        loopKeyword.add("LOOP-END");
         loopKeyword.add("GO");
         loopKeyword.add("THROUGH");
+
+        //Loop end
+        ArrayList<String> endLoop = new ArrayList<String>();
+        endLoop.add("END");
+        endLoop.add("END-LOOP");
+
 
         //function call
         ArrayList<String> functionCall = new ArrayList<>();
@@ -237,7 +238,6 @@ public class InstructionSet {
         ArrayList<String> inputKeyword = new ArrayList<>();
         inputKeyword.add("INPUT");
         inputKeyword.add("USER");
-        inputKeyword.add("GET");
 
         keywordAndFunction = new HashMap<String, ArrayList<String>>();
         keywordAndFunction.put(this.PRINT, printKeyWord);
@@ -249,6 +249,7 @@ public class InstructionSet {
         keywordAndFunction.put("CALL", functionCall);
         keywordAndFunction.put("IF", ifKeyword);
         keywordAndFunction.put("INPUT", inputKeyword);
+        keywordAndFunction.put("LOOP-END", endLoop);
 
         this.init();
     }

@@ -5,11 +5,12 @@ public class InputInstruction implements Instruction{
     private String id;
     private boolean isFullyDefined = false;
     private String inputLocation;
-    private Variable data;
+    private Variable assignedTo;
+    private boolean isDeclaration = false;
 
     public InputInstruction() {
         this.instructionType = "INPUT";
-        this.data = new Variable("userInput", "", "GLOBAL");
+        this.assignedTo = new Variable("userInput", "", "GLOBAL");
         this.id = generateId();
     }
 
@@ -19,18 +20,22 @@ public class InputInstruction implements Instruction{
         return this;
     }
 
-    public InputInstruction setData(Variable data) {
-        this.data = data;
+    public InputInstruction setAssignedTo(Variable assignedTo) {
+        this.assignedTo = assignedTo;
 
         return this;
     }
 
-    public Variable getData() {
-        return this.data;
+    public Variable getAssignedTo() {
+        return this.assignedTo;
     }
 
     public String getInputLocation() {
         return this.inputLocation;
+    }
+
+    public void setVariableDeclaration(boolean isDeclaration) {
+        this.isDeclaration = isDeclaration;
     }
 
     @Override
@@ -51,9 +56,9 @@ public class InputInstruction implements Instruction{
     @Override
     public String generateCode() {
         StringBuilder sb = new StringBuilder();
-
-        sb.append("Scanner s = new Scanner(System.in); \n");
-        sb.append("String " + this.data.getName() + " = s.nextLine() \n");
+        String type = isDeclaration ? "String " : "";
+        System.out.println(this.assignedTo.getValue());
+        sb.append(type + this.assignedTo.getName().replace("$", "") + " = JOptionPane.showInputDialog(null, \"Enter assignedTo:\");");
 
         return sb.toString();
     }
@@ -64,6 +69,6 @@ public class InputInstruction implements Instruction{
     }
 
     private String generateId() {
-        return (this.instructionType+this.getInputLocation()+this.getData().getName()+this.getData().getValue()).hashCode()+"";
+        return (this.instructionType+this.getInputLocation()+this.getAssignedTo().getName()+this.getAssignedTo().getValue()).hashCode()+"";
     }
 }

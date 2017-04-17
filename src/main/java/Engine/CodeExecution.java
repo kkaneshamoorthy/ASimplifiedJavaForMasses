@@ -54,11 +54,6 @@ public class CodeExecution {
         }
     }
 
-    private String generateUserFriendlyErrorMessage(String error) {
-        if (error.contains("main"));
-            return "Function called main is missing. Please make sure to write a main function.";
-    }
-
     private void runProcess(String command) throws Exception {
         Runtime.getRuntime().exec(command);
         Process pro = Runtime.getRuntime().exec(command);

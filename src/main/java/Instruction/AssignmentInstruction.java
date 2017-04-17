@@ -57,8 +57,6 @@ public class AssignmentInstruction implements Instruction{
     @Override
     public String generateCode() {
         String value = this.formatExpression();
-        System.out.println("asd"+value);
-
         return (
                 ((this.isDeclaration) ? assignedTo.getType()+" " : "")  + assignedTo.getName().replace("$", "") + " = " + value+";"
         );
@@ -71,7 +69,6 @@ public class AssignmentInstruction implements Instruction{
         for (Variable argument : this.expressionLs) {
             String variableName = argument.getName().replace("$", "");
             String variableValue = argument.getValue().replace("$", "");
-
 
             if (argument.getScope().equals("OPERATION")) {
                 sb.append(variableValue);

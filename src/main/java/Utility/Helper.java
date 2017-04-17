@@ -28,7 +28,7 @@ public class Helper {
     }
 
     public static boolean isExpression(String token) {
-        return new InstructionSet().getExpressionKeyword().contains(token.toUpperCase()) ? true : false;
+        return new InstructionSet().getExpressionPredefinedKeyword().contains(token.toUpperCase()) ? true : false;
     }
 
     public static boolean isBoolean(String identifiedToken) {
@@ -50,6 +50,13 @@ public class Helper {
 
     public static boolean isOperation(char c) {
         if (c == '+' || c == '-' || c == '/' || c == '*' || c == '%')
+            return true;
+
+        return false;
+    }
+
+    public static boolean isBooleanOperation(String c) {
+        if (c.equals("==") || c.equals("<=") || c.equals(">="))
             return true;
 
         return false;

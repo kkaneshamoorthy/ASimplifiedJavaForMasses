@@ -102,9 +102,7 @@ public class LoopInstruction implements Instruction {
         System.out.println(this.body);
 
         StringBuilder sb = new StringBuilder();
-
         sb.append("autoLoopIterator = Integer.parseInt("+this.getIterations()+"+\"\");");
-
         sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "< autoLoopIterator; " + this.currentIterationValue.getName() + "++) \n");
         sb.append("{ \n");
         sb.append(this.body == null ? "" : this.body.generateCode());

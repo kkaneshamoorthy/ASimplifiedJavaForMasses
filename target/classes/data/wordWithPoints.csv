@@ -1,4 +1,7 @@
 print,5
+show,5
+display,5
+alert,5
 write,2
 loop,5
 create,1
@@ -8,10 +11,12 @@ function,5
 call,3
 if,3
 input,5
-user,1
-get,1
+user,4
+get,3
 go,5
 through,2
+loop-end,5
+end,5
 ==,3
 =,5
 +,1
