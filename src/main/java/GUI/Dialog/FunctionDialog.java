@@ -10,7 +10,7 @@ public class FunctionDialog extends Dialog{
 
     public FunctionDialog() {
         this.setTitle("Create Function");
-        this.setHeaderText("What do you want to call the function?");
+        this.setHeaderText("Name the function:");
 
         okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
@@ -22,11 +22,11 @@ public class FunctionDialog extends Dialog{
 
         nameOfFunction = new TextField();
         nameOfFunction.requestFocus();
-        nameOfFunction.setPromptText("Name of Function");
+        nameOfFunction.setPromptText("Name the Function");
 
-        gridPane.add(new Label("function "), 0, 0);
+        gridPane.add(new Label("Function name: "), 0, 0);
         gridPane.add(nameOfFunction, 1, 0);
-        gridPane.add(new Label(": "), 2, 0);
+        gridPane.add(new Label(""), 2, 0);
 
         this.getDialogPane().setContent(gridPane);
 

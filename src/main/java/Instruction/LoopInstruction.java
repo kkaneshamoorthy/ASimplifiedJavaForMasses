@@ -1,5 +1,9 @@
 package Instruction;
 
+import Memory.BlockInstruction;
+import Memory.Variable;
+import Utility.Helper;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -8,23 +12,18 @@ public class LoopInstruction implements Instruction {
     private String instructionType;
     private String id;
     public String variableID;
-    private boolean isFullyDefined = false;
     private Variable numOfIteration;
-    private Variable currentIterationValue;
+    private Variable currentValue;
+    private Variable iterateBy;
     private BlockInstruction body;
     private SecureRandom random = new SecureRandom();
 
     public LoopInstruction() {
         this.instructionType = "LOOP";
         this.variableID = generateVariableId();
-        this.currentIterationValue = new Variable(variableID, "0", "GLOBAL");
+        this.currentValue = new Variable(variableID, "0", "GLOBAL");
         this.id = generateId();
-    }
-
-    public LoopInstruction setCurrentIterationValue(Variable currentIterationValue) {
-        this.currentIterationValue = currentIterationValue;
-
-        return this;
+        this.iterateBy = new Variable(generateVariableId(), "1", getInstructionID());
     }
 
     public LoopInstruction setNumOfIteration(Variable numOfIteration) {
@@ -39,16 +38,17 @@ public class LoopInstruction implements Instruction {
         return this;
     }
 
+    public void setIterateBy(String interateBy) {
+        if (Helper.isNumber(interateBy))
+            this.iterateBy.setValue(interateBy+"");
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
     public BlockInstruction getBody() {
         return this.body;
-    }
-
-    public int getCurrentIterationNum() {
-        return Integer.parseInt(this.currentIterationValue.getValue());
     }
 
     public Variable getTotalIteration() {
@@ -79,16 +79,11 @@ public class LoopInstruction implements Instruction {
         return true;
     }
 
-    public Variable getCurrentIterationValue() { return this.currentIterationValue; }
+    public Variable getCurrentValue() { return this.currentValue; }
 
     @Override
     public String getInstructionID() {
         return this.id;
-    }
-
-    @Override
-    public boolean isFullyDefined() {
-        return this.isFullyDefined;
     }
 
     @Override
@@ -103,16 +98,16 @@ public class LoopInstruction implements Instruction {
 
         StringBuilder sb = new StringBuilder();
         sb.append("autoLoopIterator = Integer.parseInt("+this.getIterations()+"+\"\");");
-        sb.append("for (int " + this.currentIterationValue.getName() + " = 0; " + this.currentIterationValue.getName() + "< autoLoopIterator; " + this.currentIterationValue.getName() + "++) \n");
+        sb.append("for (int " + this.currentValue.getName() + " = 0; " + this.currentValue.getName() + "< autoLoopIterator; " + this.currentValue.getName() + "+="+ this.iterateBy.getValue()+") \n");
         sb.append("{ \n");
         sb.append(this.body == null ? "" : this.body.generateCode());
         sb.append("} \n");
 
         return sb.toString();
     }
-//numOfIteration.getValue().replace("$", "")
+
     private String generateId() {
-        return (this.instructionType+this.getTotalIteration()+this.getCurrentIterationValue().getName()+this.getCurrentIterationValue().getValue()).hashCode()+"";
+        return (this.instructionType+this.getTotalIteration()+this.getCurrentValue().getName()+this.getCurrentValue().getValue()).hashCode()+"";
     }
 
     private String generateVariableId() {

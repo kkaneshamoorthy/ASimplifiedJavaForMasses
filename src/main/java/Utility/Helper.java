@@ -5,9 +5,6 @@ import Engine.InstructionSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by kowrishankar on 17/04/17.
- */
 public class Helper {
     public static String getVariableName(String statement) {
         String variableName = "";
@@ -107,6 +104,18 @@ public class Helper {
 
     public static boolean isString(String identifiedToken) {
         return identifiedToken.startsWith("\"");
+    }
+
+    public static String retrieveLoopIterateBy(String loopAnnotatedValue) {
+        int start = loopAnnotatedValue.lastIndexOf("=>")+2;
+
+        return loopAnnotatedValue.substring(start);
+    }
+
+    public static String getLoopNumIteration(String loopAnnotatedValue) {
+        int end = loopAnnotatedValue.indexOf(InstructionSet.LOOP_INCREMENT);
+
+        return loopAnnotatedValue.substring(0, end);
     }
 
     public static String retrieveData(String token) {

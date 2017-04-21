@@ -67,7 +67,7 @@
         <!--<TreeView fx:id="storageView" editable="false" prefHeight="371.0" prefWidth="150.0" BorderPane.alignment="CENTER" />-->
     </right>
     <bottom>
-        <TextArea fx:id="console" prefHeight="250"></TextArea>
+        <Console fx:id="console" prefHeight="250"></Console>
         <!--<ConsoleStackPane fx:id="console"></ConsoleStackPane>-->
     </bottom>
 </BorderPane>

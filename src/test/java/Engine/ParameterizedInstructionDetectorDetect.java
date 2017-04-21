@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class ParameterizedInstructionDetectorDetect {
     private String input;
     private String expectedResult;
-    private static InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
+    private static LexicalAnalyser lexicalAnalyser = new LexicalAnalyser(new InstructionSet());
 
     public ParameterizedInstructionDetectorDetect(String input, String expectedResult) {
         this.input = input;
@@ -73,7 +73,7 @@ public class ParameterizedInstructionDetectorDetect {
 
     @Test
     public void test_detect_with_parameters() {
-        HashMap<Integer, Pair> actualRes = instructionDetector.detect(new String[] {this.input});
+        HashMap<Integer, Pair> actualRes = lexicalAnalyser.generateAnnotatedToken(new String[] {this.input});
         String actualResult = actualRes.get(0).getKey()+actualRes.get(0).getValue();
         assertEquals("", expectedResult, actualResult);
 

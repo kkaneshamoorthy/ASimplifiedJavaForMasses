@@ -20,22 +20,22 @@ public class ParameterizedProgram {
     public ParameterizedProgram(String input, String expectedOutput) {
         this.input = input;
         this.expectedOutput = expectedOutput;
-        this.codeExecution = new CodeExecution(new TextArea());
+//        this.codeExecution = new CodeExecution(new TextArea());
     }
 
     @Parameterized.Parameters
     public static Collection inputData() {
         return Arrays.asList(new String[][] {
                 {
-                    "function main(): ", "Hello world!"
+                    "function main(): ", "print \"Hello world!\""
                 }
         });
     }
 
 
     @Test
-    public void testParameterInputs() {
-
+    public void testParameterInputs()  {
+        assertEquals(true, true);
     }
 
 }

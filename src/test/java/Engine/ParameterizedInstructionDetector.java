@@ -61,8 +61,8 @@ public class ParameterizedInstructionDetector {
 
     @Test
     public void testParameterizedInputs() {
-        InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
-        String actualOutput = instructionDetector.detectInstruction(input.toUpperCase().trim().split(" "));
+        LexicalAnalyser lexicalAnalyser = new LexicalAnalyser(new InstructionSet());
+        String actualOutput = lexicalAnalyser.detectInstruction(input.toUpperCase().trim().split(" "));
 
         assertEquals("Incorrect instruction detected", actualOutput, expectedOutput);
     }

@@ -57,8 +57,9 @@ public class FileUtility {
                 System.out.println(selectedFile.getPath());
                 BufferedReader br = new BufferedReader(new FileReader(selectedFile.getPath()));
                 String sCurrentLine = "";
+                editor.clear();
                 while ((sCurrentLine = br.readLine()) != null) {
-                    editor.appendText(sCurrentLine);
+                    editor.appendText(sCurrentLine + "\n");
 //                    append(ta, sCurrentLine);
                     System.out.println(sCurrentLine);
                 }

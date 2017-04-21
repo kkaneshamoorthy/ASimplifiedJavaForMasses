@@ -6,6 +6,15 @@ import org.fxmisc.richtext.LineNumberFactory;
 public class Console extends CodeArea {
     public Console() {
         super();
-        this.setParagraphGraphicFactory(LineNumberFactory.get(this));
+//        this.setParagraphGraphicFactory(LineNumberFactory.get(this));
+    }
+
+    public void reportError(String errorMessage) {
+        this.append(errorMessage);
+    }
+
+    public void append(String str) {
+        this.insertText(this.getLength(), str);
+        this.insertText(this.getLength(), "\n");
     }
 }

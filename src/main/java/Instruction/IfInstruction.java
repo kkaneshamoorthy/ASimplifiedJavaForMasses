@@ -1,5 +1,8 @@
 package Instruction;
 
+import Memory.BlockInstruction;
+import Memory.Variable;
+
 import java.util.ArrayList;
 
 public class IfInstruction implements Instruction{
@@ -49,11 +52,6 @@ public class IfInstruction implements Instruction{
     @Override
     public String getInstructionID() {
         return id;
-    }
-
-    @Override
-    public boolean isFullyDefined() {
-        return this.isFullyDefined;
     }
 
     @Override

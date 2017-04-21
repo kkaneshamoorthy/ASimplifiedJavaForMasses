@@ -1,5 +1,7 @@
 package Instruction;
 
+import Memory.Variable;
+
 public class InputInstruction implements Instruction{
     private String instructionType;
     private String id;
@@ -41,11 +43,6 @@ public class InputInstruction implements Instruction{
     @Override
     public String getInstructionID() {
         return this.id;
-    }
-
-    @Override
-    public boolean isFullyDefined() {
-        return this.isFullyDefined;
     }
 
     @Override

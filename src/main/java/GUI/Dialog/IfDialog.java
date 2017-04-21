@@ -11,7 +11,7 @@ public class IfDialog extends Dialog{
 
     public IfDialog() {
         this.setTitle("If Instruction");
-        this.setHeaderText("When should this condition be valid?");
+        this.setHeaderText("Define a condition");
 
         okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         this.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);

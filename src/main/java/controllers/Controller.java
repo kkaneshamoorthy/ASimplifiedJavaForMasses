@@ -2,7 +2,9 @@ package controllers;
 
 import Engine.CodeExecution;
 import Engine.CodeGeneration;
+import Engine.InstructionSet;
 import GUI.CodeEditor;
+import GUI.Console;
 import GUI.Dialog.*;
 import GUI.EditorStackPane;
 import Utility.FileUtility;
@@ -32,7 +34,7 @@ public class Controller implements Initializable {
     @FXML
     private TreeView storageView;
     @FXML
-    private TextArea console;
+    private Console console;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -124,25 +126,24 @@ public class Controller implements Initializable {
                     public void handle(MouseEvent event) {
                         if (event.getClickCount() == 2 && treeCell.getTreeItem() != null) {
                             String selectedItem = treeCell.getTreeItem().getValue();
-                            System.out.println(selectedItem);
                             switch (selectedItem) {
                                 case "Loop":
                                     LoopDialog loopDialog= new LoopDialog();
                                     Optional<Pair<String, String>>  result = loopDialog.showAndWait();
                                     if (result.isPresent())
-                                        editor.appendText("Loop " + result.get().getKey() + " times \n\t");
+                                        editor.appendText("Loop " + result.get().getKey() + " times and increment by " + result.get().getValue() + "\n\t");
                                     break;
                                 case "If":
                                     IfDialog ifDialog = new IfDialog();
                                     Optional<String> condition = ifDialog.showAndWait();
                                     if (condition.isPresent())
-                                        editor.appendText("if " + condition.get() + " \n\t");
+                                        editor.appendText("define a condition where if " + condition.get() + " \n\t");
                                     break;
                                 case "Print":
                                     PrintDialog printDialog = new PrintDialog();
                                     Optional<String> dataToPrint = printDialog.showAndWait();
                                     if (dataToPrint.isPresent())
-                                        editor.appendText("print " + dataToPrint.get() + " \n");
+                                        editor.appendText("show " + dataToPrint.get() + " \n");
                                     break;
                                 case "Input":
                                     InputDialog inputDialog = new InputDialog();
@@ -154,14 +155,28 @@ public class Controller implements Initializable {
                                     VariableDialog variableDialog = new VariableDialog();
                                     Optional<Pair<String, String>> variableData = variableDialog.showAndWait();
                                     if (variableData.isPresent())
-                                        editor.appendText("$" + variableData.get().getKey() + " = " + variableData.get().getValue() + " \n");
+                                        editor.appendText("define a variable $" + variableData.get().getKey() + " = " + variableData.get().getValue() + " \n");
                                     break;
                                 case "Function":
                                     FunctionDialog functionDialog = new FunctionDialog();
                                     Optional<String> functionName = functionDialog.showAndWait();
                                     if (functionName.isPresent())
-                                        editor.appendText("function " + functionName.get() + ": \n\t");
+                                        editor.appendText("define a function called " + functionName.get() + "(): \n\t");
                                     break;
+                                case "Else":
+                                    editor.appendText("otherwise \n\t");
+                                    break;
+                                case "Function Call":
+                                    FunctionCallDialog functionCallDialog = new FunctionCallDialog();
+                                    Optional<String>  functionCall = functionCallDialog.showAndWait();
+                                    if (functionCall.isPresent())
+                                        editor.appendText("call " + functionCall.get() + "() \n\t");
+                                    break;
+                                case "End":
+                                    editor.appendText("end \n\t");
+                                    break;
+                                default:
+                                        System.out.println(selectedItem);
                             }
                         }
                     }
@@ -186,10 +201,13 @@ public class Controller implements Initializable {
 
         instructionItem.getChildren().add(new TreeItem<>("Loop"));
         instructionItem.getChildren().add(new TreeItem<>("If"));
+        instructionItem.getChildren().add(new TreeItem<>("Function"));
+        instructionItem.getChildren().add(new TreeItem<>("Function Call"));
         instructionItem.getChildren().add(new TreeItem<>("Print"));
         instructionItem.getChildren().add(new TreeItem<>("Input"));
-        instructionItem.getChildren().add(new TreeItem<>("Function"));
         instructionItem.getChildren().add(new TreeItem<>("Create Variable"));
+        instructionItem.getChildren().add(new TreeItem<>("Else"));
+        instructionItem.getChildren().add(new TreeItem<>("End"));
 
         root.getChildren().add(instructionItem);
 
@@ -223,7 +241,10 @@ public class Controller implements Initializable {
 
     @FXML
     private void generateJavaCode(ActionEvent event) {
-        CodeGeneration codeGeneration = new CodeGeneration();
+        console.clear();
+        console.setStyle("-fx-text-fill: black;");
+        setConsoleMessage();
+        CodeGeneration codeGeneration = new CodeGeneration(console);
         codeGeneration.generateCode(this.editor.getText().split("\\n"));
     }
 

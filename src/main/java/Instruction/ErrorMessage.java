@@ -1,6 +1,6 @@
 package Instruction;
 
-import org.reactfx.value.Var;
+import Memory.Variable;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -24,11 +24,6 @@ public class ErrorMessage implements Instruction {
     @Override
     public String getInstructionID() {
         return (this.instructionType+ new BigInteger(32, random).toString(32));
-    }
-
-    @Override
-    public boolean isFullyDefined() {
-        return this.isFullyDefined;
     }
 
     @Override

@@ -1,32 +1,36 @@
 package Engine;
 
+import GUI.Console;
 import Instruction.Instruction;
-import Memory.InstructionStorage;
 import Memory.JavaProgramTemplate;
-import Memory.VariableHolder;
 import Utility.FileUtility;
 
 import java.util.HashMap;
 
 public class CodeGeneration {
+    private Console console;
 
+    public CodeGeneration(Console console) {
+        this.console = console;
+    }
+
+    /***
+     * Generates Java code given an array of source code
+     * @param sourceCode
+     */
     public void generateCode(String[] sourceCode) {
-//        LexicalAnalyser la = new LexicalAnalyser();
-        SynaticAnalyser synaticAnalyser = new SynaticAnalyser();
-        InstructionDetector instructionDetector = new InstructionDetector(new InstructionSet());
-        HashMap<Integer, Instruction> tokenisedInstriction = synaticAnalyser.generateInstructions(instructionDetector.detect(sourceCode));
-        HashMap<Integer, String> javaCode = this.generateJavaCode(tokenisedInstriction);
+        LexicalAnalyser lexicalAnalyser = new LexicalAnalyser(new InstructionSet());
+        SynaticAnalyser synaticAnalyser = new SynaticAnalyser(console);
+        HashMap<Integer, Instruction> intermediateRepresentation =
+                synaticAnalyser.generateIntermediateRepresentation(
+                        lexicalAnalyser.generateAnnotatedToken(sourceCode));
 
-        System.out.println("--- Java code is being generated ---");
-
-        for (Integer instructionCounter : javaCode.keySet()) {
-            String instruction = javaCode.get(instructionCounter);
-            System.out.println(instruction);
+        if (intermediateRepresentation == null) {
+            this.console.reportError("Terminating code generation");
+            return;
         }
 
-        FileUtility.saveJavaProgram(null, new JavaProgramTemplate(tokenisedInstriction, synaticAnalyser.getVariableHolder()));
-
-        System.out.println("--- Finished generating code ---");
+        FileUtility.saveJavaProgram(null, new JavaProgramTemplate(intermediateRepresentation));
     }
 
     public HashMap<Integer, String> generateJavaCode(HashMap<Integer, Instruction> tokenisedInstruction) {

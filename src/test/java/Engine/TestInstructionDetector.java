@@ -4,15 +4,13 @@ import Utility.Helper;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class TestInstructionDetector extends TestCase{
 
-    InstructionDetector instructionDetector;
+    LexicalAnalyser lexicalAnalyser;
 
     public void setUp() {
-        instructionDetector = new InstructionDetector(new InstructionSet());
+        lexicalAnalyser = new LexicalAnalyser(new InstructionSet());
     }
 
     public void testGetVariableName() {
@@ -44,7 +42,7 @@ public class TestInstructionDetector extends TestCase{
     public void test_identifyToken_with_validNumToken() {
         char token = '1';
         String expectedResult = "1";
-        String actualResult = this.instructionDetector
+        String actualResult = this.lexicalAnalyser
                 .identifyToken(token);
 
         assertEquals(expectedResult, actualResult);
@@ -53,7 +51,7 @@ public class TestInstructionDetector extends TestCase{
     public void test_identifyToken_with_validToken() {
         char token = '$';
         String expectedResult = "$";
-        String actualResult = this.instructionDetector
+        String actualResult = this.lexicalAnalyser
                 .identifyToken(token);
 
         assertEquals(expectedResult, actualResult);
@@ -64,8 +62,8 @@ public class TestInstructionDetector extends TestCase{
         ArrayList<String> expectedResult = new ArrayList<>();
         expectedResult.add("VARIABLE_NAME =>$x");
         expectedResult.add("");
-        ArrayList<String> actualResult = this.instructionDetector
-                .identifyTokens(token);
+        ArrayList<String> actualResult = this.lexicalAnalyser
+                .annotateToken(token);
 
         assertEquals(expectedResult, actualResult);
     }

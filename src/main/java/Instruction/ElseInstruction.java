@@ -1,5 +1,7 @@
 package Instruction;
 
+import Memory.BlockInstruction;
+
 public class ElseInstruction implements Instruction {
     private String instructionType;
     private BlockInstruction body;
@@ -22,11 +24,6 @@ public class ElseInstruction implements Instruction {
     @Override
     public String getInstructionID() {
         return this.id;
-    }
-
-    @Override
-    public boolean isFullyDefined() {
-        return false;
     }
 
     @Override

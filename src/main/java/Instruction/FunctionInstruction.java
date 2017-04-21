@@ -1,7 +1,7 @@
 package Instruction;
 
-import Engine.InstructionDetector;
-import Engine.InstructionSet;
+import Memory.BlockInstruction;
+import Memory.Variable;
 import Utility.Helper;
 
 import java.util.ArrayList;
@@ -47,11 +47,6 @@ public class FunctionInstruction implements Instruction{
     @Override
     public String getInstructionID() {
         return functionName;
-    }
-
-    @Override
-    public boolean isFullyDefined() {
-        return this.isFullyDefined;
     }
 
     @Override

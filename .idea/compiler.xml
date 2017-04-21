@@ -9,7 +9,7 @@
         <module name="simplified-java-for-masses" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="simplified-java-for-masses" target="1.8" />
     </bytecodeTargetLevel>
   </component>
