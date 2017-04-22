@@ -64,12 +64,6 @@ public class VariableHolder {
         return null;
     }
 
-    public static void main(String[] args) {
-        VariableHolder variableHolder = new VariableHolder();
-        variableHolder.add(new Variable("a", "a", "a"));
-        System.out.println(variableHolder.getVariableGivenScopeAndName("a", "a"));
-    }
-
     public boolean hasVariable(String variableName, String scope) {
         return (this.getVariableGivenScopeAndName(variableName, scope) != null) ? true : false;
     }

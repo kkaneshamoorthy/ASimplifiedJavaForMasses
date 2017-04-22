@@ -8,6 +8,7 @@ import GUI.Console;
 import GUI.Dialog.*;
 import GUI.EditorStackPane;
 import Utility.FileUtility;
+import Utility.Helper;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,12 +20,12 @@ import javafx.util.Callback;
 import javafx.util.Pair;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import javafx.event.ActionEvent;
+
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-
     @FXML
     private EditorStackPane editorStackPane;
     @FXML
@@ -32,84 +33,24 @@ public class Controller implements Initializable {
     @FXML
     private TreeView instructionView;
     @FXML
-    private TreeView storageView;
-    @FXML
     private Console console;
+
+    private InstructionSet instructionSet;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("View is loaded!");
         VirtualizedScrollPane v = (VirtualizedScrollPane) editorStackPane.getChildren().get(0);
         editor = (CodeEditor) v.getContent();
         loadInstructionItems();
-//        loadStorageItems();
 
         this.console.setEditable(false);
         setConsoleMessage();
         setEditorDefaultText();
-    }
 
-    @FXML
-    public void refreshRecord() {
-//        AvailableStorage availableStorage = new AvailableStorage(this.storageView, this.editor);
-//        availableStorage.run();
-    }
-
-
-    public void loadStorageItems() {
-        this.storageView.setCellFactory(new Callback<TreeView, TreeCell>() {
-            @Override
-            public TreeCell call(TreeView param) {
-                TreeCell<String> treeCell = new TreeCell<String>() {
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item != null)
-                            setText(item);
-                    }
-                };
-
-                treeCell.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (event.getClickCount() == 2 && treeCell.getTreeItem() != null) {
-                            String selectedItem = treeCell.getTreeItem().getValue();
-                            System.out.println(selectedItem);
-                            switch (selectedItem) {
-                                case "Function":
-                                    FunctionDialog functionDialog = new FunctionDialog();
-                                    Optional<String> functionName = functionDialog.showAndWait();
-                                    if (functionName.isPresent())
-                                        editor.appendText("function " + functionName.get() + ": \n\t");
-                                    break;
-                            }
-                        }
-                    }
-                });
-
-                treeCell.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        Bounds s = mouseEvent.getPickResult().getIntersectedNode().getBoundsInLocal();
-                        Bounds t = editorStackPane.getBoundsInLocal();
-                        mouseEvent.setDragDetect(true);
-                    }
-                });
-
-                return treeCell;
-            }
-        });
-
-        TreeItem<String> root = new TreeItem<String>("Storage");
-        TreeItem<String> functionItem = new TreeItem<>("Functions");
-        functionItem.setExpanded(true);
-        root.getChildren().add(functionItem);
-
-        storageView.setRoot(root);
-        storageView.setShowRoot(false);
+        Helper.initialiseInstructionData();
     }
 
     public void loadInstructionItems() {
-
         instructionView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             @Override
             public TreeCell<String> call(TreeView<String> stringTreeView) {
@@ -128,8 +69,8 @@ public class Controller implements Initializable {
                             String selectedItem = treeCell.getTreeItem().getValue();
                             switch (selectedItem) {
                                 case "Loop":
-                                    LoopDialog loopDialog= new LoopDialog();
-                                    Optional<Pair<String, String>>  result = loopDialog.showAndWait();
+                                    LoopDialog loopDialog = new LoopDialog();
+                                    Optional<Pair<String, String>> result = loopDialog.showAndWait();
                                     if (result.isPresent())
                                         editor.appendText("Loop " + result.get().getKey() + " times and increment by " + result.get().getValue() + "\n\t");
                                     break;
@@ -161,22 +102,20 @@ public class Controller implements Initializable {
                                     FunctionDialog functionDialog = new FunctionDialog();
                                     Optional<String> functionName = functionDialog.showAndWait();
                                     if (functionName.isPresent())
-                                        editor.appendText("define a function called " + functionName.get() + "(): \n\t");
+                                        editor.appendText("define a function called " + functionName.get() + "() \n\t");
                                     break;
                                 case "Else":
-                                    editor.appendText("otherwise \n\t");
+                                    editor.appendText("else \n\t");
                                     break;
                                 case "Function Call":
                                     FunctionCallDialog functionCallDialog = new FunctionCallDialog();
-                                    Optional<String>  functionCall = functionCallDialog.showAndWait();
+                                    Optional<String> functionCall = functionCallDialog.showAndWait();
                                     if (functionCall.isPresent())
                                         editor.appendText("call " + functionCall.get() + "() \n\t");
                                     break;
                                 case "End":
                                     editor.appendText("end \n\t");
                                     break;
-                                default:
-                                        System.out.println(selectedItem);
                             }
                         }
                     }
@@ -185,9 +124,9 @@ public class Controller implements Initializable {
                 treeCell.setOnMouseDragged(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                      Bounds s = mouseEvent.getPickResult().getIntersectedNode().getBoundsInLocal();
-                      Bounds t = editorStackPane.getBoundsInLocal();
-                      mouseEvent.setDragDetect(true);
+                        Bounds s = mouseEvent.getPickResult().getIntersectedNode().getBoundsInLocal();
+                        Bounds t = editorStackPane.getBoundsInLocal();
+                        mouseEvent.setDragDetect(true);
                     }
                 });
 
@@ -231,6 +170,17 @@ public class Controller implements Initializable {
     }
 
     @FXML
+    private void openDocumentation(ActionEvent event) {
+        new FileUtility().openHelpDocumentation();
+    }
+
+    @FXML
+    private void newFile(ActionEvent event) {
+        this.editor.clear();
+        this.setEditorDefaultText();
+    }
+
+    @FXML
     private void run(ActionEvent event) throws Exception {
         console.clear();
         console.setStyle("-fx-text-fill: black;");
@@ -248,25 +198,13 @@ public class Controller implements Initializable {
         codeGeneration.generateCode(this.editor.getText().split("\\n"));
     }
 
-    @FXML
-    private void dragOver(MouseEvent event) {
-        System.out.println("ACCEPTED");
-    }
-
-    @FXML
-    private void dragDropped(MouseEvent event) {
-        System.out.println("onDragDropped");
-        event.consume();
-    }
-
     private void setConsoleMessage() {
         this.console.insertText(this.console.getLength(), "------------Output of code execution------------");
         this.console.insertText(this.console.getLength(), "\n");
     }
 
     private void setEditorDefaultText() {
-        this.editor.insertText(this.console.getLength(), "function main():");
+        this.editor.insertText(this.console.getLength(), "define a function called main()");
         this.editor.insertText(this.console.getLength(), "\n\t");
     }
-
 }

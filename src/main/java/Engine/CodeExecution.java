@@ -4,6 +4,7 @@ import GUI.Console;
 import Instruction.Instruction;
 import Memory.JavaProgramTemplate;
 import Utility.FileUtility;
+import Utility.Helper;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ public class CodeExecution {
      * @throws Exception
      */
     public void executeCode(String[] sourceCode) throws Exception {
-        LexicalAnalyser lexicalAnalyser = new LexicalAnalyser(new InstructionSet());
+        LexicalAnalyser lexicalAnalyser = new LexicalAnalyser(Helper.getInstructionSet());
         SynaticAnalyser synaticAnalyser = new SynaticAnalyser(console);
         HashMap<Integer, Instruction> map =
                 synaticAnalyser.generateIntermediateRepresentation(

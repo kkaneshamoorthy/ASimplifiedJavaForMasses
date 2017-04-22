@@ -43,3 +43,7 @@
 .paragraph-box:has-caret {
     -fx-background-color: #f2f9fc;
 }
+
+#docHelp .table-column {
+    -fx-alignment: CENTER-RIGHT;
+}

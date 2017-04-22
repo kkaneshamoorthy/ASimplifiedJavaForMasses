@@ -6,7 +6,17 @@
 <?import GUI.EditorStackPane?>
 <?import GUI.Console?>
 <?import GUI.ConsoleStackPane?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" fx:controller="controllers.Controller" xmlns="http://javafx.com/javafx/8" fx:id="root" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"  xmlns="http://javafx.com/javafx/8" fx:id="root" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <EditorStackPane fx:id="editorStackPane" accessibleText="Editor"></EditorStackPane>
+    </center>
+    <left>
+        <TreeView fx:id="instructionView" editable="false" prefHeight="371.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
+    </left>
+    <bottom>
+        <Console fx:id="console" prefHeight="250"></Console>
+        <!--<ConsoleStackPane fx:id="console"></ConsoleStackPane>-->
+    </bottom>
     <top>
         <VBox prefHeight="28.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
@@ -14,7 +24,7 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="New"/>
+                                <MenuItem mnemonicParsing="false" onAction="#newFile" text="New"/>
                             </items>
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open"/>
@@ -34,19 +44,9 @@
                                 <MenuItem mnemonicParsing="false" onAction="#generateJavaCode" text="Generate program" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Tutorial">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Window">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
-                            </items>
-                        </Menu>
                         <Menu mnemonicParsing="false" text="Help">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
+                                <MenuItem mnemonicParsing="false" onAction="#openDocumentation" text="Documentation" />
                             </items>
                         </Menu>
                     </menus>
@@ -54,20 +54,4 @@
             </children>
         </VBox>
     </top>
-    <center>
-        <EditorStackPane fx:id="editorStackPane" onKeyReleased="#refreshRecord" accessibleText="Editor"></EditorStackPane>
-    </center>
-    <!--<center>-->
-        <!--<HBox fx:id="targetBox" onDragOver="#dragOver" onDragDropped="#dragDropped"></HBox>-->
-    <!--</center>-->
-    <left>
-        <TreeView fx:id="instructionView" editable="false" prefHeight="371.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
-    </left>
-    <right>
-        <!--<TreeView fx:id="storageView" editable="false" prefHeight="371.0" prefWidth="150.0" BorderPane.alignment="CENTER" />-->
-    </right>
-    <bottom>
-        <Console fx:id="console" prefHeight="250"></Console>
-        <!--<ConsoleStackPane fx:id="console"></ConsoleStackPane>-->
-    </bottom>
 </BorderPane>

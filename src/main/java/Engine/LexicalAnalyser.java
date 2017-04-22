@@ -62,7 +62,7 @@ public class LexicalAnalyser {
                 detectedInstruction = this.detectInstruction(identifiedTokensArr);
             }
 
-            System.out.println(detectedInstruction);
+            System.out.println("Detected Instruction:"+detectedInstruction);
 
             String value = "";
             if (detectedInstruction.equals(InstructionSet.ELSE)) {
@@ -70,7 +70,7 @@ public class LexicalAnalyser {
             }
 
             for (String token : identifiedTokensList) {
-                System.out.println(token);
+                System.out.println("Token:"+token);
                 String retrievedValue = Helper.retrieveData(token);
                 if (token.equals("") || token.equals("ERROR") || retrievedValue.equals(InstructionSet.UNKNOWN)) continue;
                 if (token.equals(InstructionSet.ASSIGNMENT)) {

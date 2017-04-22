@@ -20,10 +20,6 @@ public class PrintInstruction implements Instruction {
         return this;
     }
 
-    public Variable getData() {
-        return this.data;
-    }
-
     @Override
     public String getInstructionID() {
         return this.id;

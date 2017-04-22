@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import GUI.EditorStackPane?>
+
+<?import GUI.EditorStackPane?>
+<?import GUI.Console?>
+<?import GUI.ConsoleStackPane?>
+<?import GUI.HelpDocumentation?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" fx:id="root" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <HelpDocumentation fx:id="documentation" accessibleText="Help"></HelpDocumentation>
+    </center>
+</BorderPane>

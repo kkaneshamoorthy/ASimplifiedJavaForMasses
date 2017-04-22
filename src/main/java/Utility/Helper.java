@@ -6,6 +6,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Helper {
+
+    static InstructionSet instructionSet;
+
+    public static void initialiseInstructionData() {
+        instructionSet = new InstructionSet();
+    }
+
+    public static InstructionSet getInstructionSet() {
+        if (instructionSet == null)
+            Helper.initialiseInstructionData();
+
+        return instructionSet;
+    }
+
     public static String getVariableName(String statement) {
         String variableName = "";
         Pattern p = Pattern.compile("\\$\\s*(\\w+)");
@@ -25,7 +39,7 @@ public class Helper {
     }
 
     public static boolean isExpression(String token) {
-        return new InstructionSet().getExpressionPredefinedKeyword().contains(token.toUpperCase()) ? true : false;
+        return Helper.getInstructionSet().getExpressionPredefinedKeyword().contains(token.toUpperCase()) ? true : false;
     }
 
     public static boolean isBoolean(String identifiedToken) {

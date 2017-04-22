@@ -97,13 +97,4 @@ public class AssignmentInstruction implements Instruction{
     public void setId(String id) {
         this.id = id;
     }
-
-    public static void main(String[] args) {
-        AssignmentInstruction assignmentInstruction = new AssignmentInstruction(new Variable("", "", ""), "");
-        System.out.println(assignmentInstruction.generateCode());
-    }
-
-    private String generateId() {
-        return (this.getInstructionType()+this.getExpression()+this.getAssignedTo().getName()+this.getAssignedTo().getValue()).hashCode()+"";
-    }
 }

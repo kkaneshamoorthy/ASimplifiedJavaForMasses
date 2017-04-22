@@ -2,10 +2,24 @@ package Utility;
 
 import Engine.CodeExecution;
 import GUI.CodeEditor;
+import GUI.HelpDocumentation;
 import Memory.JavaProgramTemplate;
+import controllers.Controller;
+import controllers.HelpDocController;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.tools.ant.taskdefs.Execute;
 
 import java.io.*;
@@ -81,5 +95,22 @@ public class FileUtility {
     public static void saveJavaProgramTemporaryForExecution(Stage primaryStage, JavaProgramTemplate javaProgramTemplate) {
         fileName = javaProgramTemplate.getClassName();
         saveTemporaryFile(primaryStage, javaProgramTemplate.toString());
+    }
+
+    public void openHelpDocumentation() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/helpDoc.fxml"));
+            fxmlLoader.setController(new HelpDocController());
+            Pane mainPane = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Documentation");
+            Scene scene = new Scene(mainPane, 1024, 400);
+            scene.getStylesheets().add(getClass().getClassLoader().getResource("css/helpDoc.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setMinWidth(1024);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -81,11 +81,6 @@ public class FunctionInstruction implements Instruction{
         return "String";
     }
 
-    public static void main(String[] args) {
-        FunctionInstruction functionInstruction = new FunctionInstruction("Test");
-        System.out.println(functionInstruction.generateCode());
-    }
-
     @Override
     public void setId(String id) {
         this.functionName = id;

@@ -93,13 +93,15 @@ public class InstructionSet {
     public InstructionSet() {
         this.initialise();
         this.initialisePointsForKeyword();
-    }
 
+        System.out.println("data loaded");
+        System.out.println("starting...");
+    }
 
     private HashMap<String, Integer> wordPointMap = new HashMap<String, Integer>();
 
     public int getPoints(String word) {
-        word = word.toUpperCase();
+        word = word.toLowerCase();
         if (this.wordPointMap.containsKey(word))
             return this.wordPointMap.get(word);
 
@@ -108,19 +110,56 @@ public class InstructionSet {
 
     public void initialisePointsForKeyword() {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(this.getClass().getResource("/data/wordWithPoints.csv").getPath())));
+            BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getClassLoader().getResource("data/wordWithPoints.csv").getPath())));
             String line = "";
 
+            System.out.println("Initialising");
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
+                System.out.println("loading data: "+ line);
 
-                this.wordPointMap.put(data[0].toUpperCase(), Integer.parseInt(data[1]));
+                this.wordPointMap.put(data[0], Integer.parseInt(data[1]));
             }
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             System.out.println("File not found");
-        } catch (IOException e) {
-            System.out.println("IOException");
+            System.out.println("Loading data from alternatives...");
+            loadAlternativeData();
         }
+    }
+
+    private void loadAlternativeData() {
+        this.wordPointMap.put("print",5);
+        this.wordPointMap.put("show",5);
+        this.wordPointMap.put("display",5);
+        this.wordPointMap.put("alert",5);
+        this.wordPointMap.put("write",2);
+        this.wordPointMap.put("loop",5);
+        this.wordPointMap.put("create",1);
+        this.wordPointMap.put("variable",2);
+        this.wordPointMap.put("console",1);
+        this.wordPointMap.put("function",5);
+        this.wordPointMap.put("call",3);
+        this.wordPointMap.put("if",3);
+        this.wordPointMap.put("condition",3);
+        this.wordPointMap.put("input",5);
+        this.wordPointMap.put("user",4);
+        this.wordPointMap.put("get",3);
+        this.wordPointMap.put("go",5);
+        this.wordPointMap.put("through",2);
+        this.wordPointMap.put("loop-end",5);
+        this.wordPointMap.put("end",5);
+        this.wordPointMap.put("else",5);
+        this.wordPointMap.put("otherwise",4);
+        this.wordPointMap.put("or",2);
+        this.wordPointMap.put("repeat",5);
+        this.wordPointMap.put("==",3);
+        this.wordPointMap.put("=",5);
+        this.wordPointMap.put("+",2);
+        this.wordPointMap.put("-",2);
+        this.wordPointMap.put("/",2);
+        this.wordPointMap.put("*",2);
+        this.wordPointMap.put("%",2);
+        this.wordPointMap.put("$",1);
     }
 
     public Pattern getPattern() { return PATTERN; }
@@ -156,6 +195,8 @@ public class InstructionSet {
         printKeyWord.add(WRITE);
         printKeyWord.add(DOUBLE_QUOTE);
 
+        System.out.println("Loading instructions print");
+
         //function Instruction
         ArrayList<String> function = new ArrayList<>();
         function.add(FUNCTION);
@@ -164,11 +205,15 @@ public class InstructionSet {
         function.add(CLOSE_PARENT);
         function.add(COLON);
 
+        System.out.println("Loading instructions function");
+
         //Variable Instruction
         variableKeyWord = new ArrayList<String>();
         variableKeyWord.add(this.VARIABLE);
         variableKeyWord.add(this.CREATE);
         variableKeyWord.add(DOLLAR);
+
+        System.out.println("Loading instructions variable");
 
         //loop
         loopKeyword = new ArrayList<String>();
@@ -178,11 +223,16 @@ public class InstructionSet {
         loopKeyword.add(THROUGH);
         loopKeyword.add(INCREMENT);
         loopKeyword.add(BY);
+        loopKeyword.add("REPEAT");
+
+        System.out.println("Loading instructions loop");
 
         //Assignment Instruction
         ArrayList<String> assignment = new ArrayList<>();
         assignment.add(EQUAL);
         assignment.add(DOLLAR);
+
+        System.out.println("Loading instructions assignment");
 
         //Loop end
         ArrayList<String> endLoop = new ArrayList<String>();
@@ -191,11 +241,15 @@ public class InstructionSet {
         endLoop.add(END_LOOP);
         endLoop.add(END_IF);
 
+        System.out.println("Loading instructions end");
+
         //function call
         ArrayList<String> functionCall = new ArrayList<>();
         functionCall.add(METHOD_CALL);
         functionCall.add(OPEN_PARENT);
         functionCall.add(CLOSE_PARENT);
+
+        System.out.println("Loading instructions function call");
 
         //if
         ArrayList<String> ifKeyword = new ArrayList<>();
@@ -209,16 +263,22 @@ public class InstructionSet {
         ifKeyword.add(GT);
         ifKeyword.add(COLON);
 
+        System.out.println("Loading instructions if");
+
         //else
         ArrayList<String> elseKeyword = new ArrayList<>();
         elseKeyword.add(ELSE);
         elseKeyword.add(ORTXT);
         elseKeyword.add(OTHERWISE);
 
+        System.out.println("Loading instructions else");
+
         //input
         ArrayList<String> inputKeyword = new ArrayList<>();
         inputKeyword.add(INPUT);
         inputKeyword.add(USER);
+
+        System.out.println("Loading instructions input");
 
         keywordAndInstruction = new HashMap<String, ArrayList<String>>();
         keywordAndInstruction.put(PRINT, printKeyWord);

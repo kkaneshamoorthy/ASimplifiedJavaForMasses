@@ -67,12 +67,4 @@ public class TestInstructionDetector extends TestCase{
 
         assertEquals(expectedResult, actualResult);
     }
-
-    public void test_identifyToken_with_arrayOfToken() {
-
-    }
-
-    public void test_instructionDetection() {
-
-    }
 }

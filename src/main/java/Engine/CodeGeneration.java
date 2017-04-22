@@ -4,6 +4,7 @@ import GUI.Console;
 import Instruction.Instruction;
 import Memory.JavaProgramTemplate;
 import Utility.FileUtility;
+import Utility.Helper;
 
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ public class CodeGeneration {
      * @param sourceCode
      */
     public void generateCode(String[] sourceCode) {
-        LexicalAnalyser lexicalAnalyser = new LexicalAnalyser(new InstructionSet());
+        LexicalAnalyser lexicalAnalyser = new LexicalAnalyser(Helper.getInstructionSet());
         SynaticAnalyser synaticAnalyser = new SynaticAnalyser(console);
         HashMap<Integer, Instruction> intermediateRepresentation =
                 synaticAnalyser.generateIntermediateRepresentation(

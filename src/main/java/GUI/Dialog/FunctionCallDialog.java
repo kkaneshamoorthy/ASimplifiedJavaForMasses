@@ -4,9 +4,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
-/**
- * Created by kowrishankar on 21/04/17.
- */
 public class FunctionCallDialog extends Dialog {
     private ButtonType okButtonType;
     private TextField nameOfFunction;
