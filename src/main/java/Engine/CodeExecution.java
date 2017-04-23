@@ -38,8 +38,9 @@ public class CodeExecution {
         JavaProgramTemplate javaProgramTemplate = new JavaProgramTemplate(map);
         FileUtility.saveJavaProgramTemporaryForExecution(null, javaProgramTemplate);
 
-        runProcess("javac " + javaProgramTemplate.getClassName() +".java");
-        runProcess("java " + javaProgramTemplate.getClassName());
+        int status = runProcess("javac " + javaProgramTemplate.getClassName() +".java");
+        if (status == 0)
+            runProcess("java " + javaProgramTemplate.getClassName());
 
         FileUtility.clearTempFile();
     }
@@ -70,11 +71,13 @@ public class CodeExecution {
      * @param command
      * @throws Exception
      */
-    private void runProcess(String command) throws Exception {
+    private int runProcess(String command) throws Exception {
         Process pro = Runtime.getRuntime().exec(command);
         printLines("", pro.getInputStream());
         printError("", pro.getErrorStream());
         pro.waitFor();
+
+        return pro.exitValue();
     }
 
     private void append(String str) {

@@ -1,0 +1,5 @@
+write a function called main():
+	to call a method printMe()
+
+write another function called printMe():
+	this method should print "You called me!"

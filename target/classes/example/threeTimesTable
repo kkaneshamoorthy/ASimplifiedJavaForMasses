@@ -1,0 +1,7 @@
+define a function called main():
+	define $x = 1
+	display "3 Times table"
+	display "-------------"
+	go through 12 number times:
+		show $x + " x 3  = " + $x * 3
+		$x = $x + 1

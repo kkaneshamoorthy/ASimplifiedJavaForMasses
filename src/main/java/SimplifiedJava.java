@@ -20,7 +20,7 @@ public class SimplifiedJava extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/ux.fxml"));
         loader.setController(new Controller());
         Pane mainPane = loader.load();
-        primaryStage.setTitle("A simplified Programming Language for the masses");
+        primaryStage.setTitle("A simplified Programming Language for the Casuals");
         Scene scene = new Scene(mainPane, 1024, 768);
         scene.getStylesheets().add(getClass().getClassLoader().getResource("css/java_keywords.css").toExternalForm());
         primaryStage.setScene(scene);

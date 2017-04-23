@@ -246,6 +246,12 @@ public class SynaticAnalyser {
             }
         }
 
+        //Call to an undefined function
+        if (this.undefinedFunctionMap.size() > 0) {
+            this.reportError("Make the function you are calling is defined");
+
+            return null;
+        }
 
         CodeGeneration codeGeneration = new CodeGeneration(console);
         HashMap<Integer, String> ls = codeGeneration.generateJavaCode(intermediateRepresentation);

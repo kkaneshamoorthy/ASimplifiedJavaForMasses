@@ -175,6 +175,11 @@ public class Controller implements Initializable {
     }
 
     @FXML
+    private void openSampleProgram(ActionEvent event) {
+        FileUtility.openSampleProgram(getClass().getClassLoader().getResource("example").getPath(), editor);
+    }
+
+    @FXML
     private void newFile(ActionEvent event) {
         this.editor.clear();
         this.setEditorDefaultText();

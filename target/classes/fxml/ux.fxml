@@ -48,6 +48,9 @@
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#openDocumentation" text="Documentation" />
                             </items>
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#openSampleProgram" text="Open sample programs" />
+                            </items>
                         </Menu>
                     </menus>
                 </MenuBar>
