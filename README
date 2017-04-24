@@ -1,28 +1,43 @@
+===========================
 Simplified Java for Casuals
 ===========================
 
+--------------------
 System Requirements
 --------------------
-The jar file simplified-java-for-casuals-jar-with-dependencies.jar has all the necessary files
+The jar file simplified-java-for-masses-1.0-jar-with-dependencies.jar has all the necessary files
 needed for it to work probably. However, in order for the system to work, the machine must have the following:
     - Java 8
-    - JavaFX
 
+------------------
 Running the system
 ------------------
 To run the system, navigate to the /target folder within the zip, you will find the jar, then open terminal, copy and
 paste the following command:
 
-    java -jar simplified-java-for-casuals-jar-with-dependencies.jar
+    java -jar simplified-java-for-masses-1.0-jar-with-dependencies.jar
 
+----------------
+Example program
+----------------
+Once the program is running, you can open sample programs by:
+
+1) Help -> "Open three times table program"
+2) Help -> "Open star pattern program"
+
+------------------------
 Third-party library used
 ------------------------
-The application uses a third-party library called RichTextFX.
+1) The application uses a third-party library called RichTextFX.
 I have included the licence text (called LICENSE-3RD-PARTY.txt) within the supportingMaterial.zip file.
 Here is the link to the GitHub of repo: \\ https://github.com/TomasMikula/RichTextFX
 
+2) JUNIT
+    https://github.com/junit-team/junit4
+
 Note: No need to download anything to run the system. The jar file already contains everything needed to run.
 
+---------------------------
 File structure
 ---------------------------
 dependency-reduced-pom.xml
@@ -182,6 +197,6 @@ dependency-reduced-pom.xml
 │   │               ├── createdFiles.lst
 │   │               └── inputFiles.lst
 │   ├── npm-debug.log
-│   └── simplified-java-for-masses-1.0-SNAPSHOT-jar-with-dependencies.jar
+│   └── simplified-java-for-masses-1.0-jar-with-dependencies.jar
 ├── temp.class
 └── temp.java
