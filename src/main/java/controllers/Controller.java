@@ -21,6 +21,8 @@ import javafx.util.Pair;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import javafx.event.ActionEvent;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -175,8 +177,13 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void openSampleProgram(ActionEvent event) {
-        FileUtility.openSampleProgram(getClass().getClassLoader().getResource("example").getPath(), editor);
+    private void openSampleProgram2(ActionEvent event) {
+        FileUtility.openSampleProgram("/example/threeTimesTable", editor);
+    }
+
+    @FXML
+    private void openSampleProgram1(ActionEvent event) {
+        FileUtility.openSampleProgram("/example/printMe", editor);
     }
 
     @FXML

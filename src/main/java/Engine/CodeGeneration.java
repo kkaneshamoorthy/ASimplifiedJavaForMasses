@@ -31,17 +31,15 @@ public class CodeGeneration {
             return;
         }
 
+        printCode(intermediateRepresentation);
+
         FileUtility.saveJavaProgram(null, new JavaProgramTemplate(intermediateRepresentation));
     }
 
-    public HashMap<Integer, String> generateJavaCode(HashMap<Integer, Instruction> tokenisedInstruction) {
-        HashMap<Integer, String> javaCode = new HashMap<>();
-
+    public void printCode(HashMap<Integer, Instruction> tokenisedInstruction) {
         for (Integer instructionCounter : tokenisedInstruction.keySet()) {
             Instruction instruction = tokenisedInstruction.get(instructionCounter);
-            javaCode.put(instructionCounter, instruction.generateCode());
+            System.out.println(instruction.generateCode());
         }
-
-        return javaCode;
     }
 }

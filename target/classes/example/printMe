@@ -1,5 +1,11 @@
 write a function called main():
-	to call a method printMe()
+	define $height = get user input
+	call printPattern($height)
 
-write another function called printMe():
-	this method should print "You called me!"
+write another function called printPattern($heightOfPattern):
+	define $star = "*"
+	define a loop to go over $heightOfPattern
+		show $star
+		$star = $star + "*"
+	end
+end

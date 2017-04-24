@@ -35,6 +35,8 @@ public class CodeExecution {
             return;
         }
 
+        this.printCode(map);
+
         JavaProgramTemplate javaProgramTemplate = new JavaProgramTemplate(map);
         FileUtility.saveJavaProgramTemporaryForExecution(null, javaProgramTemplate);
 
@@ -78,6 +80,13 @@ public class CodeExecution {
         pro.waitFor();
 
         return pro.exitValue();
+    }
+
+    private void printCode(HashMap<Integer, Instruction> tokenisedInstruction) {
+        for (Integer instructionCounter : tokenisedInstruction.keySet()) {
+            Instruction instruction = tokenisedInstruction.get(instructionCounter);
+            System.out.println(instruction.generateCode());
+        }
     }
 
     private void append(String str) {

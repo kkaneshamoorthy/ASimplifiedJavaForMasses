@@ -49,7 +49,10 @@
                                 <MenuItem mnemonicParsing="false" onAction="#openDocumentation" text="Documentation" />
                             </items>
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#openSampleProgram" text="Open sample programs" />
+                                <MenuItem mnemonicParsing="false" onAction="#openSampleProgram1" text="Open star pattern program" />
+                            </items>
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#openSampleProgram2" text="Open three times table program" />
                             </items>
                         </Menu>
                     </menus>

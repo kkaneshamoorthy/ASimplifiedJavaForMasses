@@ -1,0 +1,187 @@
+Simplified Java for Casuals
+===========================
+
+System Requirements
+--------------------
+The jar file simplified-java-for-casuals-jar-with-dependencies.jar has all the necessary files
+needed for it to work probably. However, in order for the system to work, the machine must have the following:
+    - Java 8
+    - JavaFX
+
+Running the system
+------------------
+To run the system, navigate to the /target folder within the zip, you will find the jar, then open terminal, copy and
+paste the following command:
+
+    java -jar simplified-java-for-casuals-jar-with-dependencies.jar
+
+Third-party library used
+------------------------
+The application uses a third-party library called RichTextFX.
+I have included the licence text (called LICENSE-3RD-PARTY.txt) within the supportingMaterial.zip file.
+Here is the link to the GitHub of repo: \\ https://github.com/TomasMikula/RichTextFX
+
+Note: No need to download anything to run the system. The jar file already contains everything needed to run.
+
+File structure
+---------------------------
+dependency-reduced-pom.xml
+├── LICENSE-3RD-PARTY
+├── pom.xml
+├── README
+├── README.md
+├── simplified-java-for-masses.iml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   ├── controllers
+│   │   │   │   ├── Controller.java
+│   │   │   │   └── HelpDocController.java
+│   │   │   ├── Engine
+│   │   │   │   ├── CodeExecution.java
+│   │   │   │   ├── CodeGeneration.java
+│   │   │   │   ├── InstructionSet.java
+│   │   │   │   ├── LexicalAnalyser.java
+│   │   │   │   ├── Pair.java
+│   │   │   │   └── SynaticAnalyser.java
+│   │   │   ├── GUI
+│   │   │   │   ├── CodeEditor.java
+│   │   │   │   ├── Console.java
+│   │   │   │   ├── ConsoleStackPane.java
+│   │   │   │   ├── Dialog
+│   │   │   │   │   ├── FunctionCallDialog.java
+│   │   │   │   │   ├── FunctionDialog.java
+│   │   │   │   │   ├── IfDialog.java
+│   │   │   │   │   ├── InputDialog.java
+│   │   │   │   │   ├── LoopDialog.java
+│   │   │   │   │   ├── PrintDialog.java
+│   │   │   │   │   └── VariableDialog.java
+│   │   │   │   ├── EditorStackPane.java
+│   │   │   │   ├── HelpDocumentation.java
+│   │   │   │   └── InstructionHelpMessage.java
+│   │   │   ├── Instruction
+│   │   │   │   ├── AssignmentInstruction.java
+│   │   │   │   ├── ElseInstruction.java
+│   │   │   │   ├── FunctionDispatchInstruction.java
+│   │   │   │   ├── FunctionInstruction.java
+│   │   │   │   ├── IfInstruction.java
+│   │   │   │   ├── InputInstruction.java
+│   │   │   │   ├── Instruction.java
+│   │   │   │   ├── LoopInstruction.java
+│   │   │   │   └── PrintInstruction.java
+│   │   │   ├── Memory
+│   │   │   │   ├── BlockInstruction.java
+│   │   │   │   ├── FunctionStorage.java
+│   │   │   │   ├── JavaProgramTemplate.java
+│   │   │   │   ├── Scope.java
+│   │   │   │   ├── ScopeStack.java
+│   │   │   │   ├── VariableHolder.java
+│   │   │   │   └── Variable.java
+│   │   │   ├── SimplifiedJava.java
+│   │   │   └── Utility
+│   │   │       ├── FileUtility.java
+│   │   │       └── Helper.java
+│   │   └── resources
+│   │       ├── css
+│   │       │   ├── helpDoc.css
+│   │       │   └── java_keywords.css
+│   │       ├── data
+│   │       │   └── wordWithPoints.csv
+│   │       ├── example
+│   │       │   ├── printMe
+│   │       │   └── threeTimesTable
+│   │       ├── fxml
+│   │       │   ├── helpDoc.fxml
+│   │       │   └── ux.fxml
+│   │       ├── META-INF
+│   │       │   └── MANIFEST.MF
+│   │       └── runnable
+│   └── test
+│       └── java
+│           ├── Engine
+│           │   ├── ParameterizedInstructionDetectorDetect.java
+│           │   ├── ParameterizedInstructionDetector.java
+│           │   ├── ParameterizedProgram.java
+│           │   ├── TestInstructionDetector.java
+│           │   └── TestInstructionSet.java
+│           └── Instruction
+│               └── TestLoopInstruction.java
+├── target
+│   ├── archive-tmp
+│   ├── classes
+│   │   ├── controllers
+│   │   │   ├── Controller$1$1.class
+│   │   │   ├── Controller$1$2.class
+│   │   │   ├── Controller$1$3.class
+│   │   │   ├── Controller$1.class
+│   │   │   ├── Controller.class
+│   │   │   └── HelpDocController.class
+│   │   ├── css
+│   │   │   ├── helpDoc.css
+│   │   │   └── java_keywords.css
+│   │   ├── data
+│   │   │   └── wordWithPoints.csv
+│   │   ├── Engine
+│   │   │   ├── CodeExecution.class
+│   │   │   ├── CodeGeneration.class
+│   │   │   ├── InstructionSet.class
+│   │   │   ├── LexicalAnalyser.class
+│   │   │   ├── Pair.class
+│   │   │   └── SynaticAnalyser.class
+│   │   ├── example
+│   │   │   ├── printMe
+│   │   │   └── threeTimesTable
+│   │   ├── fxml
+│   │   │   ├── helpDoc.fxml
+│   │   │   └── ux.fxml
+│   │   ├── GUI
+│   │   │   ├── CodeEditor.class
+│   │   │   ├── Console.class
+│   │   │   ├── ConsoleStackPane.class
+│   │   │   ├── Dialog
+│   │   │   │   ├── FunctionCallDialog.class
+│   │   │   │   ├── FunctionDialog.class
+│   │   │   │   ├── IfDialog.class
+│   │   │   │   ├── InputDialog.class
+│   │   │   │   ├── LoopDialog.class
+│   │   │   │   ├── PrintDialog.class
+│   │   │   │   └── VariableDialog.class
+│   │   │   ├── EditorStackPane.class
+│   │   │   ├── HelpDocumentation.class
+│   │   │   └── InstructionHelpMessage.class
+│   │   ├── Instruction
+│   │   │   ├── AssignmentInstruction.class
+│   │   │   ├── ElseInstruction.class
+│   │   │   ├── FunctionDispatchInstruction.class
+│   │   │   ├── FunctionInstruction.class
+│   │   │   ├── IfInstruction.class
+│   │   │   ├── InputInstruction.class
+│   │   │   ├── Instruction.class
+│   │   │   ├── LoopInstruction.class
+│   │   │   └── PrintInstruction.class
+│   │   ├── Memory
+│   │   │   ├── BlockInstruction.class
+│   │   │   ├── FunctionStorage.class
+│   │   │   ├── JavaProgramTemplate.class
+│   │   │   ├── Scope.class
+│   │   │   ├── ScopeStack.class
+│   │   │   ├── Variable.class
+│   │   │   └── VariableHolder.class
+│   │   ├── META-INF
+│   │   │   └── MANIFEST.MF
+│   │   ├── SimplifiedJava.class
+│   │   └── Utility
+│   │       ├── FileUtility.class
+│   │       └── Helper.class
+│   ├── generated-sources
+│   │   └── annotations
+│   ├── maven-status
+│   │   └── maven-compiler-plugin
+│   │       └── compile
+│   │           └── default-compile
+│   │               ├── createdFiles.lst
+│   │               └── inputFiles.lst
+│   ├── npm-debug.log
+│   └── simplified-java-for-masses-1.0-SNAPSHOT-jar-with-dependencies.jar
+├── temp.class
+└── temp.java

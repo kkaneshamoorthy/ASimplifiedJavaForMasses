@@ -99,7 +99,6 @@ public class IfInstruction implements Instruction{
     @Override
     public String generateCode() {
         formatExpression();
-
         String header = this.isPartOfElse ? " else if (" : "if (";
 
         StringBuilder sb = new StringBuilder();

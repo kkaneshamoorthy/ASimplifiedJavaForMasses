@@ -41,7 +41,10 @@ public class FunctionDispatchInstruction implements Instruction{
         for (int i=0; i<this.arguments.size(); i++) {
             Variable arg = this.arguments.get(i);
             String value = arg.getValue();
-            argument.append(getType(value).equals("String") ? value : "\""+value+"\"" );//type conversion -> changes any data to string - which is default
+            if (value.isEmpty())
+                argument.append(arg.getName().replace("$", ""));
+            else
+                argument.append(getType(value).equals("String") ? value : "\""+value+"\"" );//type conversion -> changes any data to string - which is default
             if (i != this.arguments.size()-1) argument.append(", ");
         }
 

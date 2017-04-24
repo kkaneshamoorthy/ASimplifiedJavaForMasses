@@ -34,6 +34,7 @@ public class SynaticAnalyser {
 
     public HashMap<Integer, Instruction> generateIntermediateRepresentation(HashMap<Integer, Pair> tokens) {
         HashMap<Integer, Instruction> intermediateRepresentation = new HashMap<Integer, Instruction>();
+
         Instruction parentInstruction = null;
         FunctionInstruction parentFunction = null;
 
@@ -44,6 +45,7 @@ public class SynaticAnalyser {
 
             switch (instruction) {
                 case InstructionSet.FUNCTION:
+                    //pops the current scope
                     if (!this.scopeStack.isEmpty())
                         this.scopeStack.pop();
 
@@ -60,7 +62,6 @@ public class SynaticAnalyser {
                         return null;
                     }
 
-
                     FunctionInstruction functionInstruction = new FunctionInstruction(functionName);
                     ArrayList<Variable> formalParameter = new ArrayList<Variable>();
 
@@ -76,14 +77,18 @@ public class SynaticAnalyser {
                     functionInstruction.setParameter(formalParameter);
                     parentInstruction = functionInstruction;
                     parentFunction = functionInstruction;
-                    scopeStack.push(new Scope(functionInstruction.getInstructionID(), functionInstruction));
+
+                    //adds function to a storage -> that keeps track of it
                     boolean isAdded = this.functionStorage.add(functionInstruction);
 
+                    //checks if function already defined
                     if (!isAdded) {
                         this.reportError("Function " + functionName + " already defined");
                         return null;
                     }
 
+                    //push function to the stack -> becomes the current scope
+                    scopeStack.push(new Scope(functionInstruction.getInstructionID(), functionInstruction));
                     intermediateRepresentation.put(instructionCounter, functionInstruction);
                     break;
                 case InstructionSet.PRINT:
@@ -148,6 +153,12 @@ public class SynaticAnalyser {
                     String varName = Helper.getVariableToBeAssigned(instructionValue);
                     Variable varToBeAssigned = this.variableHolder.getVariableGivenScopeAndName(varName, parentFunction.getInstructionID());
                     String value = this.getAssignmentExpression(instructionValue); //anything after the EQ = sign
+
+                    if (value.isEmpty()) {
+                        this.reportError("The variable is not being assigned any value");
+                        return null;
+                    }
+
                     boolean isDeclaration = false;
                     if (varToBeAssigned == null) {
                         isDeclaration = true;
@@ -232,7 +243,6 @@ public class SynaticAnalyser {
                     break;
                 case InstructionSet.ELSE:
                     this.endBody();
-
                     if (!this.scopeStack.isEmpty())
                         parentInstruction = this.scopeStack.top().getScopeInstruction();
 
@@ -253,11 +263,11 @@ public class SynaticAnalyser {
             return null;
         }
 
-        CodeGeneration codeGeneration = new CodeGeneration(console);
-        HashMap<Integer, String> ls = codeGeneration.generateJavaCode(intermediateRepresentation);
+        //check if main method defined
+        if (this.functionStorage.get("main") == null) {
+            this.reportError("The \"main\" function is not defined");
 
-        for (Integer key : ls.keySet()) {
-            System.out.println(ls.get(key));
+            return null;
         }
 
         return intermediateRepresentation;
@@ -293,6 +303,7 @@ public class SynaticAnalyser {
         return sb.toString();
     }
 
+    //Gets method argument
     private String getFunctionArgument(String value) {
         int startIndex = value.indexOf("(");
         int endIndex = value.indexOf(")");
@@ -300,6 +311,7 @@ public class SynaticAnalyser {
         return value.substring(startIndex+1, endIndex);
     }
 
+    //returns a list of variable from a string expression
     private ArrayList<Variable> retrieveExpressionAsVariable(String value, String scope) {
         ArrayList<Variable> ls = new ArrayList<Variable>();
         StringBuilder expr = new StringBuilder();
@@ -346,7 +358,6 @@ public class SynaticAnalyser {
 
     private Variable retrieveVariable(String variableName, String scope) {
         return this.variableHolder.getVariableGivenScopeAndName(variableName, scope);
-
     }
 
     private ArrayList<Variable> getArgumentAsVariableList(String value, String scope) {

@@ -110,9 +110,11 @@ public class InstructionSet {
 
     public void initialisePointsForKeyword() {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File(getClass().getClassLoader().getResource("data/wordWithPoints.csv").getPath())));
-            String line = "";
+            InputStream inputStream = this.getClass().getResourceAsStream("/data/wordWithPoints.csv");
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
+            BufferedReader reader=new BufferedReader(inputStreamReader);
+            String line = "";
             System.out.println("Initialising");
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
@@ -121,6 +123,7 @@ public class InstructionSet {
                 this.wordPointMap.put(data[0], Integer.parseInt(data[1]));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("File not found");
             System.out.println("Loading data from alternatives...");
             loadAlternativeData();

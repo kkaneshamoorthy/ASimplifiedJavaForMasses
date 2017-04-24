@@ -23,6 +23,7 @@ import javafx.stage.StageStyle;
 import org.apache.tools.ant.taskdefs.Execute;
 
 import java.io.*;
+import java.net.URL;
 
 public class FileUtility {
 
@@ -86,30 +87,23 @@ public class FileUtility {
     }
 
     public static void openSampleProgram(String path, CodeEditor editor) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File(path));
-        System.out.println(fileChooser.getInitialDirectory().getPath());
-        fileChooser.setTitle("Open Resource File");
-        File selectedFile = fileChooser.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            try {
-                System.out.println(selectedFile.getPath());
-                BufferedReader br = new BufferedReader(new FileReader(selectedFile.getPath()));
-                String sCurrentLine = "";
-                editor.clear();
-                while ((sCurrentLine = br.readLine()) != null) {
-                    editor.appendText(sCurrentLine + "\n");
-                    System.out.println(sCurrentLine);
-                }
-
-            } catch (FileNotFoundException e) {
+        InputStream inputStream = FileUtility.class.getClass().getResourceAsStream(path);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        try {
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String sCurrentLine = "";
+            editor.clear();
+            while ((sCurrentLine = reader.readLine()) != null) {
+                editor.appendText(sCurrentLine + "\n");
+                System.out.println(sCurrentLine);
+            }
+        } catch (FileNotFoundException e) {
                 //TODO: print exception to the console
                 System.out.println("File not found");
-            } catch (IOException e) {
+        } catch (IOException e) {
                 System.out.println("Error reading file");
-            }
         }
+
     }
 
     public static void saveJavaProgram(Stage primaryStage, JavaProgramTemplate javaProgramTemplate) {
